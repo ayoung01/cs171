@@ -12,6 +12,7 @@ jvm.SVGCanvasElement.prototype.setSize = function(width, height){
   this.height = height;
   this.node.setAttribute('width', width);
   this.node.setAttribute('height', height);
+	this.node.setAttribute('id', "aidmap");
 };
 
 jvm.SVGCanvasElement.prototype.applyTransformParams = function(scale, transX, transY) {
