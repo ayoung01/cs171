@@ -1,0 +1,83 @@
+html{
+margin:0;
+padding:0;
+}
+body {
+    margin: 0;
+    padding: 0; 
+}
+div#headerbar{
+	text-align: center;
+	width:100%;
+}
+#pagebackground{
+	background:#060;
+	height:100%;
+	margin-top:0px;
+	padding:0px;
+}
+#pagecontainer{
+background:#FFF;
+width:990px;
+margin: 0px auto;
+}
+#mapcontainer{
+background:#FFF;
+width:990px;
+}
+#map1{
+	width:780px;
+	height:482px;
+	display:block;
+	float:left;
+}
+#map2{
+	margin-left:10px;
+	width:200px;
+	height:482px;
+	display:block;
+}
+#piecharts{
+	
+}
+#chart1, #chart2, #chart3{
+	width:184px;
+	height:117px;
+	margin-right:4px;
+	padding:4px;
+	background:#F00;	
+	display:block;
+	float:left;
+}
+ #chart4 {
+	width:184px;
+	height:117px;
+	padding:4px;
+	background:#F00;	
+	display:block;
+	float:left;	 
+ }
+
+#list1 {
+	width:192px;
+	height:117px;
+	margin-left:10px;
+	padding:4px;
+	background:#F00;	
+	display:block;
+	float:left;
+}
+
+h1 {
+    font-size: 20px;
+		font-family: Helvetica, Arial,sans-serif;
+}
+
+textarea {
+	visibility: hidden;
+}
+
+#footer {
+	float:both;
+	display:block;
+}
