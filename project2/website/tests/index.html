@@ -40,8 +40,8 @@
 
   <script src="assets/jquery-jvectormap-world-mill-en.js"></script>
 <script>
-	var mapwidth = 820;
-	var mapheight = 507;
+	var mapwidth = 989;
+	var mapheight = 481;
 	var currentcountry;
   	var data;
 	var donationdata;
@@ -87,7 +87,7 @@
 		focusOn: {
           x: 0.5,
           y: 0.5,
-          scale: 2
+          scale: 1
         },
 		onRegionLabelShow: function(event, label, code){
 			if(donationdata[currentcountry]!=undefined){
@@ -298,20 +298,20 @@
 	getCountryname = function(countrycode) {
 		mapObject.mapData.paths[countrycode].name;
 	}
+});
 	
   </script>
 </head>
 
 <body>
 <div id="pagebackground">
-	<div id="pagecontainer">
+	<div id="wrapper">
     <div id="headerbar">
       <h1>Visualizing Aid Data</h1>
     </div>
     <div id="mapcontainer">
       <div id="map1"></div>
-      <div id="map2"></div>
-      
+
     </div> <!--End mapcontainer -->
     
     <div id="piecharts">
@@ -324,21 +324,15 @@
         <div id="chart3">
           Content3
         </div>
-        <div id="chart4">
-          Content4
-        </div>
-        <div id="list1">
-          Content5
-        </div>  
-      </div> <!--End piechart -->
-      
-  </div> <!-- End pagecontainer -->
-  <div id="footer">
-  <br>
-  <button id="focus-single">Focus on Australia</button>
-  <button id="focus-multiple">Focus on Australia and Japan</button>
-  <button id="focus-init">Return to the initial state</button>
+    </div> <!--End piechart -->
+    <div id="footer">
+		<br>
+		<button id="focus-single">Focus on Australia</button>
+		<button id="focus-multiple">Focus on Australia and Japan</button>
+		<button id="focus-init">Return to the initial state</button>
     </div>
+  </div> <!-- End wrapper -->
+  
 </div><!-- End pagebackground-->
   <textarea id="colorJSON">{"net_oda": {"BE": 2807.0, "FR": 12997.0, "DK": 2931.0, "DE": 14093.0, "JP": 10831.0, "FI": 1406.0, "NL": 6344.0, "PT": 708.0, "NO": 4934.0, "NZ": 424.0, "LU": 409.0, "CH": 3076.0, "GR": 425.0, "CA": 5457.0, "IT": 4326.0, "AU": 4983.0, "GB": 13832.0, "IE": 914.0, "ES": 4173.0, "US": 30924.0, "KR": 1328.0, "SE": 5603.0, "AT": 1111.0}, "ldc_aid": {"BE": 1103.0, "FR": 3823.0, "DK": 1078.0, "DE": 3894.0, "JP": 4243.0, "FI": 477.0, "NL": 1491.0, "PT": 360.0, "NO": 1462.0, "NZ": 122.0, "LU": 155.0, "CH": 801.0, "GR": 89.0, "CA": 1892.0, "IT": 1689.0, "AU": 1370.0, "GB": 5275.0, "IE": 485.0, "ES": 1176.0, "US": 10856.0, "KR": 475.0, "SE": 1960.0, "AT": 323.0}}</textarea>
   

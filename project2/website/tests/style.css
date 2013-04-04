@@ -16,18 +16,20 @@ div#headerbar{
 	margin-top:0px;
 	padding:0px;
 }
-#pagecontainer{
-background:#FFF;
-width:990px;
-margin: 0px auto;
+#wrapper {
+    margin-left:auto;
+    margin-right:auto;
+    width:1366px;
+    height:768px;
+    /*float: left;*/
 }
 #mapcontainer{
-background:#FFF;
-width:990px;
+	background:#FFF;
+	width:1280px;
 }
 #map1{
-	width:780px;
-	height:482px;
+	width:1050px;
+	height:650px;
 	display:block;
 	float:left;
 }
@@ -38,14 +40,16 @@ width:990px;
 	display:block;
 }
 #piecharts{
-	
+	width: 316px;
+	float: left;
 }
 #chart1, #chart2, #chart3{
-	width:184px;
-	height:117px;
-	margin-right:4px;
+	width:205px;
+	height:205px;
+	margin-left:4px;
+	margin-bottom: 4px;
 	padding:4px;
-	background:#F00;	
+	background:#FFF;	
 	display:block;
 	float:left;
 }
@@ -78,6 +82,7 @@ textarea {
 }
 
 #footer {
+	clear: both;
 	float:both;
 	display:block;
 }
