@@ -43,7 +43,7 @@
 	var mapwidth = 820;
 	var mapheight = 507;
 	var currentcountry;
-  var data;
+  	var data;
 	var donationdata;
 	var geographiccenters;
 	
@@ -61,7 +61,7 @@
     jQuery(function(){
       var $ = jQuery;
       
-// Process JSON data using JSON.parse into an object
+	// Process JSON data using JSON.parse into an object
 	data = JSON.parse(document.getElementById('colorJSON').value); //data for map colors
 	donationdata = JSON.parse(document.getElementById('donorflows').value);
 	recipientdata = JSON.parse(document.getElementById('recipientflows').value);  //data for flow lines
@@ -80,48 +80,48 @@
 			
       $('#map1').vectorMap({
         map: 'world_mill_en',
-				regionsSelectable:'true',
-				regionsSelectableOne:'true',
-				onViewportChange: function(e, s){redraw();},
-				onRegionSelected: function(e, c, s,sa){togglecountry(e,c,s,sa);drawPieCharts();},
-        focusOn: {
+		regionsSelectable:'true',
+		regionsSelectableOne:'true',
+		onViewportChange: function(e, s){redraw();},
+		onRegionSelected: function(e, c, s,sa){togglecountry(e,c,s,sa);drawPieCharts();},
+		focusOn: {
           x: 0.5,
           y: 0.5,
           scale: 2
         },
-				onRegionLabelShow: function(event, label, code){
-					if(donationdata[currentcountry]!=undefined){
-					if(donationdata[currentcountry][code]!=undefined)
-					{
-        label.html(
-          ''+label.html()+'<br>'+
-          'Net ODA provided by '+mapObject.mapData.paths[currentcountry].name+': $'+donationdata[currentcountry][code]+' mil USD');
-					}
-					}
-				if(recipientdata[currentcountry]!=undefined){
-					if(recipientdata[currentcountry][code]!=undefined)
-					{
-        label.html(
-          ''+label.html()+'<br>'+
-          'Net ODA received from '+label.html()+': $'+recipientdata[currentcountry][code]+' mil USD');
-					}
-					}
-      },
+		onRegionLabelShow: function(event, label, code){
+			if(donationdata[currentcountry]!=undefined){
+				if(donationdata[currentcountry][code]!=undefined)
+				{
+    				label.html(
+      					''+label.html()+'<br>'+
+      					'Net ODA provided by '+mapObject.mapData.paths[currentcountry].name+': $'+donationdata[currentcountry][code]+' mil USD');
+				}
+			}
+			if(recipientdata[currentcountry]!=undefined){
+				if(recipientdata[currentcountry][code]!=undefined)
+				{
+					label.html(
+  					''+label.html()+'<br>'+
+  					'Net ODA received from '+label.html()+': $'+recipientdata[currentcountry][code]+' mil USD');
+				}
+			}
+		},
         series: {
           regions: [{
             scale: ['#C8EEFF', '#0071A4'],
             normalizeFunction: 'polynomial',
             values: data.net_oda
-          }/*, // need combined dataset with data.net_oda and data.ldc_aid
+        }/*, // need combined dataset with data.net_oda and data.ldc_aid
 					{
             scale: ['#FFCCCC', '#B20000'],
             normalizeFunction: 'polynomial',
             values: data.ldc_aid
           }*/]
         }
-			});
+	});
 										
-				//get jVectorMap Object  
+	//get jVectorMap Object  
 	mapObject = $('#map1').vectorMap('get', 'mapObject');
 
 	//get SVG element
@@ -134,34 +134,35 @@
 	$('#focus-single').click(function(){
 		drawLine(39.8333,-98.583,80.75,30.55,1)
 		drawLine(39.8333,-98.583,80.75,30.55,0)
-		  });
+	});
 			
 	$('#focus-init').click(function(){	
 		drawCountryFlows("US")
-		  });
+	});
   
-	togglecountry=function(e,code,isSelected,selectedarray)
-	{
+	togglecountry=function(e,code,isSelected,selectedarray) {
 		console.log("toggled!")
 		currentcountry=code;
 		redraw();
-		if(isSelected){drawCountryFlows(code);}			
+		if(isSelected){
+			drawCountryFlows(code);
+		}			
 	}
 	
-	
-		drawCountryFlows=function(countrytag)
-	{
+	drawCountryFlows=function(countrytag) {
 		var country;
 		var flowarray;
 		var factor; //negative factor to multiply for recipient array
 		if (donationdata[countrytag]==undefined)
 		{
 			flowarray=recipientdata[countrytag];
-			factor=-1;}
+			factor=-1;
+		}
 		else 
 		{
 			flowarray = donationdata[countrytag];
-			factor=1;}
+			factor=1;
+		}
 		
 		console.log(flowarray);
 		for(country in flowarray)
@@ -205,46 +206,45 @@
 		else if (flow<=1000)
 		return 4;
 		else return 8;
-		}
+	}
 	
-	redraw=function()
-	{
+	redraw=function() {
 		var a = document.getElementById("aidmap");
 		if(document.getElementsByClassName("connection")!=[])
 		{
 			for(var t = 0; t < 8; t++)
 			{
-		elements = document.getElementsByClassName("connection");
-		for(var i = 0; i < elements.length;i++)
-		{
-			//console.log(elements[i]);
-		a.removeChild(elements[i]);
-		}
+				elements = document.getElementsByClassName("connection");
+				for(var i = 0; i < elements.length;i++)
+				{
+					//console.log(elements[i]);
+					a.removeChild(elements[i]);
+				}
 			}
 		}
 
 		if(currentcountry!=undefined)
 		{
 			drawCountryFlows(currentcountry);
-			}
+		}
 	}
 	
-	drawLine=function(lat1,lng1,lat2,lng2,width,isdonor)
-	{
+	drawLine=function(lat1,lng1,lat2,lng2,width,isdonor) {
 		var Lpoint1=mapObject.latLngToPoint(lat1, lng1);
 		var Lpoint2=mapObject.latLngToPoint(lat2, lng2);
-		if(isdonor==1){
-		weightx=.9; //higher it is, the closer the weight is to the first point
-		weighty=.65; //same, for y
-		shifty=-100;
-		var color="blue";
+		if(isdonor==1) {
+			weightx=.9; //higher it is, the closer the weight is to the first point
+			weighty=.65; //same, for y
+			shifty=-100;
+			var color="blue";
 		}
-		else{
+		else {
 			weightx=.1;
 			weighty=.05;
 			shifty=50;
 			var color="red";
 		}
+
 		weightx=weightx*Lpoint1.x+(1-weightx)*Lpoint2.x;
 		weighty=weighty*Lpoint1.y+(1-weighty)*Lpoint2.y+shifty;
 		var string = "M"+Lpoint1.x+","+Lpoint1.y+" "+"Q"+weightx+","+weighty+" "+Lpoint2.x+","+Lpoint2.y;
@@ -253,37 +253,35 @@
 		//var animatestring = '<animate begin="0" attributeName="stroke-dashoffset" from="800" to="0" dur="5s" fill="freeze"/>';
 		//console.
 		var linet = $(SVG('path'))
-    .attr('d', string)
+    	.attr('d', string)
 		.attr('class', 'connection')
 		.attr('fill', 'none')
-    .attr('stroke', color)
-    .attr('stroke-width', width)
+    	.attr('stroke', color)
+    	.attr('stroke-width', width)
 		.attr('stroke-linecap', "butt")
 		//.attr('stroke-dasharray', "800,800")
 		//.attr('stroke-dashoffset', "800")
-    .appendTo(mapbackground);
+    	.appendTo(mapbackground);
 		
 		//console.log(linet);
 		
 		/*var anim = $(SVG('animate'))
-    .attr('begin', "0")
+    	.attr('begin', "0")
 		.attr('attributeName', 'stroke-dashoffset')
-    .attr('from','50')
-    .attr('to', '0')
+    	.attr('from','50')
+    	.attr('to', '0')
 		.attr('dur', "4s")
 		.attr('fill', "freeze")
-    .appendTo(linet);*/
+    	.appendTo(linet);*/
 	
 		//console.log(anim);
 		
 	}
 	
 	//helper function for drawLine
-	function SVG(tag)
-	{
-		 return document.createElementNS('http://www.w3.org/2000/svg', tag);
+	function SVG(tag) {
+		return document.createElementNS('http://www.w3.org/2000/svg', tag);
 	}
-      });
 			/*Your code here*
 			drawPieCharts = function ()
 			{
@@ -297,9 +295,8 @@
 			}
 				*/
 				
-	getCountryname = function(countrycode)
-	{
-	mapObject.mapData.paths[countrycode].name;
+	getCountryname = function(countrycode) {
+		mapObject.mapData.paths[countrycode].name;
 	}
 	
   </script>
