@@ -42,7 +42,11 @@
 <script>
 	var mapwidth = 989;
 	var mapheight = 481;
-	var currentcountry;
+	var currentcountry; // code of current country selected 
+	var currenthighlight; // code of current country highlighted
+	var lastsign; // stores the color code of the last line (0 being donor, 1 being receipient)
+	var lastwidth; //stores the width of the last line highlihgted
+	var lastcountryhighlihgt; // stores the country code of the last line
   	var data;
 	var donationdata;
 	var geographiccenters;
@@ -52,9 +56,10 @@
 	var drawPieCharts = function(){};
 	var getCountryName = function(){};
 
-	var togglecountry = function (){};
-	var drawLine;
-	var drawCountryFlows;
+	var togglecountry = function (){}; //Called on mouseover
+	var drawLine; // Takes in two countries and draws a line between them.
+	var drawFlow; // Takes in two countries and draws a line between them.
+	var drawCountryFlows; //Takes in a country and draws all flows to/from the country
 	var mapObject;
 	
     jQuery.noConflict();
@@ -90,22 +95,47 @@
           scale: 1
         },
 		onRegionLabelShow: function(event, label, code){
+			currenthighlight=code;
+			if(lastsign != undefined && lastcountryhighlight!=undefined && lastwidth!=undefined)
+			{
+				drawFlow(currentcountry, lastcountryhighlight, lastwidth, lastsign);  //redraw the old highlighted line to the past length
+				}
+			
+			if(donationdata[currentcountry]==undefined&&recipientdata[currentcountry]==undefined) //if the country has no data
+			{
+				lastcountryhighlight=undefined;
+				lastwidth=undefined;
+				lastsign=undefined;				
+			}
+			
 			if(donationdata[currentcountry]!=undefined){
 				if(donationdata[currentcountry][code]!=undefined)
 				{
+					highlightcolor=3;
+					if(donationdata[currentcountry][code]>0){lastsign=1;}else{lastsign=0;highlightcolor=4;}
+					lastcountryhighlight=code;
+					lastwidth=getWidth(donationdata[currentcountry][code]);
     				label.html(
       					''+label.html()+'<br>'+
       					'Net ODA provided by '+mapObject.mapData.paths[currentcountry].name+': $'+donationdata[currentcountry][code]+' mil USD');
 				}
+				drawFlow(currentcountry, lastcountryhighlight, lastwidth, highlightcolor);
 			}
+			
 			if(recipientdata[currentcountry]!=undefined){
 				if(recipientdata[currentcountry][code]!=undefined)
 				{
-					label.html(
-  					''+label.html()+'<br>'+
-  					'Net ODA received from '+label.html()+': $'+recipientdata[currentcountry][code]+' mil USD');
+					highlightcolor=4;
+					if(recipientdata[currentcountry][code]>0){lastsign=0;}else{lastsign=1;highlightcolor=3;}
+					lastcountryhighlight=code;
+					lastwidth=getWidth(recipientdata[currentcountry][code]);
+					console.log(label.html());
+					label.html(''+label.html()+'<br>'+'Net ODA received from '+label.html()+': $'+recipientdata[currentcountry][code]+' mil USD');
+						
+						drawFlow(currentcountry, lastcountryhighlight, lastwidth, highlightcolor);
 				}
 			}
+			
 		},
         series: {
           regions: [{
@@ -146,8 +176,24 @@
 		redraw();
 		if(isSelected){
 			drawCountryFlows(code);
+			redraw();
 		}			
 	}
+	
+	drawFlow = function(country1, country2,width,colorcode){
+	console.log(country2);
+			console.log(country1 +" to "+country2);
+			lat1 = geographiccenters[country1].Lat;
+			lng1 = geographiccenters[country1].Lng;
+			
+			//if(geographiccenters[country]==undefined)
+			//{window.alert("No geographic data found for "+country);}
+			lat2 = geographiccenters[country2].Lat;
+			lng2 = geographiccenters[country2].Lng;
+			
+			drawLine(lat1,lng1,lat2,lng2, width,colorcode);
+	}
+	
 	
 	drawCountryFlows=function(countrytag) {
 		var country;
@@ -167,27 +213,16 @@
 		console.log(flowarray);
 		for(country in flowarray)
 		{
-			//console.log(country);
-			//if(geographiccenters[countrytag]==undefined)
-			//{window.alert("No geographic data found for "+country);}
-			lat1 = geographiccenters[countrytag].Lat;
-			lng1 = geographiccenters[countrytag].Lng;
-			
-			//if(geographiccenters[country]==undefined)
-			//{window.alert("No geographic data found for "+country);}
-			lat2 = geographiccenters[country].Lat;
-			lng2 = geographiccenters[country].Lng;
-			
 			//console.log(flowarray[country]);
 			var flowval=flowarray[country]*factor;
 			if(flowval==0){}
-			else if (flowval>0) {drawLine(lat1, lng1, lat2, lng2, getWidth(flowval,flowarray),1);}
-			else{drawLine(lat1, lng1, lat2, lng2, getWidth(flowval,flowarray),0);}
+			else if (flowval>0) {drawFlow(countrytag,country, getWidth(flowval,flowarray),1);}
+			else{drawFlow(countrytag, country, getWidth(flowval,flowarray),0);}
 		}
 	}
 	
-	function getWidth(flowval,flowarray){
-		console.log(flow)
+	function getWidth(flowval){
+		//console.log(flow)
 		var flow= Math.abs(flowval);
 		if(flow<=5)
 		return .2
@@ -229,20 +264,35 @@
 		}
 	}
 	
-	drawLine=function(lat1,lng1,lat2,lng2,width,isdonor) {
+	
+	//colorcode 1 = donor, colorcode 0 = recipient, colorcode -1 = highlighted
+	drawLine=function(lat1,lng1,lat2,lng2,width,colorcode) {
 		var Lpoint1=mapObject.latLngToPoint(lat1, lng1);
 		var Lpoint2=mapObject.latLngToPoint(lat2, lng2);
-		if(isdonor==1) {
+		console.log(colorcode);
+			if(colorcode==0) {
+			weightx=.1;
+			weighty=.05;
+			shifty=50;
+			var color="red";
+		} else if(colorcode==1) {
 			weightx=.9; //higher it is, the closer the weight is to the first point
 			weighty=.65; //same, for y
 			shifty=-100;
 			var color="blue";
 		}
-		else {
+		else if(colorcode==3){
+						weightx=.9; //higher it is, the closer the weight is to the first point
+			weighty=.65; //same, for y
+			shifty=-100;
+			var color="white";
+		}
+		else 
+		{
 			weightx=.1;
 			weighty=.05;
 			shifty=50;
-			var color="red";
+			var color="white";
 		}
 
 		weightx=weightx*Lpoint1.x+(1-weightx)*Lpoint2.x;
@@ -295,7 +345,7 @@
 			}
 				*/
 				
-	getCountryname = function(countrycode) {
+	getCountryName = function(countrycode) {
 		mapObject.mapData.paths[countrycode].name;
 	}
 });
