@@ -16,6 +16,7 @@ div#headerbar{
 	height:100%;
 	margin-top:0px;
 	padding:0px;
+	width:1366px;
 }
 #wrapper {
     margin-left:auto;
@@ -34,35 +35,17 @@ div#headerbar{
 	float:left;
 }
 
-#piecharts{
+#piechartwrapper{
 	width: 316px;
 	float: left;
 }
 #chart1, #chart2, #chart3{
-	width:205px;
-	height:205px;
+	width:300px;
+	height:315px;
 	margin-left:4px;
 	margin-bottom: 4px;
 	padding:4px;
 	background:#FFF;	
-	display:block;
-	float:left;
-}
- #chart4 {
-	width:184px;
-	height:117px;
-	padding:4px;
-	background:#F00;	
-	display:block;
-	float:left;	 
- }
-
-#list1 {
-	width:192px;
-	height:117px;
-	margin-left:10px;
-	padding:4px;
-	background:#F00;	
 	display:block;
 	float:left;
 }
