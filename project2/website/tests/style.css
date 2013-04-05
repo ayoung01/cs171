@@ -9,9 +9,10 @@ body {
 div#headerbar{
 	text-align: center;
 	width:100%;
+	padding-top: 8px;
 }
 #pagebackground{
-	background:#060;
+	background:#bcbcbc;
 	height:100%;
 	margin-top:0px;
 	padding:0px;
@@ -21,7 +22,6 @@ div#headerbar{
     margin-right:auto;
     width:1366px;
     height:768px;
-    /*float: left;*/
 }
 #mapcontainer{
 	background:#FFF;
@@ -33,12 +33,7 @@ div#headerbar{
 	display:block;
 	float:left;
 }
-#map2{
-	margin-left:10px;
-	width:200px;
-	height:482px;
-	display:block;
-}
+
 #piecharts{
 	width: 316px;
 	float: left;
