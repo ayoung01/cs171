@@ -90,45 +90,53 @@
           y: 0.5,
           scale: 1
         },
-		onRegionLabelShow: function(event, label, code){
-			currenthighlight=code;
-			if(lastsign != undefined && lastcountryhighlight!=undefined && lastwidth!=undefined)
-			{
-				drawFlow(currentcountry, lastcountryhighlight, lastwidth, lastsign);  //redraw the old highlighted line to the past length
-				}
-			
-			if(donationdata[currentcountry]==undefined&&recipientdata[currentcountry]==undefined) //if the country has no data
-			{
-				lastcountryhighlight=undefined;
-				lastwidth=undefined;
-				lastsign=undefined;				
-			}
-			
-			if(donationdata[currentcountry]!=undefined){
+		onRegionOver: function(event, code){
+				if(donationdata[currentcountry]!=undefined){
 				if(donationdata[currentcountry][code]!=undefined)
 				{
 					highlightcolor=3;
 					if(donationdata[currentcountry][code]>0){lastsign=1;}else{lastsign=0;highlightcolor=4;}
-					lastcountryhighlight=code;
-					lastwidth=getWidth(donationdata[currentcountry][code]);
-    				label.html(
-      					''+label.html()+'<br>'+
-      					'Net ODA provided by '+mapObject.mapData.paths[currentcountry].name+': $'+donationdata[currentcountry][code]+' mil USD');
+					//lastcountryhighlight=code;
+					//lastwidth=getWidth(donationdata[currentcountry][code]);
+				drawFlow(currentcountry, code, getWidth(donationdata[currentcountry][code])+1, highlightcolor);
+				//console.log("code"+donationdata[currentcountry][code]);
 				}
-				drawFlow(currentcountry, lastcountryhighlight, lastwidth, highlightcolor);
 			}
-			
-			if(recipientdata[currentcountry]!=undefined){
+			else if(recipientdata[currentcountry]!=undefined){
 				if(recipientdata[currentcountry][code]!=undefined)
 				{
 					highlightcolor=4;
 					if(recipientdata[currentcountry][code]>0){lastsign=0;}else{lastsign=1;highlightcolor=3;}
-					lastcountryhighlight=code;
-					lastwidth=getWidth(recipientdata[currentcountry][code]);
-					console.log(label.html());
-					label.html(''+label.html()+'<br>'+'Net ODA received from '+label.html()+': $'+recipientdata[currentcountry][code]+' mil USD');
-						
-						drawFlow(currentcountry, lastcountryhighlight, lastwidth, highlightcolor);
+					//lastcountryhighlight=code;
+					//lastwidth=getWidth(recipientdata[currentcountry][code]);
+					drawFlow(currentcountry, code, getWidth(recipientdata[currentcountry][code])+1, highlightcolor);
+					//console.log(code+""+donationdata[currentcountry][code]);
+				}
+			}
+			
+		},
+		onRegionOut:function(event, code){
+			redraw();
+		},
+		onRegionLabelShow: function(event, label, code){
+			/*if(donationdata[currentcountry]==undefined&&recipientdata[currentcountry]==undefined) //if the country has no data
+			{
+				lastcountryhighlight=undefined;
+				lastwidth=undefined;
+				lastsign=undefined;				
+			}*/			
+			if(donationdata[currentcountry]!=undefined){
+				if(donationdata[currentcountry][code]!=undefined)
+				{
+    				label.html(''+label.html()+'<br>'+
+      					'Net ODA provided by '+mapObject.mapData.paths[currentcountry].name+': $'+donationdata[currentcountry][code]+' mil USD');
+				}
+			}
+			if(recipientdata[currentcountry]!=undefined){
+				if(recipientdata[currentcountry][code]!=undefined)
+				{
+					label.html(''+label.html()+'<br>'+
+      					'Net ODA received from '+	label.html() + ': $'+recipientdata[currentcountry][code]+' mil USD');
 				}
 			}
 			
@@ -169,8 +177,8 @@
 	}
 	
 	drawFlow = function(country1, country2,width,colorcode){
-	console.log(country2);
-			console.log(country1 +" to "+country2);
+			//console.log(country2);
+			//console.log(country1 +" to "+country2);
 			lat1 = geographiccenters[country1].Lat;
 			lng1 = geographiccenters[country1].Lng;
 			
@@ -233,7 +241,7 @@
 	}
 	
 	function clearLines() {
-		console.log("clearing lines!");
+		console.log("clearing lines!");/*
 		var a = document.getElementById("aidmap");
 		if(document.getElementsByClassName("connection")!=[])
 		{
@@ -245,24 +253,19 @@
 					a.removeChild(elements[i]);
 				}
 			}
+		}*/
+		elemarray=document.getElementsByClassName("connection")
+		if(elemarray!=[])
+		{
+			while (elemarray.length>0)
+				{
+					elemarray[0].remove();
+				}
 		}
 	}
 
 	function redraw() {
-		var a = document.getElementById("aidmap");
-		if(document.getElementsByClassName("connection")!=[])
-		{
-			for(var t = 0; t < 8; t++)
-			{
-				elements = document.getElementsByClassName("connection");
-				for(var i = 0; i < elements.length;i++)
-				{
-					//console.log(elements[i]);
-					a.removeChild(elements[i]);
-				}
-			}
-		}
-
+		clearLines();
 		if(currentcountry!=undefined)
 		{
 			drawCountryFlows(currentcountry);
@@ -274,7 +277,9 @@
     });
     $('#focus-init').click(function(){
         $('#map1').vectorMap('set', 'focus', 1, 0, 0);
+				mapObject.clearSelected('regions');
         clearLines();
+				currentcountry=undefined;
     });
 
 	drawLine=function(lat1,lng1,lat2,lng2,width,colorcode) {
@@ -357,8 +362,10 @@
 				*/
 				
 	getCountryName = function(countrycode) {
+		console.log(countrycode);
 		mapObject.mapData.paths[countrycode].name;
 	}
+	
 });
 	
   </script>
