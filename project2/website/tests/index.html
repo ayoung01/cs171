@@ -103,7 +103,8 @@
 					if(donationdata[currentcountry][code]>0){lastsign=1;}else{lastsign=0;highlightcolor=4;}
 					//lastcountryhighlight=code;
 					//lastwidth=getWidth(donationdata[currentcountry][code]);
-				drawFlow(currentcountry, code, getWidth(donationdata[currentcountry][code])+1, highlightcolor);
+				if(donationdata[currentcountry][code]!=0)
+				{drawFlow(currentcountry, code, getWidth(donationdata[currentcountry][code])+1, highlightcolor);}
 				//console.log("code"+donationdata[currentcountry][code]);
 				}
 			}
@@ -114,7 +115,8 @@
 					if(recipientdata[currentcountry][code]>0){lastsign=0;}else{lastsign=1;highlightcolor=3;}
 					//lastcountryhighlight=code;
 					//lastwidth=getWidth(recipientdata[currentcountry][code]);
-					drawFlow(currentcountry, code, getWidth(recipientdata[currentcountry][code])+1, highlightcolor);
+					if(recipientdata[currentcountry][code]!=0)
+					{drawFlow(currentcountry, code, getWidth(recipientdata[currentcountry][code])+1, highlightcolor);}
 					//console.log(code+""+donationdata[currentcountry][code]);
 				}
 			}
@@ -181,11 +183,13 @@
 	drawFlow = function(country1, country2, width, colorcode){
 			lat1 = geographiccenters[country1].Lat;
 			lng1 = geographiccenters[country1].Lng;
-			
 			lat2 = geographiccenters[country2].Lat;
 			lng2 = geographiccenters[country2].Lng;
 			
-			drawLine(lat1,lng1,lat2,lng2, width,colorcode);
+			if(mapObject.mapData.paths[country2].name!=undefined) //Test if jvectormaps actually has this country.
+			{
+				drawLine(lat1,lng1,lat2,lng2, width,colorcode);
+			}
 	}
 	
 	drawCountryFlows=function(countrytag) {
@@ -207,7 +211,7 @@
 			try {
 				var flowval=flowarray[country]*factor;
 				if (flowval>0) {
-					drawFlow(countrytag,country, getWidth(flowval,flowarray),1);
+					drawFlow(countrytag, country, getWidth(flowval,flowarray),1);
 				}
 				else {
 					drawFlow(countrytag, country, getWidth(flowval,flowarray),0);
@@ -220,7 +224,9 @@
 	function getWidth(flowval){
 		//console.log(flow)
 		var flow= Math.abs(flowval);
-		if(flow<=5)
+		if(flow<=.01)
+		return 0
+		else if(flow<=5)
 		return .5
 		else if(flow<=10)
 		return .75;
