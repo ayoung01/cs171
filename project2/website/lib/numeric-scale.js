@@ -39,7 +39,7 @@ jvm.NumericScale.prototype = {
   setNormalizeFunction: function(f) {
     if (f === 'polynomial') {
       this.normalize = function(value) {
-        return Math.pow(value, 0.2);
+				return Math.pow(value, 0.2);
       }
     } else if (f === 'linear') {
       delete this.normalize;
@@ -60,32 +60,50 @@ jvm.NumericScale.prototype = {
     if (typeof this.normalize === 'function') {
       value = this.normalize(value);
     }
-    for (i = 0; i < this.scale.length-1; i++) {
-      l = this.vectorLength(this.vectorSubtract(this.scale[i+1], this.scale[i]));
+		
+		//console.log(value);
+		
+		if (value>=0)
+		{scaletemp=[this.scale[0],this.scale[1]];
+		minV=0;
+		maxV=30924;}
+		else 
+		{scaletemp=[this.scale[2],this.scale[3]];
+		value=value;
+		minV=-5751.8
+		maxV=0;}
+		//if the value is greater than zero, use the last two scale values on the negated value
+		console.log(scaletemp);
+		console.log(value);
+		console.log(this.minValue);
+		console.log(this.maxValue);
+		
+    for (i = 0; i < scaletemp.length-1; i++) {
+      l = this.vectorLength(this.vectorSubtract(scaletemp[i+1], scaletemp[i]));
       lengthes.push(l);
       fullLength += l;
     }
 
-    c = (this.maxValue - this.minValue) / fullLength;
+    c = (maxV - minV) / fullLength;
     for (i=0; i<lengthes.length; i++) {
       lengthes[i] *= c;
     }
-
+		//each length index is the length of that scale from the next, multiplied by total
     i = 0;
-    value -= this.minValue;
+    value -= minV; //subtract the minimum value from the current value
     while (value - lengthes[i] >= 0) {
       value -= lengthes[i];
       i++;
     }
 
-    if (i == this.scale.length - 1) {
-      value = this.vectorToNum(this.scale[i])
+    if (i == scaletemp.length - 1) {
+      value = this.vectorToNum(scaletemp[i])
     } else {
       value = (
         this.vectorToNum(
-          this.vectorAdd(this.scale[i],
+          this.vectorAdd(scaletemp[i],
             this.vectorMult(
-              this.vectorSubtract(this.scale[i+1], this.scale[i]),
+              this.vectorSubtract(scaletemp[i+1], scaletemp[i]),
               (value) / (lengthes[i])
             )
           )
