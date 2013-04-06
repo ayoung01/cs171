@@ -352,18 +352,34 @@
 		//draw piecharts currentcountry 
 		console.log(currentcountry);
 		if (currentcountry != undefined) {
-			var w = 290,                        //width
-			h = 290,                            //height
-			r = 130,                            //radius
+			var w = 305,                        //width
+			h = 305,                            //height
+			r = 137,                            //radius
 			color = d3.scale.category20c();     //builtin range of colors
 
 		    var multisector = eval("data.multisector." + currentcountry);
 		    var hum_aid = eval("data.hum_aid." + currentcountry);
 		    var econ_infra = eval("data.econ_infra." + currentcountry);
-		    testdata = [{"label":"multisector", "value":multisector},
-		    			{"label":"humanitarian aid", "value":hum_aid},
-		    			{"label":"economic infrastructure", "value":econ_infra}];
+		    var soc_infra = eval("data.soc_infra." + currentcountry);
+		    var production = eval("data.production." + currentcountry);
+		    var admin_expenses = eval("data.admin_expenses." + currentcountry);
+		    var other = eval("data.other." + currentcountry);
+		    testdata = [{"label":"Social and Administrative Infrastructure", "value": soc_infra}, {"label":"Humanitarian Aid", "value":hum_aid}, {"label":"Economic Infrastructure", "value":econ_infra}, {"label":"Production/Agriculture", "value":production},{"label":"Administrative expenses", "value": admin_expenses}, {"label":"Multisector", "value":multisector}, {"label": "Other", "value":other}];
+
 		    if (multisector != undefined) {
+		    	var title = d3.select("#chart1").append("svg")
+		    		.attr("class", "title")
+				      .attr("width", "280px")
+				      .attr("height", "30px");
+				    title.append("text")
+				      .attr("x", 24)
+				      .attr("y", 9)
+				      .attr("dy", ".35em")
+				      .attr("style", "font-style: italic")
+				      .text(function() {return mapObject.mapData.paths[currentcountry].name;});
+
+				console.log(mapObject.mapData.paths[currentcountry].name);
+
 			    var vis = d3.select("#chart1")
 			        .append("svg:svg")           //create the SVG element inside the <body>
 			        .data([testdata])                   //associate our data with the document
@@ -390,9 +406,11 @@
 			            //this creates the actual SVG path using the associated data (pie) with the arc drawing function
 			            .attr("d", arc);                                    
 			 		//add a label to each slice
-			        arcs.append("svg:text")                                     
+			        arcs.append("svg:text")
+
 			        //set the label's origin to the center of the arc
 		                //we have to make sure to set these before calling arc.centroid
+		                
 		                .attr("transform", function(d) {                    
 			                d.innerRadius = 0;
 			                d.outerRadius = r;
@@ -402,7 +420,31 @@
 			            //center the text on it's origin
 			            .attr("text-anchor", "middle")                          
 			            //get the label from our original data array
-			            .text(function(d, i) { return testdata[i].label; 
+			            .text(function(d, i) {
+			            	if (testdata[i].value > 3)
+			            		return testdata[i].value;
+			            	else {}
+			   			});
+			   			
+			   	var legend = d3.select("#chart1").append("svg")
+				      .attr("class", "legend")
+				      .attr("width", r * 2)
+				      .attr("height", r * 2)
+				    .selectAll("g")
+				      .data(color.domain().slice().reverse())
+				    .enter().append("g")
+				      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+				  	legend.append("rect")
+				      .attr("width", 18)
+				      .attr("height", 18)
+				      .attr("fill", function(d, i) { return color(i); } ) 
+
+				  	legend.append("text")
+				      .attr("x", 24)
+				      .attr("y", 9)
+				      .attr("dy", ".35em")
+				      .text(function(d, i) { return testdata[i].label; 
 			   			});   
 			}
 		}
@@ -430,8 +472,8 @@
     <div id="piechartwrapper">
         <div id="chart1">
         </div>
-        <div id="chart2">
-        </div>
+<!--         <div id="chart2">
+        </div> -->
 
     </div> <!--End piechart -->
     <div id="footer">
