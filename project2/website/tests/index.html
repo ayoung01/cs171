@@ -71,7 +71,7 @@
 	// Process JSON data using JSON.parse into an object
 	data = JSON.parse(document.getElementById('JSON').value);
 	//data for map colors
-	colordata = JSON.parse(document.getElementById('colorJSON').value); 
+	netodadata = JSON.parse(document.getElementById('net_oda').value); 
 	donationdata = JSON.parse(document.getElementById('donorflows').value); 
 	recipientdata = JSON.parse(document.getElementById('recipientflows').value);  //data for flow lines
 	geographiccenters=JSON.parse(document.getElementById('countrycenters').value);
@@ -132,6 +132,14 @@
 				lastwidth=undefined;
 				lastsign=undefined;				
 			}*/			
+			if(currentcountry==undefined){
+				if(netodadata.net_oda[code]!=undefined)
+				{
+						label.html(''+label.html()+'<br>'+
+      					'Net ODA (to/from all countries):'+' $'+netodadata.net_oda[code]+' mil USD');
+				}
+			}
+			
 			if(donationdata[currentcountry]!=undefined){
 				if(donationdata[currentcountry][code]!=undefined)
 				{
@@ -150,9 +158,12 @@
 		},
         series: {
           regions: [{
-            scale: ['#C8EEFF', '#0071A4'],
-            normalizeFunction: 'polynomial',
-            values: colordata.net_oda
+           // scale: ['#C8EEFF', '#0071A4'],
+					 scale: ['#BCD2E7', '#006694','#800000','#DDBBBB'],					 
+            setNormalizeFunction: /*function (value){
+							if (value>=0){return Math.pow(value, 1);}
+				else{return (-1*Math.pow(value,1));}}*/'polynomial',
+            values: netodadata.net_oda
         }/*, // need combined dataset with data.net_oda and data.ldc_aid
 					{
             scale: ['#FFCCCC', '#B20000'],

@@ -6,6 +6,12 @@ body {
     margin: 0;
     padding: 0; 
 }
+
+.jvectormap-region {
+  
+    stroke-width: .05px;
+}
+
 div#headerbar{
 	text-align: center;
 	width:100%;
