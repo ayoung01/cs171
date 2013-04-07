@@ -98,7 +98,7 @@
 		},
 		backgroundColor: '#132131',
 		onViewportChange: function(e, s){redraw(0);},
-		onRegionSelected: function(e, c, s, sa){togglecountry(e,c,s,sa);drawPieCharts();},
+		onRegionSelected: function(e, c, s, sa){togglecountry(e,c,s,sa);drawPieCharts(3);},
 		focusOn: {
           x: 0.5,
           y: 0.5,
@@ -185,18 +185,8 @@
 	//get jVectorMap Object  
 	mapObject = $('#map1').vectorMap('get', 'mapObject');
 
-	//get SVG element
-	//var mapbackground = $('#aidmap');
-	
+	//get SVG element	
 	var  mapb=d3.select("#aidmap");
-						
-	//console.log(mapbackground);
-	//create interact
-	
-	$('#focus-single').click(function(){
-		drawLine(39.8333,-98.583,80.75,30.55,1)
-		drawLine(39.8333,-98.583,80.75,30.55,0)
-	});
   
 	togglecountry=function(e, code, isSelected, selectedarray) {
 		currentcountry=code;
@@ -291,8 +281,10 @@
 		}
 	}
 
-    $('#focus-multiple').click(function(){
-        $('#map1').vectorMap('set', 'focus', ['AU', 'JP']);
+    $('#focus-current').click(function(){
+    	if (currentcountry != undefined) {
+        	$('#map1').vectorMap('set', 'focus', currentcountry);
+        }
     });
     $('#focus-init').click(function(){
         $('#map1').vectorMap('set', 'focus', 1, 0, 0);
@@ -314,6 +306,7 @@
 			weightx=.9; //higher it is, the closer the weight is to the first point
 			weighty=.65; //same, for y
 			shifty=-100;
+			shifty=50;
 			var color="#7efff4";
 		}
 		else if(colorcode==3){// highlight donor
@@ -334,7 +327,7 @@
 		weighty=weighty*Lpoint1.y+(1-weighty)*Lpoint2.y+shifty;
 		if(colorcode!=1)//recipient
 		{
-		var string = "M"+Lpoint2.x+","+Lpoint2.y+" "+"Q"+weightx+","+weighty+" "+Lpoint1.x+","+Lpoint1.y;
+			var string = "M"+Lpoint2.x+","+Lpoint2.y+" "+"Q"+weightx+","+weighty+" "+Lpoint1.x+","+Lpoint1.y;
 		}
 		else
 		{
@@ -343,31 +336,31 @@
 		//console.log(linet);
 
 		if(animation==1)
-	{
-				var totalLength=Math.pow(Math.pow(Lpoint1.x-Lpoint2.x,2)+Math.pow(Lpoint1.y-Lpoint2.y,2),.5)
-        mapb.append("svg:path")
-				.attr('d', string)
-				.attr('class', 'connection').attr('fill', 'none')
-    	.attr('stroke', color)
-    	.attr('stroke-width', width)
-		.attr('stroke-linecap', "butt")
-		.attr('opacity', '.50')
-		.attr("stroke-dasharray", totalLength + " " + totalLength)
- 	 .attr("stroke-dashoffset", totalLength)
-  	.transition()
-    .duration(500)
-    .ease("linear")
-    .attr("stroke-dashoffset", 0);
-	}
-	else
-	{     mapb.append("svg:path")
-				.attr('d', string)
-				.attr('class', 'connection').attr('fill', 'none')
-    	.attr('stroke', color)
-    	.attr('stroke-width', width)
-		.attr('stroke-linecap', "butt")
-		.attr('opacity', '.50')
-	}
+		{
+			var totalLength=Math.pow(Math.pow(Lpoint1.x-Lpoint2.x,2)+Math.pow(Lpoint1.y-Lpoint2.y,2),.5)
+	        mapb.append("svg:path")
+					.attr('d', string)
+					.attr('class', 'connection').attr('fill', 'none')
+	    	.attr('stroke', color)
+	    	.attr('stroke-width', width)
+			.attr('stroke-linecap', "butt")
+			.attr('opacity', '.50')
+			.attr("stroke-dasharray", totalLength + " " + totalLength)
+		 	.attr("stroke-dashoffset", totalLength)
+		  	.transition()
+		    .duration(500)
+		    .ease("linear")
+		    .attr("stroke-dashoffset", 0);
+		}
+		else {
+	     	mapb.append("svg:path")
+			.attr('d', string)
+			.attr('class', 'connection').attr('fill', 'none')
+	    	.attr('stroke', color)
+	    	.attr('stroke-width', width)
+			.attr('stroke-linecap', "butt")
+			.attr('opacity', '.50')
+		}
 		//console.log(anim);
 		
 	}
@@ -378,58 +371,98 @@
 	}
 
 	drawPieCharts = function ()
-	{
+	{	
+		var selection;
+		var checked = $('input[name=chartselection]:radio:checked').val();
+		if (checked == "purpose") {
+			selection = 1;
+		}
+		else if (checked == "income") {
+			selection = 2;
+		}
+		else {
+			selection = 3;
+		}
+		console.log("selection: " + selection)
 		clearPieCharts();
 		//draw piecharts currentcountry 
-		console.log(currentcountry);
 		if (currentcountry != undefined) {
 			var w = 305,                        //width
 			h = 305,                            //height
 			r = 137,                            //radius
 			color = d3.scale.category20c();     //builtin range of colors
 
-		    var multisector = eval("data.multisector." + currentcountry);
-		    var hum_aid = eval("data.hum_aid." + currentcountry);
-		    var econ_infra = eval("data.econ_infra." + currentcountry);
-		    var soc_infra = eval("data.soc_infra." + currentcountry);
-		    var production = eval("data.production." + currentcountry);
-		    var admin_expenses = eval("data.admin_expenses." + currentcountry);
-		    var other = eval("data.other." + currentcountry);
-		    testdata = [{"label":"Social and Administrative Infrastructure", "value": soc_infra}, {"label":"Humanitarian Aid", "value":hum_aid}, {"label":"Economic Infrastructure", "value":econ_infra}, {"label":"Production/Agriculture", "value":production},{"label":"Administrative expenses", "value": admin_expenses}, {"label":"Multisector", "value":multisector}, {"label": "Other", "value":other}];
+			// create the appropriate pie chart based on the radio button selection
+			if (selection === 1) {
+			    var multisector = eval("data.multisector." + currentcountry);
+			    var hum_aid = eval("data.hum_aid." + currentcountry);
+			    var econ_infra = eval("data.econ_infra." + currentcountry);
+			    var soc_infra = eval("data.soc_infra." + currentcountry);
+			    var production = eval("data.production." + currentcountry);
+			    var admin_expenses = eval("data.admin_expenses." + currentcountry);
+			    var other = eval("data.other." + currentcountry);
 
-		    if (multisector != undefined) {
-		    	var title = d3.select("#chart1").append("svg")
-		    		.attr("class", "title")
+			    testdata = [{"label":"Social and Administrative Infrastructure", "value": soc_infra}, {"label":"Humanitarian Aid", "value":hum_aid}, {"label":"Economic Infrastructure", "value":econ_infra}, {"label":"Production/Agriculture", "value":production},{"label":"Administrative expenses", "value": admin_expenses}, {"label":"Multisector", "value":multisector}, {"label": "Other", "value":other}];
+			}
+			else if (selection === 2) {
+			    var oda_ldc = eval("data.oda_ldc." + currentcountry);
+			    var oda_lic = eval("data.oda_lic." + currentcountry);
+			    var oda_lmic = eval("data.oda_lmic." + currentcountry);
+			    var oda_umic = eval("data.oda_umic." + currentcountry);
+
+			    testdata = [{"label":"Least Developed Countries (LDCs)", "value": Math.round(oda_ldc * 10)/10}, {"label":"Low-Income Countries (LICs)", "value":Math.round(oda_lic * 10)/10}, {"label":"Low- or Middle-Income Countries", "value":Math.round(oda_lmic*10)/10}, {"label":"Upper Middle Income Countries (UMICs)", "value":Math.round(oda_umic*10)/10}];
+			}
+			else if (selection === 3) {
+			    var europe = eval("data.europe." + currentcountry);
+			    var latin_am = eval("data.latin_am." + currentcountry);
+			    var n_africa = eval("data.n_africa." + currentcountry);
+			    var oceania = eval("data.oceania." + currentcountry);
+			    var s_asia = eval("data.s_asia." + currentcountry);
+			    var s_sahara = eval("data.s_sahara." + currentcountry);
+
+			    testdata = [{"label":"Europe", "value": Math.round(europe*10)/10}, {"label":"Latin America and Caribbean", "value":Math.round(latin_am*10)/10}, {"label":"Middle East and North Africa", "value":Math.round(n_africa*10)/10}, {"label":"Other Asia and Oceania", "value":Math.round(10*oceania)/10},{"label":"South and Central Asia", "value": Math.round(10*s_asia)/10}, {"label":"South of Sahara", "value":Math.round(10*s_sahara)/10}];
+			}
+
+		    // make sure we only show pie charts for those with pie chart data
+		    if (testdata[0].value > 0) {
+	    		var titles = ["ODA by Major Purposes:", "Distribution of ODA by Income:", "Regional Distribution of ODA"];
+		    	// append the title to the piechart
+		    	var title = d3.select("#chart1").append("div")
+		    		.attr("class", "piechartheader")
 				      .attr("width", "280px")
-				      .attr("height", "30px");
-				    title.append("text")
-				      .attr("x", 24)
-				      .attr("y", 9)
-				      .attr("dy", ".35em")
-				      .attr("style", "font-style: italic")
-				      .text(function() {return mapObject.mapData.paths[currentcountry].name;});
-
-				console.log(mapObject.mapData.paths[currentcountry].name);
+				      .attr("height", "50px")
+				      .html(titles[selection - 1] + "</br> <h2>" + mapObject.mapData.paths[currentcountry].name + "<h2>");
 
 			    var vis = d3.select("#chart1")
-			        .append("svg:svg")           //create the SVG element inside the <body>
-			        .data([testdata])                   //associate our data with the document
-			            .attr("width", w)           //set the width and height of our visualization (these will be attributes of the <svg> tag
+			        //create the SVG element inside the <body>
+			        .append("svg:svg")           
+			        //associate our data with the document
+			        .data([testdata])                  
+			            //set the width and height of our visualization (these will be attributes of the <svg> tag
+			            .attr("width", w)           
 			            .attr("height", h)
-			        .append("svg:g")                //make a group to hold our pie chart
-			            .attr("transform", "translate(" + r + "," + r + ")")    //move the center of the pie chart from 0, 0 to radius, radius
-			 
-			    var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
+		            //make a group to hold our pie chart
+			        .append("svg:g")                
+			        	//move the center of the pie chart from 0, 0 to radius, radius
+			            .attr("transform", "translate(" + r + "," + r + ")")    
+			 	//this will create <path> elements for us using arc data
+			    var arc = d3.svg.arc()              
 			        .outerRadius(r);
-			 
-			    var pie = d3.layout.pie()           //this will create arc data for us given a list of values
-			        .value(function(d) { return d.value; });    //we must tell it out to access the value of each element in our data array
-			 
-			    var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
-			        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
-			        .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
-			        .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
-			            .attr("class", "slice");    //allow us to style things in the slices (like text)
+			 	
+			 	//this will create arc data for us given a list of values
+			    var pie = d3.layout.pie()           
+			        //we must tell it out to access the value of each element in our data array
+			        .value(function(d) { return d.value; });    
+			 	//this selects all <g> elements with class slice (there aren't any yet)
+			    var arcs = vis.selectAll("g.slice")     
+			        //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
+			        .data(pie)
+			        //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array                          
+			        .enter()        
+			        //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)                    
+			        .append("svg:g")           
+			        	//allow us to style things in the slices (like text)     
+			            .attr("class", "slice");    
 			 
 			        arcs.append("svg:path")
 			        	//set the color for each slice to be chosen from the color function defined above
@@ -448,19 +481,18 @@
 			                //this gives us a pair of coordinates like [50, 50]
 		                	return "translate(" + arc.centroid(d) + ")";        
 			            })
-			            //center the text on it's origin
+			            //center the text on its origin
 			            .attr("text-anchor", "middle")                          
 			            //get the label from our original data array
 			            .text(function(d, i) {
 			            	if (testdata[i].value > 3)
 			            		return testdata[i].value;
-			            	else {}
 			   			});
 			   			
 			   	var legend = d3.select("#chart1").append("svg")
 				      .attr("class", "legend")
 				      .attr("width", r * 2)
-				      .attr("height", r * 2)
+				      .attr("height", r * 1.2)
 				    .selectAll("g")
 				      .data(color.domain().slice().reverse())
 				    .enter().append("g")
@@ -475,8 +507,11 @@
 				      .attr("x", 24)
 				      .attr("y", 9)
 				      .attr("dy", ".35em")
+				      .attr("font-family", "Helvetica, Arial,sans-serif")
+				      .attr("fill", "white")
 				      .text(function(d, i) { return testdata[i].label; 
-			   			});   
+			   		});   
+				
 			}
 		}
 	}
@@ -485,63 +520,77 @@
 		mapObject.mapData.paths[countrycode].name;
 	}
 
-//Begin slider code
-jQuery( "#slider-range" ).slider({
-      range: true,
-      min: 0,
-      max: 3000,
-      values: [ 0, 3000 ],
-      slide: function( event, ui ) {
-        jQuery( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-				console.log(ui.values[ 0 ] );
-      	minbound = ui.values[ 0 ];
-				maxbound = ui.values[ 1 ];
-				console.log(redraw);
-				//clearLines();
-				redraw(1);
-			}
-    });
+	//Begin slider code
+	jQuery( "#slider-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 3000,
+	      values: [ 0, 3000 ],
+	      slide: function( event, ui ) {
+	        jQuery( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+					console.log(ui.values[ 0 ] );
+	      	minbound = ui.values[ 0 ];
+					maxbound = ui.values[ 1 ];
+					console.log(redraw);
+					//clearLines();
+					redraw(1);
+				}
+	    });
 		
-    jQuery( "#amount" ).val( "$" + jQuery( "#slider-range" ).slider( "values", 0 ) +
-      " - $" + jQuery( "#slider-range" ).slider( "values", 1 ) );
+	    jQuery( "#amount" ).val( "$" + jQuery( "#slider-range" ).slider( "values", 0 ) +
+	      " - $" + jQuery( "#slider-range" ).slider( "values", 1 ) );
 
+		});
+	
+	// Event handler for checking radio buttons
+	jQuery(document).ready(function($) {
+		$("input[name='chartselection']").change(function() {
+			drawPieCharts();
+		});
 	});
 
-	
   </script>
-  
 </head>
 
 <body>
+
 <div id="pagebackground">
 	<div id="wrapper">
     <div id="headerbar">
-      <h1>Visualizing Aid Data</h1>><h2>CS171 Project by Kevin Sun and Albert Young; Powered by jVectorMaps and d3.js</h2>
+      <h1>Visualizing Official Development Assistance (ODA) in 2011</h1>>
+      <h2>CS171 Project by Kevin Sun and Albert Young; Powered by jVectorMaps and d3.js</h2>
     </div>
-    <div id="mapcontainer">
-      <div id="map1"></div>
-
-    </div> <!--End mapcontainer -->
+    <div id="map1"></div>
     
     <div id="piechartwrapper">
         <div id="chart1">
         </div>
-<!--         <div id="chart2">
-        </div> -->
-
     </div> <!--End piechart -->
     <div id="footer">
+    	<div id="footerleft">
+		    <p>
+		  	<label for="amount">Only show lines between (mil USD):</label>
+		  	<input type="text" id="amount" />
+			</p>
+		 
+			<div id="slider-range"></div>
+		</div>
+		<div id="footerright">
+			<label>
+				<br>
+				View Distribution of ODA by:
+				<form>
+					<input type="radio" name="chartselection" id="purpose" value="purpose" checked>Purpose
+					<input type="radio" name="chartselection" id="income" value="income">Income
+					<input type="radio" name="chartselection" id="region" value="region">Region
+				</form>
+				<br>
+				<button id="focus-init">Reset Map</button>
+				<button id="focus-current">Focus on Current Country</button>
+			</label>
+		</div>
 		<br>
-    <p>
-  <label for="amount">Only show lines between (mil USD):</label>
-  <input type="text" id="amount" />
-	</p>
- 
-	<div id="slider-range"></div>
-  <br>
-		<button id="focus-single">Focus on Australia</button>
-		<button id="focus-multiple">Focus on Australia and Japan</button>
-		<button id="focus-init">Return to the initial state</button>
+		<span>Data Source: The Organisation for Economic Co-operation and Development (OECD) at oecd.org</span>
     </div>
   </div> <!-- End wrapper -->
   

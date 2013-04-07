@@ -2,22 +2,19 @@ html{
 	margin:0;
 	padding:0;
 	height: 100%;
+	background:#132131;
+	font-family: Helvetica, Arial,sans-serif;
+	color: #FFF;
 }
+
 body {
     margin: 0;
     padding: 0; 
-		height: 100%;
+	height: 100%;
 }
 
 .jvectormap-region {
-  
     stroke-width: .05px;
-}
-
-div#headerbar{
-	text-align: center;
-	width:100%;
-	padding-top: 8px;
 }
 
 #pagebackground{
@@ -42,13 +39,15 @@ div#headerbar{
     width:1366px;
     height:768px;
 }
+
 #mapcontainer{
 	background:#FFF;
 	width:1280px;
 }
+
 #map1{
 	width:1050px;
-	height:650px;
+	height:550px;
 	display:block;	
 	float:left;
 }
@@ -56,14 +55,12 @@ div#headerbar{
 #piechartwrapper{
 	width: 305px;
 	float: left;
-	background:#FFF;	
 	border-radius: 5px;
 	margin-left: 5px;
-	/*opacity: 0.5;*/
 }
-#chart1, #chart2, #chart3{
+
+#chart1 {
 	width:305px;
-	height:600px;
 	margin-left:4px;
 	margin-bottom: 4px;
 	padding:12px;
@@ -72,13 +69,14 @@ div#headerbar{
 }
 
 text {
-	font-size: 90%;
+	font-size: 85%;
 }
 
-h1 {
-    font-size: 20px;
+.piechartheader {
+	font-size: 16px;
     color: #fff;
-	font-family: Helvetica, Arial,sans-serif;
+	font-weight: bold;
+	margin-bottom: 20px;
 }
 
 textarea {
@@ -89,13 +87,35 @@ textarea {
 	clear: both;
 	float:both;
 	display:block;
+	padding-top: 20px;
+}
+
+#footerleft {
+	width: 683px;
+	clear: none;
+	float: left;
+	margin-top: -20px;
+}
+
+#footerright {
+	width: 683px;
+	clear: none;
+	float: left;
+	display: block;
+	margin-top: -20px;
+}
+
+#headerbar{
+	text-align: center;
+	width:100%;
+	padding-top: 16px;
+	padding-bottom: 16px;
 }
 
 label {
 	font-size:14px;
-	font-family: Helvetica, Arial,sans-serif;
-	color:#FFFFFF;	
 }
+
 #sliderdescription:
 {
 	margin-top:0px;
@@ -113,22 +133,27 @@ label {
 
 #slider-range{
 	margin-top:0px;
+	margin-left: 8px;
 	width:25em;
 }
 
-h1{
-	font-size: 2em;
-	font-family: Helvetica, Arial,sans-serif;
+h1 {
 	margin: 3px 0;
-	}
-h2{
+	font-size: 1.5em;
+    color: #fff;
+}
+
+h2 {
 	font-size: 12px;
-	font-family: Helvetica, Arial,sans-serif;
 	color:#EEE;
 	margin-top: 2px;
 	margin-bottom: 5px;
-	margin-right: 15px;
-	margin-left:15px;
 	padding:2px;
 	display:inline;
+}
+
+span {
+	font-size: 0.6em;
+	font-style: italic;
+	color: #DDD;
 }
