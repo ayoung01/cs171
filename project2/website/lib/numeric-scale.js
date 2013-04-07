@@ -73,10 +73,10 @@ jvm.NumericScale.prototype = {
 		minV=-5751.8
 		maxV=0;}
 		//if the value is greater than zero, use the last two scale values on the negated value
-		console.log(scaletemp);
-		console.log(value);
-		console.log(this.minValue);
-		console.log(this.maxValue);
+		//console.log(scaletemp);
+		//console.log(value);
+		//console.log(this.minValue);
+		//console.log(this.maxValue);
 		
     for (i = 0; i < scaletemp.length-1; i++) {
       l = this.vectorLength(this.vectorSubtract(scaletemp[i+1], scaletemp[i]));
