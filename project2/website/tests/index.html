@@ -224,7 +224,7 @@
 		for(country in flowarray) {
 			try {
 				var flowval=flowarray[country]*factor;
-				if (factor>=0) {
+				if (flowval>0) {
 					drawFlow(countrytag, country, getWidth(flowval),1,animation); //draw donor lines
 				}
 				else {
