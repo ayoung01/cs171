@@ -98,7 +98,7 @@
 		},
 		backgroundColor: '#132131',
 		onViewportChange: function(e, s){redraw(0);},
-		onRegionSelected: function(e, c, s, sa){togglecountry(e,c,s,sa);drawPieCharts(3);},
+		onRegionSelected: function(e, c, s, sa){togglecountry(e,c,s,sa);drawPieCharts();},
 		focusOn: {
           x: 0.5,
           y: 0.5,
@@ -487,11 +487,12 @@
 			                //this gives us a pair of coordinates like [50, 50]
 		                	return "translate(" + arc.centroid(d) + ")";        
 			            })
-			            //center the text on its origin
+			            // center the text on its origin
 			            .attr("text-anchor", "middle")                          
-			            //get the label from our original data array
+			            // get the label from our original data array
+			            // don't display the label if value is too small
 			            .text(function(d, i) {
-			            	if (testdata[i].value > 3)
+			            	if (testdata[i].value > 4)
 			            		return testdata[i].value +"%";
 			   			});
 			   			
