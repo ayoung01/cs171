@@ -219,15 +219,16 @@
 			flowarray = donationdata[countrytag];
 			factor=1;
 		}
-
+	//console.log(factor);
+	
 		for(country in flowarray) {
 			try {
 				var flowval=flowarray[country]*factor;
-				if (flowval>0) {
-					drawFlow(countrytag, country, getWidth(flowval),1,animation);
+				if (factor>=0) {
+					drawFlow(countrytag, country, getWidth(flowval),1,animation); //draw donor lines
 				}
 				else {
-					drawFlow(countrytag, country, getWidth(flowval),0,animation);
+					drawFlow(countrytag, country, getWidth(flowval),0,animation); // draw recipient lines
 				}
 			}
 			catch(err){}
@@ -297,39 +298,44 @@
 	drawLine=function(lat1,lng1,lat2,lng2,width,colorcode,animation) {
 		var Lpoint1=mapObject.latLngToPoint(lat1, lng1);
 		var Lpoint2=mapObject.latLngToPoint(lat2, lng2);
+	
 		if(colorcode==0) { // recipient
 			weightx=.1;
 			weighty=.05;
 			shifty=50;
 			var color="#FF4E50";
+			//console.log("recip");
 		} else if(colorcode==1) { // donor
 			weightx=.9; //higher it is, the closer the weight is to the first point
 			weighty=.65; //same, for y
 			shifty=-100;
-			shifty=50;
 			var color="#7efff4";
+			console.log("donor");
 		}
 		else if(colorcode==3){// highlight donor
 			weightx=.9; //higher it is, the closer the weight is to the first point
 			weighty=.65; //same, for y
 			shifty=-100;
 			var color="white";
+			//console.log("donorhighlight");
 		}
-		else 
+		else if(colorcode==4)
 		{ // highlight recipient
 			weightx=.1;
 			weighty=.05;
 			shifty=50;
 			var color="white";
+			//console.log("reciphighlight");
 		}
 
 		weightx=weightx*Lpoint1.x+(1-weightx)*Lpoint2.x;
 		weighty=weighty*Lpoint1.y+(1-weighty)*Lpoint2.y+shifty;
-		if(colorcode!=1)//recipient
+		
+		if(colorcode==0&&animation==1)//recipient
 		{
 			var string = "M"+Lpoint2.x+","+Lpoint2.y+" "+"Q"+weightx+","+weighty+" "+Lpoint1.x+","+Lpoint1.y;
 		}
-		else
+		else // donor
 		{
 			var string = "M"+Lpoint1.x+","+Lpoint1.y+" "+"Q"+weightx+","+weighty+" "+Lpoint2.x+","+Lpoint2.y;
 		}
@@ -431,7 +437,7 @@
 		    		.attr("class", "piechartheader")
 				      .attr("width", "280px")
 				      .attr("height", "50px")
-				      .html(titles[selection - 1] + "</br> <h2>" + mapObject.mapData.paths[currentcountry].name + "<h2>");
+				      .html(titles[selection - 1] + "</br> <h2>" + mapObject.mapData.paths[currentcountry].name + '<h2>'+'<br>'+'<h3>'+'Net ODA to all countries: '+ '$'+netodadata.net_oda[currentcountry]+' mil USD'+"</h3>");
 
 			    var vis = d3.select("#chart1")
 			        //create the SVG element inside the <body>
@@ -476,7 +482,7 @@
 		                //we have to make sure to set these before calling arc.centroid
 		                
 		                .attr("transform", function(d) {                    
-			                d.innerRadius = 0;
+			                d.innerRadius = 60;
 			                d.outerRadius = r;
 			                //this gives us a pair of coordinates like [50, 50]
 		                	return "translate(" + arc.centroid(d) + ")";        
@@ -486,7 +492,7 @@
 			            //get the label from our original data array
 			            .text(function(d, i) {
 			            	if (testdata[i].value > 3)
-			            		return testdata[i].value;
+			            		return testdata[i].value +"%";
 			   			});
 			   			
 			   	var legend = d3.select("#chart1").append("svg")
