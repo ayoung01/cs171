@@ -91,14 +91,14 @@ textarea {
 }
 
 #footerleft {
-	width: 683px;
+	width: 520px;
 	clear: none;
 	float: left;
 	margin-top: -20px;
 }
 
-#footerright {
-	width: 683px;
+#footerright, #footercenter {
+	margin-right: 30px;
 	clear: none;
 	float: left;
 	display: block;

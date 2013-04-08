@@ -492,7 +492,7 @@
 			   	var legend = d3.select("#chart1").append("svg")
 				      .attr("class", "legend")
 				      .attr("width", r * 2)
-				      .attr("height", r * 1.2)
+				      .attr("height", r * 1.1)
 				    .selectAll("g")
 				      .data(color.domain().slice().reverse())
 				    .enter().append("g")
@@ -558,7 +558,7 @@
 	<div id="wrapper">
     <div id="headerbar">
       <h1>Visualizing Official Development Assistance (ODA) in 2011</h1>>
-      <h2>CS171 Project by Kevin Sun and Albert Young; Powered by jVectorMaps and d3.js</h2>
+      <h2>CS171 Project by Kevin Sun and Albert Young; Powered by jVectorMap and D3.js</h2>
     </div>
     <div id="map1"></div>
     
@@ -575,7 +575,7 @@
 		 
 			<div id="slider-range"></div>
 		</div>
-		<div id="footerright">
+		<div id="footercenter">
 			<label>
 				<br>
 				View Distribution of ODA by:
@@ -584,10 +584,12 @@
 					<input type="radio" name="chartselection" id="income" value="income">Income
 					<input type="radio" name="chartselection" id="region" value="region">Region
 				</form>
-				<br>
+			</label>
+		</div>
+		<div id="footerright">
+			<br>
 				<button id="focus-init">Reset Map</button>
 				<button id="focus-current">Focus on Current Country</button>
-			</label>
 		</div>
 		<br>
 		<span>Data Source: The Organisation for Economic Co-operation and Development (OECD) at oecd.org</span>
