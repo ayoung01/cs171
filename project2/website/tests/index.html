@@ -84,7 +84,6 @@
 	donationdata = JSON.parse(document.getElementById('donorflows').value); 
 	recipientdata = JSON.parse(document.getElementById('recipientflows').value);  //data for flow lines
 	geographiccenters=JSON.parse(document.getElementById('countrycenters').value);
-	console.log(data);
 
     $('#map1').vectorMap({
         map: 'world_mill_en',
@@ -110,11 +109,8 @@
 				{
 					highlightcolor=3;
 					if(donationdata[currentcountry][code]>0){lastsign=1;}else{lastsign=0;highlightcolor=4;}
-					//lastcountryhighlight=code;
-					//lastwidth=getWidth(donationdata[currentcountry][code]);
 				if(donationdata[currentcountry][code]!=0)
 				{drawFlow(currentcountry, code, getWidth(donationdata[currentcountry][code])+1, highlightcolor);}
-				//console.log("code"+donationdata[currentcountry][code]);
 				}
 			}
 			else if(recipientdata[currentcountry]!=undefined){
@@ -204,8 +200,7 @@
 			flowarray = donationdata[countrytag];
 			factor=1;
 		}
-	//console.log(factor);
-	
+
 		for(country in flowarray) {
 			try {
 				var flowval=flowarray[country]*factor;
@@ -221,7 +216,6 @@
 	}
 	
 	function getWidth(flowval){
-		//console.log(flow)
 		var flow= Math.abs(flowval);
 		if( flow < minbound || flow > maxbound)
 		{
@@ -294,7 +288,6 @@
 			weighty=.65; //same, for y
 			shifty=-100;
 			var color="#7efff4";
-			console.log("donor");
 		}
 		else if(colorcode==3){// highlight donor
 			weightx=.9; //higher it is, the closer the weight is to the first point
@@ -368,7 +361,7 @@
 		else {
 			selection = 3;
 		}
-		console.log("selection: " + selection)
+
 		clearPieCharts();
 		//draw piecharts currentcountry 
 		if (currentcountry != undefined) {
@@ -514,11 +507,8 @@
 	      values: [ 0, 3000 ],
 	      slide: function( event, ui ) {
 	        jQuery( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-					console.log(ui.values[ 0 ] );
 	      	minbound = ui.values[ 0 ];
 					maxbound = ui.values[ 1 ];
-					console.log(redraw);
-					//clearLines();
 					redraw(1);
 				}
 	    });
