@@ -122,11 +122,8 @@
 				{
 					highlightcolor=4;
 					if(recipientdata[currentcountry][code]>0){lastsign=0;}else{lastsign=1;highlightcolor=3;}
-					//lastcountryhighlight=code;
-					//lastwidth=getWidth(recipientdata[currentcountry][code]);
 					if(recipientdata[currentcountry][code]!=0)
 					{drawFlow(currentcountry, code, getWidth(recipientdata[currentcountry][code])+1, highlightcolor);}
-					//console.log(code+""+donationdata[currentcountry][code]);
 				}
 			}
 			
@@ -135,17 +132,12 @@
 			redraw(0);
 		},
 		onRegionLabelShow: function(event, label, code){
-			/*if(donationdata[currentcountry]==undefined&&recipientdata[currentcountry]==undefined) //if the country has no data
-			{
-				lastcountryhighlight=undefined;
-				lastwidth=undefined;
-				lastsign=undefined;				
-			}*/			
-			if(currentcountry==undefined || currentcountry==code){ // if there is no selection or if the country mouseovered is the 'select' country
+			// if there is no selection or if the country mouseovered is the 'select' country
+			if(currentcountry==undefined || currentcountry==code){ 
 				if(netodadata.net_oda[code]!=undefined)
 				{
-						label.html(''+label.html()+'<br>'+
-      					'Net ODA (to/from all countries):'+' $'+netodadata.net_oda[code]+' mil USD');
+					label.html(''+label.html()+'<br>'+
+  					'Net ODA (to/from all countries):'+' $'+netodadata.net_oda[code]+' mil USD');
 				}
 			}
 			
@@ -167,18 +159,10 @@
 		},
         series: {
           regions: [{
-           // scale: ['#C8EEFF', '#0071A4'],
-					 scale: ['#BCD2E7', '#006694','#800000','#DDBBBB'],					 
-            setNormalizeFunction: /*function (value){
-							if (value>=0){return Math.pow(value, 1);}
-				else{return (-1*Math.pow(value,1));}}*/'polynomial',
+			scale: ['#BCD2E7', '#006694','#800000','#DDBBBB'],	
+            setNormalizeFunction: 'polynomial',
             values: netodadata.net_oda
-        }/*, // need combined dataset with data.net_oda and data.ldc_aid
-					{
-            scale: ['#FFCCCC', '#B20000'],
-            normalizeFunction: 'polynomial',
-            values: data.ldc_aid
-          }*/]
+        }]
         }
 	});
 
@@ -198,8 +182,9 @@
 			lng1 = geographiccenters[country1].Lng;
 			lat2 = geographiccenters[country2].Lat;
 			lng2 = geographiccenters[country2].Lng;
-			
-			if(mapObject.mapData.paths[country2].name!=undefined) //Test if jvectormaps actually has this country.
+
+			//Test if jvectormaps actually has this country.
+			if(mapObject.mapData.paths[country2].name!=undefined) 
 			{
 				drawLine(lat1,lng1,lat2,lng2, width,colorcode,animation);
 			}
@@ -304,7 +289,6 @@
 			weighty=.05;
 			shifty=50;
 			var color="#FF4E50";
-			//console.log("recip");
 		} else if(colorcode==1) { // donor
 			weightx=.9; //higher it is, the closer the weight is to the first point
 			weighty=.65; //same, for y
@@ -317,7 +301,6 @@
 			weighty=.65; //same, for y
 			shifty=-100;
 			var color="white";
-			//console.log("donorhighlight");
 		}
 		else if(colorcode==4)
 		{ // highlight recipient
@@ -325,7 +308,6 @@
 			weighty=.05;
 			shifty=50;
 			var color="white";
-			//console.log("reciphighlight");
 		}
 
 		weightx=weightx*Lpoint1.x+(1-weightx)*Lpoint2.x;
@@ -339,7 +321,6 @@
 		{
 			var string = "M"+Lpoint1.x+","+Lpoint1.y+" "+"Q"+weightx+","+weighty+" "+Lpoint2.x+","+Lpoint2.y;
 		}
-		//console.log(linet);
 
 		if(animation==1)
 		{
@@ -367,8 +348,6 @@
 			.attr('stroke-linecap', "butt")
 			.attr('opacity', '.50')
 		}
-		//console.log(anim);
-		
 	}
 
 	function clearPieCharts () {
