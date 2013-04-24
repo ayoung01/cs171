@@ -1,0 +1,57 @@
+CS171 Project 2 - 4/8/13
+Kevin Sun and Albert Young
+-------------------------------------
+Visualizing Aid Funding
+
+1. How do we run your code?
+To run the visualization, simply open index.html in your web browser.  We recommend Google Chrome.  If you would like to run the python parsing applications, simply run the appropriate .py files in the /python directory.
+
+2. Which parts of your code are responsible for what?
+Index.html contains virtually all of the code used in the visualization, from drawing the map, displaying data, to animating the lines.  The scripts in the /python directory were used in processing data, parsing it from csv to JSON form.  In index.html, event handlers are attached to most UI elements (such as the slider and radio buttons).  The UI elements then call methods used in visualization with changed parameters. The visualization in index.html is powered through a long string of javascript executed when the document is ready, and contains the following key methods:
+    - .vectorMap()
+    This constructor creates a vectorMap object in the jVectorMap library; its arguments specify colorscales and custom functions that are called for tooltip/panning/zooming.
+    Arguments to this constructor include onViewportChange, onRegionSelected, onRegionOut, onRegionOver, and onRegionLabelShow, which all contain methods that are defined to suit our visualization.
+
+    - togglecountry(e, code, isSelected, selectedarray)
+    This method is called when a country is selected; it updates a global variable keeping track of the current country and redraws the map.
+
+    - drawCountryFlows(countrytag,animation)
+    This method draws all the flows to and from a particular country. The variable animation determines if this drawing should be animated.
+
+    - getWidth(flowval)
+    This method takes a aid flow value (in millions of USD), and returns the appropriate line width to draw.  The method is not formulaic, but rather classifies the aid flow value in a set of arbitrary containers.
+
+    - clearLines()
+    This method clears all the aid flow lines on the screen.
+
+    - redraw(animation)
+    This method calls clearLines() and redraws all the lines on the screen (either with animation or without, dependent on the passed argument).
+
+    - drawLine(lat1,lng1,lat2,lng2,width,colorcode,animation)
+    Draws a line (or actually, a bezier curve) between two points on the screen.
+
+    - drawPieCharts()
+    Method which draws the pie charts based on the current selected country and appropriate radio button.
+
+3. Which parts are libraries and are they hosted in the folder or externally online?
+For our project we used four libraries: jQuery, jQuery UI, D3.js, and jVectorMap.  jQuery and jQuery UI are hosted on code.jquery.com. D3.js is hosted externally on mbostock.github.com., jVectorMap has been modified and is hosted locally in /js.
+
+4. What data files are you using and how are they being fed into the code?
+We do not use any data files in our implementation,we instead chose to ‘hardcode’ the data in JSON formats in the actual index.html file. This data was originally downloaded in Excel format form oecd.org and converted to JSON format using a Python script (located in /python). The data is encoded in <textarea> elements which are hidden from view by CSS.  The id’s of the textareas containing our JSON-formatted data are net_oda, JSON, donorflows, recipientflows, and countrycenters.  These textareas are all parsed into javascript variables using JSON.parse.
+
+5. Any other information we need to understand your code.
+None.  Our code is primarily all located in index.html. However, we also did modify the jVectorMaps library to change numeric scale and assign an ID to the SVG container of the map.  While we did comment the code, it may be useful to refer to the method description in the readme for understanding.
+
+List of Major Files and Directories
+------------------------------------
+Name                                            Content
+ksun_ayoung_project_2_processbook.pdf           The project's processbook.  Findings are also included inside.  You should read this.
+index.html                                      Our visualization. You should open and view this.
+README                                          (this)
+/css                                            Contains style.css, used to style index.html.
+/js                                             Contains the jVectorMap library.
+/data                                           Data downloaded and retrieved in excel/csv format, not directly visualized.
+/python                                         Contains Python script used to convert data files to json objects embedded in index.html
+
+
+Please let us know if you have any questions/comments/concerns at ksun01@college.harvard.edu and ayoung@college.harvard.edu.

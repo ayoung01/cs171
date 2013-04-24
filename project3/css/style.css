@@ -1,0 +1,181 @@
+html{
+	margin:0;
+	padding:0;
+	height: 100%;
+	background:#132131;
+	font-family: Helvetica, Arial,sans-serif;
+	color: #FFF;
+}
+
+body {
+    margin: 0;
+    padding: 0; 
+	height: 100%;
+}
+
+.jvectormap-region {
+    stroke-width: .05px;
+}
+
+#pagebackground{
+	background:#132131;
+	height:100%;
+	margin-top:0px;
+	padding:0px;
+	min-height:100%;
+}
+
+#pagewrapper{
+	background:#132131;
+	height:100%;
+	margin-top:0px;
+	padding:0px;
+	width:1366px;
+}
+
+#wrapper {
+    margin-left:auto;
+    margin-right:auto;
+    width:1366px;
+    height:768px;
+}
+
+#mapcontainer{
+	background:#FFF;
+	width:1280px;
+}
+
+#map1{
+	width:1050px;
+	height:550px;
+	display:block;	
+	float:left;
+}
+
+#piechartwrapper{
+	width: 305px;
+	float: left;
+	border-radius: 5px;
+	margin-left: 5px;
+}
+
+#chart1 {
+	width:305px;
+	margin-left:4px;
+	margin-bottom: 4px;
+	padding:12px;
+	display:block;
+	float:left;
+}
+
+text {
+	font-size: 85%;
+}
+
+.piechartheader {
+	font-size: 16px;
+    color: #fff;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+textarea {
+	display:none;
+}
+
+#footer {
+	clear: both;
+	float:both;
+	display:block;
+	padding-top: 20px;
+}
+
+#footerleft {
+	width: 520px;
+	clear: none;
+	float: left;
+	margin-top: -20px;
+}
+
+#footerright, #footercenter {
+	margin-right: 30px;
+	clear: none;
+	float: left;
+	display: block;
+	margin-top: -20px;
+}
+
+#headerbar{
+	text-align: center;
+	width:100%;
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+
+label {
+	font-size:14px;
+}
+
+#sliderdescription:
+{
+	margin-top:0px;
+	margin-bottom: 5px;
+	margin-left: 10px;
+	margin-right: 0px;
+}
+
+#amount {
+	border: 0; 
+	color: rgb(255, 255, 197); 
+	font-weight: bold;
+	background: rgb(44, 44, 44);
+	text-align:center;
+	padding:2px;
+	}
+
+#slider-range{
+	margin-top:0px;
+	margin-left: 8px;
+	width:25em;
+}
+
+h1 {
+	margin: 3px 0;
+	font-size: 1.5em;
+    color: #fff;
+}
+
+h2 {
+	font-size: 14px;
+	color:#EEE;
+	margin-top: 3px;
+	margin-bottom: 0px;
+	padding:2px;
+	display:inline;
+}
+h3 {
+	font-size: 12px;
+	color:#EEE;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left:2px;
+	display:inline;
+}
+
+
+span {
+	font-size: 0.6em;
+	font-style: italic;
+	color: #DDD;
+}
+
+#videodesc{
+	margin-left:15px;
+}
+
+#video
+{
+	margin:15px auto;
+	text-align:center;
+	
+}
