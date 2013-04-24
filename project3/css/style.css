@@ -46,10 +46,11 @@ body {
 }
 
 #map1{
-	width:1050px;
-	height:550px;
+	width:960px;
+	height:595px;
 	display:block;	
 	float:left;
+	margin-left:5px;
 }
 
 #piechartwrapper{
@@ -91,10 +92,10 @@ textarea {
 }
 
 #footerleft {
-	width: 520px;
+	width: 960px;
 	clear: none;
 	float: left;
-	margin-top: -20px;
+	/*margin-top: -20px;*/
 }
 
 #footerright, #footercenter {
