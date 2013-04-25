@@ -61,8 +61,11 @@ def country():
     fjson.close()
 
 def by_use():
-    fcsv = open('by_use.csv', 'rb')
-    fjson = open('by_use.json', 'wb')
+    # fcsv = open('by_use.csv', 'rb')
+    # fjson = open('by_use.json', 'wb')
+
+    fcsv = open('goods_vs_services.csv', 'rb')
+    fjson = open('goods_vs_services.json', 'wb')
     
     result = JSONConverter()
     headers = []
