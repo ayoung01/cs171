@@ -137,7 +137,7 @@ label {
 #slider-range{
 	margin-top:0px;
 	margin-left: 8px;
-	width:25em;
+	width:900px;
 }
 
 h1 {
@@ -180,3 +180,12 @@ span {
 	text-align:center;
 	
 }
+
+  #toolbar {
+    padding: 4px;
+    display: inline-block;
+  }
+  /* support: IE7 */
+  *+html #toolbar {
+    display: inline;
+  }
