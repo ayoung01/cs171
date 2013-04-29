@@ -39,7 +39,7 @@ jvm.NumericScale.prototype = {
   setNormalizeFunction: function(f) {
     if (f === 'polynomial') {
       this.normalize = function(value) {
-				return Math.pow(value, 0.2);
+				return Math.pow(value, 5);
       }
     } else if (f === 'linear') {
       delete this.normalize;
@@ -60,17 +60,17 @@ jvm.NumericScale.prototype = {
     if (typeof this.normalize === 'function') {
       value = this.normalize(value);
     }
-		
-		//console.log(value);
+		//value = Math.pow(value, 2);
+		console.log(value);
 		
 		if (value>=0)
 		{scaletemp=[this.scale[0],this.scale[1]];
 		minV=0;
-		maxV=30924;}
+		maxV=1665;}
 		else 
 		{scaletemp=[this.scale[2],this.scale[3]];
 		value=value;
-		minV=-5751.8
+		minV=-28000
 		maxV=0;}
 		//if the value is greater than zero, use the last two scale values on the negated value
 		//console.log(scaletemp);

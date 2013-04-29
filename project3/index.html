@@ -52,9 +52,11 @@
 	var mapheight = 481;
 
 	//Current variables
+
 	var currentcountry; //selected country of the map
 	var currenthighlight; // code of current country highlighted
 	var currflowtype = "B"; // defaults to visualizing trade balance until changed
+	var currflowtypestring = "trade balance";
 	var currenttime=0; // current time value, from 0 [Jan 1989] to 239 [Dec 2012]
 	var currdata; //the encoded data to be used in the map shading and tooltips.
 	
@@ -78,10 +80,11 @@
 	//variables for scaling
 var logscale=d3.scale.log().domain([0, 41500]).range([0, 30]);
 	//Functions: helper method.
+	var getcurrData=function(){}; // returns dataset for shading/tooltips based on current time / flowtype
 	var getcurrentYear=function(){};
 	var getcurrentMonth=function(){};
 	var getcurrentMonthname=function(){};
-	
+	var updateflowtypeString =  function (){};
 
 	var redraw = function(){};
 	var drawPieCharts = function(){};
@@ -108,14 +111,37 @@ var logscale=d3.scale.log().domain([0, 41500]).range([0, 30]);
 	
 	// Process JSON data using JSON.parse into an object
 	data = JSON.parse(document.getElementById('JSON').value);
-	currentdata = getcurrData
-	//console.log(data);
+	currdata = getcurrData(currenttime, currflowtype);
+	//console.log(currentdata);
 	//data for map colors
 	netodadata = JSON.parse(document.getElementById('net_oda').value); 
 	donationdata = JSON.parse(document.getElementById('donorflows').value); 
 	recipientdata = JSON.parse(document.getElementById('recipientflows').value);  //data for flow lines
 	geographiccenters=JSON.parse(document.getElementById('countrycenters').value);
 
+		function getcurrData(timeval, flowtypeval){
+			var tmp={};
+			var tarray = data[getcurrentYear(timeval)][getcurrentMonth(timeval)];
+		for(country in tarray) {
+			//try {
+				var flowval=tarray[country][flowtypeval];
+				tmp[country]=flowval;
+			//}
+			//catch(err){}
+		}
+		return tmp;
+	}
+	
+	updateflowtypeString = function () {
+									var flowtypestring;
+								if (currflowtype == "I")
+								flowtypestring = "imports";
+								else if (currflowtype == "E")
+								flowtypestring = "exports";
+								else flowtypestring = "trade balance";
+		return flowtypestring;						
+	}
+	
     $('#map1').vectorMap({
         map: 'world_mill_en',
 		regionsSelectable:'true',
@@ -126,7 +152,7 @@ var logscale=d3.scale.log().domain([0, 41500]).range([0, 30]);
 				fill: "#ffbb4d"
 			}
 		},
-		backgroundColor: '#132131',
+		backgroundColor: /*'/*#132131'*/'#003D1F',
 		onViewportChange: function(e, s){redraw(currflowtype,0,1);},
 		onRegionSelected: function(e, c, s, sa){togglecountry(e,c,s,sa);drawPieCharts();},
 		focusOn: {
@@ -161,14 +187,14 @@ var logscale=d3.scale.log().domain([0, 41500]).range([0, 30]);
 		},
 		onRegionLabelShow: function(event, label, code){
 			// if there is no selection or if the country mouseovered is the 'select' country
+			/*
 			if(currentcountry==undefined || currentcountry==code){ 
 				if(netodadata.net_oda[code]!=undefined)
 				{
 					label.html(''+label.html()+'<br>'+
   					'Net ODA (to/from all countries):'+' $'+netodadata.net_oda[code]+' mil USD');
 				}
-			}
-			
+			}			
 			if(donationdata[currentcountry]!=undefined){
 				if(donationdata[currentcountry][code]!=undefined)
 				{
@@ -183,13 +209,22 @@ var logscale=d3.scale.log().domain([0, 41500]).range([0, 30]);
       					'Net ODA received from '+	label.html() + ': $'+recipientdata[currentcountry][code]+' mil USD');
 				}
 			}
-			
+			*/	
+			if (code == "US"){}
+			else if (currdata[code]!= undefined)
+{						
+								label.html(''+label.html()+'<br>'+
+      					'Net '+currflowtypestring +' with '+	label.html() + ': $'+currdata[code]+' mil USD');
+}
+else {
+			label.html(''+label.html()+'<br>'+
+      					'No data on '+currflowtypestring +' available.');								}
 		},
         series: {
           regions: [{
-			scale: ['#BCD2E7', '#006694','#800000','#DDBBBB'],	
+			scale: ['#FFE9FF', '#003D59','#660000','#FFC1D6'],	
             setNormalizeFunction: 'polynomial',
-            values: netodadata.net_oda
+            values: currdata
         }]
         }
 	});
@@ -261,6 +296,7 @@ var logscale=d3.scale.log().domain([0, 41500]).range([0, 30]);
 		return logscale(flow);
 	}
 	
+
 		/*function updateScale(){
 			if(currflowtype = "I")
 			{scale.domain([0, 40500]);}
@@ -280,7 +316,9 @@ var logscale=d3.scale.log().domain([0, 41500]).range([0, 30]);
 			}
 		}
 	}
-
+	/*function redrawshading(){
+		$('#map1').vectorMap('set', 'values', currentdata);
+	}*/
 	function redraw(flowtype,animation,clear) {
 	if (clear==1){clearLines();}
 	console.log("Redrawn!");
@@ -552,14 +590,17 @@ var logscale=d3.scale.log().domain([0, 41500]).range([0, 30]);
 	jQuery( "#slider-range" ).slider({
 	     value:0,
 			min: 0,
-      max: 287,
+      max: 251,
 			orientation: "horizontal",
       range: "min",
       animate: true,
 	      slide: function( event, ui ) {
 	        jQuery( "#timedisplay" ).html(getcurrentMonth(ui.value)+", "+getcurrentYear(ui.value));
 	      	currenttime = ui.value;
-					redraw(currflowtype,1,1);
+					currdata=getcurrData(currenttime,currflowtype);		
+					console.log(currdata);
+					redraw(currflowtype,1,1);	
+					mapObject.series.regions[0].setValues(currdata);//redrawshading();		
 				}
 	    });
 		
