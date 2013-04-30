@@ -937,14 +937,16 @@ jvm.WorldMap.defaultParams = {
   bindTouchEvents: true,
   regionStyle: {
     initial: {
-      fill: 'white',
+      fill: '#BBB',
       "fill-opacity": 1,
       stroke: 'none',
       "stroke-width": 0,
       "stroke-opacity": 1
     },
     hover: {
-      "fill-opacity": 0.8
+      "fill-opacity": 0.8,
+      stroke: '#96ff00',
+      "stroke-width" : 2
     },
     selected: {
       fill: 'yellow'

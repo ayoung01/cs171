@@ -621,6 +621,7 @@ button.ui-button::-moz-focus-inner {
 	cursor: default;
 }
 .ui-slider .ui-slider-range {
+	background: #cccccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x;
 	position: absolute;
 	z-index: 1;
 	font-size: .7em;
@@ -806,8 +807,8 @@ body .ui-tooltip {
 	color: #222222;
 }
 .ui-widget-header {
-	border: 1px solid #aaaaaa;
-	background: #cccccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x;
+	/*border: 1px solid #aaaaaa;*/
+	/*background: #cccccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x;*/
 	color: #222222;
 	font-weight: bold;
 }

@@ -3,7 +3,7 @@ html{
 	padding:0;
 	height: 100%;
 	/*background:#132131;*/
-	font-family: Helvetica, Arial,sans-serif;
+	font-family: Arial,sans-serif;
 	/*color: #FFF;*/
 }
 
@@ -60,6 +60,7 @@ body {
 	border-radius: 5px;
 	margin-left: 5px;
 	height:595px;
+	text-align: center;
 }
 
 #chart {
@@ -69,6 +70,13 @@ body {
 	padding:12px;
 	display:block;
 	float:left;
+}
+
+#chart2 {
+	display:block;
+	clear: both;
+	height: 500px;
+	padding-top: 12px;
 }
 
 text {
@@ -94,9 +102,10 @@ textarea {
 }
 
 #timeline {
-	width: 960px;
+	/*width: 960px;*/
 	clear: none;
 	float: left;
+	padding-left: 46px;
 	/*margin-top: -20px;*/
 }
 
@@ -139,7 +148,7 @@ label {
 #slider-range{
 	margin-top:0px;
 	margin-left: 8px;
-	width:900px;
+	width:1280px;
 }
 
 h1 {
@@ -149,10 +158,8 @@ h1 {
 }
 
 h2 {
-	font-size: 14px;
-	/*color:#EEE;*/
-	margin-top: 3px;
-	margin-bottom: 0px;
+	margin: auto;
+	font-size: 16px;
 	padding:2px;
 	display:inline;
 }
@@ -169,7 +176,7 @@ h3 {
 span {
 	font-size: 0.6em;
 	font-style: italic;
-	color: #DDD;
+	color: #AAA;
 }
 
 #videodesc{

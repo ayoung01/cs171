@@ -1757,7 +1757,7 @@ nv.models.bulletChart = function() {
 
 
 
-nv.models.cumulativeLineChart = function() {
+nv.models.cumulativeLineChart = function(currenttime) {
 
   //============================================================
   // Public Variables with Default Settings
@@ -1785,7 +1785,7 @@ nv.models.cumulativeLineChart = function() {
     , x //can be accessed via chart.xScale()
     , y //can be accessed via chart.yScale()
     , id = lines.id()
-    , state = { index: 0, rescaleY: rescaleY }
+    , state = { index: currenttime, rescaleY: rescaleY }
     , defaultState = null
     , noData = 'No Data Available.'
     , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState')
@@ -1807,7 +1807,7 @@ nv.models.cumulativeLineChart = function() {
   //------------------------------------------------------------
 
    var dx = d3.scale.linear()
-     , index = {i: 0, x: 0}
+     , index = {i: currenttime, x: 0}
      ;
 
   var showTooltip = function(e, offsetElement) {
@@ -1851,6 +1851,7 @@ nv.models.cumulativeLineChart = function() {
 
 
   function chart(selection) {
+    console.log("CURRENT TIME:" + currenttime);
     selection.each(function(data) {
       var container = d3.select(this).classed('nv-chart-' + id, true),
           that = this;
@@ -2085,6 +2086,7 @@ nv.models.cumulativeLineChart = function() {
           .attr('fill', 'red')
           .attr('fill-opacity', .5)
           .call(indexDrag)
+      //checkpoint 2
 
       indexLine
           .attr('transform', function(d) { return 'translate(' + dx(d.i) + ',0)' })
@@ -2146,6 +2148,10 @@ nv.models.cumulativeLineChart = function() {
       lines.dispatch.on('elementClick', function(e) {
         index.i = e.pointIndex;
         index.x = dx(index.i);
+
+        // checkpoint
+        console.log("index.x: " + index.x);
+        console.log("index.i :" + index.i);
 
         // update state and send stateChange with new index
         state.index = index.i;

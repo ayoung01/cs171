@@ -61,7 +61,7 @@ jvm.NumericScale.prototype = {
       value = this.normalize(value);
     }
 		//value = Math.pow(value, 2);
-		console.log(value);
+		// console.log(value);
 		
 		if (value>=0)
 		{scaletemp=[this.scale[0],this.scale[1]];
