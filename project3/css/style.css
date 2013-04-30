@@ -2,15 +2,16 @@ html{
 	margin:0;
 	padding:0;
 	height: 100%;
-	background:#132131;
+	/*background:#132131;*/
 	font-family: Helvetica, Arial,sans-serif;
-	color: #FFF;
+	/*color: #FFF;*/
 }
 
 body {
     margin: 0;
     padding: 0; 
 	height: 100%;
+	overflow-y:scroll;
 }
 
 .jvectormap-region {
@@ -18,7 +19,7 @@ body {
 }
 
 #pagebackground{
-	background:#132131;
+	/*background:#132131;*/
 	height:100%;
 	margin-top:0px;
 	padding:0px;
@@ -26,7 +27,7 @@ body {
 }
 
 #pagewrapper{
-	background:#132131;
+	/*background:#132131;*/
 	height:100%;
 	margin-top:0px;
 	padding:0px;
@@ -37,7 +38,7 @@ body {
     margin-left:auto;
     margin-right:auto;
     width:1366px;
-    height:768px;
+    height:868px;
 }
 
 #mapcontainer{
@@ -53,14 +54,15 @@ body {
 	margin-left:5px;
 }
 
-#piechartwrapper{
+#chartwrapper{
 	width: 305px;
 	float: left;
 	border-radius: 5px;
 	margin-left: 5px;
+	height:595px;
 }
 
-#chart1 {
+#chart {
 	width:305px;
 	margin-left:4px;
 	margin-bottom: 4px;
@@ -91,7 +93,7 @@ textarea {
 	padding-top: 20px;
 }
 
-#footerleft {
+#timeline {
 	width: 960px;
 	clear: none;
 	float: left;
@@ -143,12 +145,12 @@ label {
 h1 {
 	margin: 3px 0;
 	font-size: 1.5em;
-    color: #fff;
+    /*color: #fff;*/
 }
 
 h2 {
 	font-size: 14px;
-	color:#EEE;
+	/*color:#EEE;*/
 	margin-top: 3px;
 	margin-bottom: 0px;
 	padding:2px;
@@ -156,7 +158,7 @@ h2 {
 }
 h3 {
 	font-size: 12px;
-	color:#EEE;
+	/*color:#EEE;*/
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding-left:2px;
@@ -181,11 +183,18 @@ span {
 	
 }
 
-  #toolbar {
-    padding: 4px;
-    display: inline-block;
-  }
-  /* support: IE7 */
-  *+html #toolbar {
-    display: inline;
-  }
+#toolbar {
+padding: 4px;
+display: inline-block;
+}
+/* support: IE7 */
+*+html #toolbar {
+display: inline;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
