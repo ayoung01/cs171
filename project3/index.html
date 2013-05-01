@@ -118,7 +118,7 @@
 	var getcurrentMonth=function(){};
 	var getcurrentMonthname=function(){};
 	var updateflowtypeString =  function (){};
-
+	var updateColors =  function (){};
 	var redraw = function(){};
 	var drawPieCharts = function(){};
 	// var drawBarChart = function(){};
@@ -136,17 +136,29 @@
 	function getDateDisplay() {
 		return monthnames[monthnums[getcurrentMonth(currenttime)]]+" "+getcurrentYear(currenttime);
 	}
-
-	updateflowtypeString = function () {
-		var flowtypestring;
-		if (currflowtype == "I")
-			flowtypestring = "imports";
-		else if (currflowtype == "E")
-			flowtypestring = "exports";
-		else flowtypestring = "trade balance";
-		return flowtypestring;						
+	function getValueDisplay() {
+		return "Total " + currflowtypestring + " of $"+currdata["World"]+"mil USD.";
 	}
 	
+	updateflowtypeString = function () {
+		if (currflowtype == "I")
+			currflowtypestring = "imports";
+		else if (currflowtype == "E")
+			currflowtypestring = "exports";
+		else currflowtypestring = "trade balance";
+	}
+	
+		updateColors = function () {
+		if (currflowtype == "I")
+			mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8']);	
+		else if (currflowtype == "E")
+			mapObject.series.regions[0].setScale(['#fdfa8c','#ff9200']);	
+			else mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8', '#ff9200','#fdfa8c']); // balance
+	}
+	
+	
+
+
     jQuery.noConflict();
     jQuery(function(){
 	var $ = jQuery;
@@ -164,6 +176,16 @@
       
 	currdata = getcurrData(currenttime, currflowtype);
 	geographiccenters=JSON.parse(countrycenters);
+
+function changeType(typechng){
+		currflowtype = typechng; // defaults to visualizing trade balance until changed
+		updateColors(); // update map legend colors
+		updateflowtypeString();
+		currdata=getcurrData(currenttime,currflowtype);	//the encoded data to be used in the map shading and tooltips.
+		mapObject.series.regions[0].setValues(currdata);
+		//jQuery( "#timedisplay" ).html(getDateDisplay);
+		jQuery("#valuedisplay" ).html(getValueDisplay);
+	}
 
 	function getcurrData(timeval, flowtypeval){
 		var tmp={};
@@ -502,6 +524,7 @@
 	      	currenttime = ui.value;
 	      	currdata=getcurrData(currenttime,currflowtype);	
 	      	jQuery( "#timedisplay" ).html(getDateDisplay);
+					jQuery( "#valuedisplay" ).html(getValueDisplay);
 			redraw(currflowtype,1,1);	
 			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
 			clearBarChart();
@@ -513,6 +536,7 @@
 	      	currenttime = ui.value;
 	      	currdata=getcurrData(currenttime,currflowtype);	
 	      	jQuery( "#timedisplay" ).html(getDateDisplay);
+					jQuery( "#valuedisplay" ).html(getValueDisplay);
 			redraw(currflowtype,1,1);	
 			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
 			clearBarChart();
@@ -522,9 +546,21 @@
 		}
 	});
 	jQuery( "#timedisplay" ).html("January 1992"); // set the display intitially	
-			
-	//toolbar javascript:
+	jQuery( "#valuedisplay" ).html("Total " + currflowtypestring + " of $"+currdata["World"]+"mil USD.");
+	//============================================================
+  // Toolbar Stuff
+  //------------------------------------------------------------
+	
+	
 	jQuery(function() {
+		jQuery( "#radio" ).buttonset();
+jQuery( "#radio1" ).click(function() {
+	changeType("I");});
+	jQuery( "#radio2" ).click(function() {
+	changeType("B");});
+	jQuery( "#radio3" ).click(function() {
+	changeType("E");});
+		
 	    jQuery( "#beginning" ).button({
 	      text: false,
 	      icons: {
@@ -784,13 +820,20 @@ function playSliderfast(){
 	        	data-bootstro-width="400px" 
 	        	data-bootstro-placement='top' data-bootstro-step='3'>
 				<p>
-			    <div id="timedisplay"></div>
+			    <div id="timedisplay"></div><div id="valuedisplay"></div>
 				</p>
 					<div id="slider-range"></div>
 			      
 			      	<!-- taken from http://jqueryui.com/button/#toolbar -->
 			      	<div id="toolbar" class="ui-widget-header ui-corner-all">
 					    <!--<button id="beginning">go to beginning</button>-->
+                        
+            <div id="radio">
+              <input type="radio" id="radio1" name="radio" /><label for="radio1">Imports</label>
+              <input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Net Balance</label>
+              <input type="radio" id="radio3" name="radio" /><label for="radio3">Exports</label>
+            </div>
+            
 					    <button id="rewind">rewind</button>
 					  	<button id="play">play</button>
 					    <!--<button id="stop">stop</button>-->
