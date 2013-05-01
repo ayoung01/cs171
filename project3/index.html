@@ -93,7 +93,8 @@
 	var drawFlow; // Takes in two countries and draws a line between them.
 	var drawCountryFlows; //Takes in a country and draws all flows to/from the country
 	var mapObject;
-	var isStacked = true;
+	var timeslider; 
+	var isStacked = true; // Variable to determine if the bar chart should be stacked or not.
 	
 	var mapb; // The selected SVG element, used in drawLine.
 	var lineChart;
@@ -492,8 +493,7 @@
   //============================================================
   // Slider Stuff
   //------------------------------------------------------------
-
-	jQuery( "#slider-range" ).slider({
+	timeslider = jQuery( "#slider-range" ).slider({
 	     value:0,
 			min: 0,
       max: 251,
@@ -536,6 +536,7 @@
 	      }
 	    })
 	    .click(function() {
+				playSlider();
 	      var options;
 	      if ( jQuery( this ).text() === "play" ) {
 	        options = {
@@ -590,10 +591,21 @@
 			play==true;
 		}
 		else
-		{play==false;
-		
+		{play==false;		
 		}
 	});
+	
+	 //============================================================
+  // Player Stuff
+  //------------------------------------------------------------
+	
+	function playSlider(){
+		console.log("played");
+		jQuery("#slider-range" ).val("30");
+//jQuery("#slider-range" ).slider('refresh');
+
+	};
+	
 	
 });
 	
@@ -733,7 +745,7 @@
 	          { x : "Exports", y : getByUseDatum("other", "E") }
 	        ]
 	    }
-	  ]).transition().duration(500).call(barChart);
+	  ]).transition().duration(0).call(barChart);
 	};
 
   //============================================================

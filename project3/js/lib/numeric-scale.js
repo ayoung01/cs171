@@ -70,7 +70,7 @@ jvm.NumericScale.prototype = {
 		else 
 		{scaletemp=[this.scale[2],this.scale[3]];
 		value=value;
-		minV=-28000
+		minV=-29376
 		maxV=0;}
 		//if the value is greater than zero, use the last two scale values on the negated value
 		//console.log(scaletemp);
