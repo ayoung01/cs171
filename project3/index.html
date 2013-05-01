@@ -3,22 +3,18 @@
 <meta charset="utf-8">
 <head>
   <title>Visualizing U.S. Foreign Trade from 1992-2012</title>
-  <link rel="stylesheet" media="all" href="css/jquery-jvectormap.css"/>
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="css/bootstro.css">
-  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
 
-  <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  
-  <!-- import jQuery and jQuery UI -->
+  <!-- Import jQuery and jQuery UI -->
   <script src="js/jquery-1.9.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+
+  <!-- Import D3.js -->
 
   <script src="js/d3.v2.js"></script>
+
+  <!-- Import jVectorMap -->
 
   <script src="js/jquery-jvectormap.js"></script>
   <script src="js/jquery-mousewheel.js"></script>
@@ -52,12 +48,27 @@
   <script src="js/lib/proj.js"></script>
   <script src="js/lib/world-map.js"></script>
 
+  <link rel="stylesheet" media="all" href="css/jquery-jvectormap.css"/>
+
   <!-- Import library NVD3 library -->
   <script src="js/nv.d3.js"></script>
+
+  <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
   <!-- Import Bootstrap and Bootstro -->
   <script src="js/bootstrap.js"></script>
   <script src="js/bootstro.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstro.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
+
+  <!-- Import jQuery Animated Table Sorter -->
+  <script src="js/tsort.js"></script>
+  <link rel="stylesheet" href="css/tsort.css" type="text/css"/>
+  <link rel="stylesheet" href="css/table.css" type="text/css"/>
 
   <!-- import JSON data -->
   <script src="js/assets/data.js"></script>
@@ -119,7 +130,6 @@
 	var getcurrentMonthname=function(){};
 	var updateflowtypeString =  function (){};
 
-	var redraw = function(){};
 	var drawPieCharts = function(){};
 	// var drawBarChart = function(){};
 	var getCountryName = function(){};
@@ -193,7 +203,7 @@
 			}
 		},
 		backgroundColor: '#fff'/*'#132131' '#003D1F'*/,
-		onViewportChange: function(e, s){redraw(currflowtype,0,1);},
+		onViewportChange: function(e, s){},
 		onRegionSelected: function(e, c, s, sa){togglecountry(e,c,s,sa);},
 		focusOn: {
           x: 0.5,
@@ -222,8 +232,6 @@
 			
 		// },
 		onRegionOut:function(event, code){
-			redraw(currflowtype,0,1);
-//			clearHighlights();
 		},
 		onRegionLabelShow: function(event, label, code){
 			// if there is no selection or if the country mouseovered is the 'select' country
@@ -275,7 +283,6 @@
 
 	//get SVG element	
 	var  mapb=d3.select("#aidmap");
-	redraw(currflowtype,1,1); // initialize the flows
   
 	togglecountry=function(e, code, isSelected, selectedarray) {
 		// only do something if we select a different country
@@ -284,10 +291,7 @@
 			console.log(currentcountry);
 			clearLineChart();
 			drawLineChart('chart2 svg');
-
-		// TODO: draw line chart here
 		}
-		//redraw(currflowtype,1,1);
 	}
 	
   //============================================================
@@ -366,31 +370,6 @@
 	/*function redrawshading(){
 		$('#map1').vectorMap('set', 'values', currentdata);
 	}*/
-	function redraw(flowtype,animation,clear) {
-
-	// if (clear==1){clearLines();}
-	// // console.log("Redrawn!");
-	// 		var flowarray = data[getcurrentYear(currenttime)][getcurrentMonth(currenttime)];
-	// 	for(country in flowarray) {
-	// 		/*console.log(country);
-	// 		console.log(flowtype);*/
-	// 		try {
-	// 			var flowval=flowarray[country][flowtype];
-	// 			//console.log(flowval);
-	// 			if (flowval>0) {
-	// 				drawFlow(country, getWidth(flowval),1,animation); //draw export lines
-	// 			}
-	// 			else {
-	// 				drawFlow(country, getWidth(flowval),0,animation); // draw import lines
-	// 			}
-	// 		}
-	// 		catch(err){}
-	// 	}
-	// 	//if(currentcountry!=undefined)
-	// 	//{
-	// 		//drawCountryFlows(flowtype,animation);
-	// 	//}
-	}
 
     $('#focus-current').click(function(){
     	if (currentcountry != undefined) {
@@ -402,77 +381,6 @@
 		mapObject.clearSelected('regions');
 		currentcountry=undefined;
     });
-
-	// drawLine=function(lat1,lndrawg1,lat2,lng2,width,colorcode,animation) {
-	// 	var Lpoint1=mapObject.latLngToPoint(lat1, lng1);
-	// 	var Lpoint2=mapObject.latLngToPoint(lat2, lng2);
-	
-	// 	if(colorcode==0) { // recipient
-	// 		weightx=.1;
-	// 		weighty=.05;
-	// 		shifty=50;
-	// 		var color="#FF4E50";
-	// 	} else if(colorcode==1) { // donor
-	// 		weightx=.9; //higher it is, the closer the weight is to the first point
-	// 		weighty=.65; //same, for y
-	// 		shifty=-100;
-	// 		var color="#7efff4";
-	// 	}
-	// 	else if(colorcode==3){// highlight donor
-	// 		weightx=.9; //higher it is, the closer the weight is to the first point
-	// 		weighty=.65; //same, for y
-	// 		shifty=-100;
-	// 		var color="white";
-	// 	}
-	// 	else if(colorcode==4)
-	// 	{ // highlight recipient
-	// 		weightx=.1;
-	// 		weighty=.05;
-	// 		shifty=50;
-	// 		var color="white";
-	// 	}
-
-	// 	weightx=weightx*Lpoint1.x+(1-weightx)*Lpoint2.x;
-	// 	weighty=weighty*Lpoint1.y+(1-weighty)*Lpoint2.y+shifty;
-		
-	// 	if(colorcode==0&&animation==1)//recipient
-	// 	{
-	// 		var string = "M"+Lpoint2.x+","+Lpoint2.y+" "+"Q"+weightx+","+weighty+" "+Lpoint1.x+","+Lpoint1.y;
-	// 	}
-	// 	else // donor
-	// 	{
-	// 		var string = "M"+Lpoint1.x+","+Lpoint1.y+" "+"Q"+weightx+","+weighty+" "+Lpoint2.x+","+Lpoint2.y;
-	// 	}
-
-	// 	if(animation==1)
-	// 	{
-	// 		var totalLength=Math.pow(Math.pow(Lpoint1.x-Lpoint2.x,2)+Math.pow(Lpoint1.y-Lpoint2.y,2),.5)
-	//         mapb.append("svg:path")
-	// 				.attr('d', string)
-	// 				.attr('class', 'connection').attr('fill', 'none')
-	//     	.attr('stroke', color)
-	//     	.attr('stroke-width', width)
-	// 		.attr('stroke-linecap', "butt")
-	// 		.attr('opacity', '.50')
-	// 		.attr('pointer-events', 'none')
-	// 		.attr("stroke-dasharray", totalLength + " " + totalLength)
-	// 	 	.attr("stroke-dashoffset", totalLength)
-	// 	  	.transition()
-	// 	    .duration(500)
-	// 	    .ease("linear")
-	// 	    .attr("stroke-dashoffset", 0);
-	// 	}
-	// 	else {
-	//      	mapb.append("svg:path")
-	// 		.attr('d', string)
-	// 		.attr('class', 'connection').attr('fill', 'none')
-	//     	.attr('stroke', color)
-	//     	.attr('stroke-width', width)
-	// 		.attr('stroke-linecap', "butt")
-	// 		.attr('opacity', '.50')
-	// 		.attr('pointer-events', 'none');
-	// 	}
-	// }
 
 	function clearBarChart() {
 		// saves the current state of the bar chart for continuity
@@ -502,7 +410,6 @@
 	      	currenttime = ui.value;
 	      	currdata=getcurrData(currenttime,currflowtype);	
 	      	jQuery( "#timedisplay" ).html(getDateDisplay);
-			redraw(currflowtype,1,1);	
 			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
 			clearBarChart();
 			drawBarChart('#chart svg');	
@@ -513,7 +420,6 @@
 	      	currenttime = ui.value;
 	      	currdata=getcurrData(currenttime,currflowtype);	
 	      	jQuery( "#timedisplay" ).html(getDateDisplay);
-			redraw(currflowtype,1,1);	
 			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
 			clearBarChart();
 			drawBarChart('#chart svg');	
@@ -773,7 +679,7 @@ function playSliderfast(){
 	        	data-bootstro-width="400px" 
 	        	data-bootstro-placement='left' data-bootstro-step='2'>
 		        <div id="chart">
-		        	<div id="charttitle">U.S. Imports and Exports By Use</div>
+		        	<div class="charttitle">U.S. Imports and Exports By Use</div>
 	    			<svg></svg>
 	    		</div>
 	        </div>
@@ -812,6 +718,21 @@ function playSliderfast(){
 	        	data-bootstro-placement='top' data-bootstro-step='4'>
 	    		<svg></svg>
 	    	</div>
+	    </div>
+	    <div id='tablecontainer'>
+	    	<script>
+	    		var table ="<table id=\"newspaper-a\" class = \"rankedList\" summary=\"Top Ranked Countries\">";
+	    		table += "<thead><tr><th scope=\"col\">Country</th><th scope=\"col\">Imports</th><th scope=\"col\">Exports</th><th scope=\"col\">Balance</th></tr></thead><tbody><tr>"
+	    		for (var i = 1; i < 31; i++) {
+				  if (i % 4 == 1 && i != 1) {
+				    table += "</tr><tr>";
+				  }
+				  table += "<td>[" + i + "]</td>";
+				}
+
+				table += "</tr></tbody></table>";
+				document.write(table);
+			</script>
 	    </div>
   	</div> <!-- End wrapper -->
   	<div id="footer">
@@ -966,20 +887,66 @@ function playSliderfast(){
 		}
 		return [
 		{
-			key: "Imports",
-			values: importData
-		},
-		{
 			key: "Exports",
 			values: exportData
+		},
+		{
+			key: "Imports",
+			values: importData
 		}
+		
 		]
 	}
 
-	jQuery(document).ready(function() {
+	function drawTable(container) {
+
+	}
+
+	// creates an array of all countries with currenttime
+	function generateTableData() {
+		var tableData = [];
+		var year = getcurrentYear(currenttime);
+	  	var month = getcurrentMonth(currenttime);
+		
+		// looping through data for the current time
+		for (var key in data[year][month]) {
+			// only consider countries for which we have 2-letter codes
+			if (key.length != 2) {
+				continue;
+			}
+		   	if (data[year][month].hasOwnProperty(key)) {
+		      var country = data[year][month][key];
+		      tableData.push([key, country]);
+		   }
+		}
+		return tableData;
+	}
+
+	function compareByImports(a, b) {
+		if (a["I"] < b["I"])
+			return -1;
+		if (a["I"] > b["I"])
+			return 1;
+		return 0;
+	}
+
+	function compareByExports(a, b) {
+		if (a[1]["E"] < b[1]["E"])
+			return -1;
+		if (a[1]["E"] > b[1]["E"])
+			return 1;
+		return 0;
+	}
+
+	jQuery(document).ready(function($) {
 		bootstro.start();
 		drawBarChart('#chart svg');
 		drawLineChart('#chart2 svg');
+		
+		
+
+		$('table.rankedList').tableSort();
+		console.log(generateTableData().sort(compareByExports).reverse());
 	});
 </script>  
 </body>

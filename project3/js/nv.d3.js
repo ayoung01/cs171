@@ -1779,8 +1779,8 @@ nv.models.cumulativeLineChart = function(currenttime) {
     , showControls = true
     , rescaleY = true
     , tooltip = function(key, x, y, e, graph) {
-        return '<h3>' + key + '</h3>' +
-               '<p>' +  y + ' at ' + x + '</p>'
+        return '<div class=\'charttitle\'>' + key + '</div>' +
+               '<p>' +  y + ' on ' + x + '</p>'
       }
     , x //can be accessed via chart.xScale()
     , y //can be accessed via chart.yScale()
@@ -6459,8 +6459,8 @@ nv.models.multiBarChart = function(isStacked) {
     , rotateLabels = 0
     , tooltips = true
     , tooltip = function(key, x, y, e, graph) {
-        return '<h3>' + key + '</h3>' +
-               '<p>' +  y + ' on ' + x + '</p>'
+        return '<div class=\'charttitle\'>' + key + '</div>' +
+               '<p>' + x + ': $' +  y + ' mil USD</p>'
       }
     , x //can be accessed via chart.xScale()
     , y //can be accessed via chart.yScale()

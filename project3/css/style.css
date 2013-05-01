@@ -169,14 +169,24 @@ h1 {
     /*color: #fff;*/
 }
 
-#charttitle, #timedisplay {
+#timedisplay {
 	margin: auto;
-	font-family: Verdana;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-weight: bold;
 	font-size: 16px;
 	padding:2px;
 	display:inline;
 }
+
+.charttitle {
+	margin: auto;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-weight: bold;
+	font-size: 16px;
+	padding:2px;
+	display:inline;
+}
+
 h3 {
 	font-size: 12px;
 	/*color:#EEE;*/
@@ -208,6 +218,20 @@ span {
 *+html #toolbar {
 	display: inline;
 }
+/*
+.rankedList {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	width: 480px;
+	text-align: left;
+	border-collapse: collapse;
+	border: 1px solid #69c;
+	margin: 20px;
+}
+
+table {
+	border-spacing: 0;
+}*/
 
 .axis path,
 .axis line {
