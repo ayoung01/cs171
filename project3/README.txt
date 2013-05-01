@@ -1,7 +1,7 @@
-CS171 Project 2 - 4/8/13
+CS171 Project 2 - 5/2/13
 Kevin Sun and Albert Young
 -------------------------------------
-Visualizing Aid Funding
+Visualizing U.S. Foreign Trade Data
 
 1. How do we run your code?
 To run the visualization, simply open index.html in your web browser.  We recommend Google Chrome.  If you would like to run the python parsing applications, simply run the appropriate .py files in the /python directory.
