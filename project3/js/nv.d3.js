@@ -1851,7 +1851,7 @@ nv.models.cumulativeLineChart = function(currenttime) {
 
 
   function chart(selection) {
-    console.log("CURRENT TIME:" + currenttime);
+    //console.log("CURRENT TIME:" + currenttime);
     selection.each(function(data) {
       var container = d3.select(this).classed('nv-chart-' + id, true),
           that = this;
