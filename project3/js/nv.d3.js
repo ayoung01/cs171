@@ -6436,7 +6436,7 @@ nv.models.multiBar = function() {
   return chart;
 }
 
-nv.models.multiBarChart = function() {
+nv.models.multiBarChart = function(isStacked) {
 
   //============================================================
   // Public Variables with Default Settings
@@ -6464,7 +6464,7 @@ nv.models.multiBarChart = function() {
       }
     , x //can be accessed via chart.xScale()
     , y //can be accessed via chart.yScale()
-    , state = { stacked: false }
+    , state = { stacked: isStacked }
     , defaultState = null
     , noData = "No Data Available."
     , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState')
@@ -6472,7 +6472,7 @@ nv.models.multiBarChart = function() {
     ;
 
   multibar
-    .stacked(false)
+    .stacked(isStacked)
     ;
   xAxis
     .orient('bottom')

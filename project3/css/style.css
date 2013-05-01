@@ -38,7 +38,24 @@ body {
     margin-left:auto;
     margin-right:auto;
     width:1366px;
-    height:868px;
+    /*height:868px;*/
+}
+
+#headerbar{
+	text-align: center;
+	width:100%;
+	height: 72px;
+	margin-bottom: 20px;
+	background: #111;
+	border-bottom: 2px solid #CCC;
+	z-index: 3;
+}
+
+#headercontent {
+	width: 1366px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
 }
 
 #mapcontainer{
@@ -52,6 +69,7 @@ body {
 	display:block;	
 	float:left;
 	margin-left:5px;
+	/*border: 1px solid #CCC;*/
 }
 
 #chartwrapper{
@@ -72,6 +90,7 @@ body {
 	float:left;
 }
 
+
 #chart2 {
 	display:block;
 	clear: both;
@@ -83,22 +102,8 @@ text {
 	font-size: 85%;
 }
 
-.piechartheader {
-	font-size: 16px;
-    color: #fff;
-	font-weight: bold;
-	margin-bottom: 20px;
-}
-
 textarea {
 	display:none;
-}
-
-#footer {
-	clear: both;
-	float:both;
-	display:block;
-	padding-top: 20px;
 }
 
 #timeline {
@@ -109,19 +114,25 @@ textarea {
 	/*margin-top: -20px;*/
 }
 
-#footerright, #footercenter {
-	margin-right: 30px;
-	clear: none;
-	float: left;
-	display: block;
-	margin-top: -20px;
+#footer {
+	clear: both;
+	float:both;
+	margin-bottom: 20px;
+	padding-bottom: 50px;
+	padding-top: 20px;
+	background: #111;
 }
 
-#headerbar{
+#footerbody {
+	width: 1366px;
+	margin-left: auto;
+	margin-right: auto;
 	text-align: center;
-	width:100%;
-	padding-top: 16px;
-	padding-bottom: 16px;
+}
+
+#mapcontrols {
+	display: inline;
+	float: right;
 }
 
 label {
@@ -157,8 +168,10 @@ h1 {
     /*color: #fff;*/
 }
 
-h2 {
+h2, #timedisplay {
 	margin: auto;
+	font-family: Verdana;
+	font-weight: bold;
 	font-size: 16px;
 	padding:2px;
 	display:inline;
@@ -172,10 +185,9 @@ h3 {
 	display:inline;
 }
 
-
 span {
-	font-size: 0.6em;
-	font-style: italic;
+/*	font-size: 0.6em;*/
+	/*font-style: italic;*/
 	color: #AAA;
 }
 
@@ -183,20 +195,17 @@ span {
 	margin-left:15px;
 }
 
-#video
-{
+#video {
 	margin:15px auto;
 	text-align:center;
-	
 }
 
 #toolbar {
-padding: 4px;
-display: inline-block;
+	padding: 4px;
 }
 /* support: IE7 */
 *+html #toolbar {
-display: inline;
+	display: inline;
 }
 
 .axis path,

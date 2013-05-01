@@ -937,7 +937,7 @@ jvm.WorldMap.defaultParams = {
   bindTouchEvents: true,
   regionStyle: {
     initial: {
-      fill: '#BBB',
+      fill: '#DDD',
       "fill-opacity": 1,
       stroke: 'none',
       "stroke-width": 0,

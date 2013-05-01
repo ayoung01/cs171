@@ -89,8 +89,15 @@
   	var colordata;
 	var donationdata;
 	var geographiccenters;
+	var drawLine; // Takes in two countries and draws a line between them.
+	var drawFlow; // Takes in two countries and draws a line between them.
+	var drawCountryFlows; //Takes in a country and draws all flows to/from the country
+	var mapObject;
+	var isStacked = true;
 	
 	var mapb; // The selected SVG element, used in drawLine.
+	var lineChart;
+	var barChart;
 	
 	//variables for slider filter
 	var months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
@@ -119,10 +126,7 @@
 	var getCountryName = function(){};
 
 	var togglecountry = function (){}; //Called on region select
-	var drawLine; // Takes in two countries and draws a line between them.
-	var drawFlow; // Takes in two countries and draws a line between them.
-	var drawCountryFlows; //Takes in a country and draws all flows to/from the country
-	var mapObject;
+
 
 	//Helper methods to parse the time value:
 	getcurrentYear = function(timeVal) {return years[Math.floor(timeVal/12)];}
@@ -260,7 +264,7 @@
 		},
         series: {
           regions: [{
-			scale: [/*'#FFE9FF', '#003D59',*/'#d2fbcb', '#1aae00', '#660000','#FFC1D6'],	
+			scale: ['#d6e3ff', '#003eb8', '#ff9200','#fdfa8c'],	
             setNormalizeFunction: 'polynomial',
             values: currdata
         }]
@@ -472,6 +476,8 @@
 	// }
 
 	function clearBarChart () {
+		// saves the current state of the bar chart for continuity
+		isStacked = barChart.state().stacked;
 		$('#chart svg').empty();
 	}
 
@@ -507,7 +513,6 @@
 			drawLineChart('#chart2 svg');
 		}
 	});
-		
 	jQuery( "#timedisplay" ).html("January 1992"); // set the display intitially	
 			
 	//toolbar javascript:
@@ -610,71 +615,57 @@
 
 <body>
 <div id="pagebackground">
+	<div id="headerbar">
+		<div id="headercontent">
+			<img src ="images/Header.png">
+		</div>
+      	<!--<h1>The Age of Globalization</h1>>
+      	<h2>CS171 Project by Kevin Sun and Albert Young; Powered by jVectorMap and D3.js</h2>
+      	<span id="videodesc"><h3>Project video located <a href="video.html">here.</a></h3></span>-->
+    </div>
 	<div id="wrapper">
-    <div id="headerbar">
-      <h1>The Age of Globalization</h1>>
-      <h2>CS171 Project by Kevin Sun and Albert Young; Powered by jVectorMap and D3.js</h2>
-      <span id="videodesc"><h3>Project video located <a href="video.html">here.</a></h3></span>
-    </div>
-    <div id="map1"></div>
-    <div id="chartwrapper">
-    	<h2>U.S. Imports and Exports By Use</h2>
-        <div id="chart">
-    		<svg></svg>
-        </div>
-    </div>
-    <div id="timeline">
-		    <p>
-	        <div id="timedisplay"></div>
-				</p>
-			 
+	    <div id="map1"></div>
+	    <div id="chartwrapper">
+	    	<h2>U.S. Imports and Exports By Use</h2>
+	        <div id="chart">
+	    		<svg></svg>
+	        </div>
+	    </div>
+	    <div id="timeline">
+			<p>
+		    <div id="timedisplay"></div>
+			</p>
 				<div id="slider-range"></div>
-	      
-		      <!-- taken from http://jqueryui.com/button/#toolbar -->
-		      <div id="toolbar" class="ui-widget-header ui-corner-all">
-			  <!--<button id="beginning">go to beginning</button>-->
-			  <button id="rewind">rewind</button>
-			  <button id="play">play</button>
-			  <!--<button id="stop">stop</button>-->
-			  <button id="forward">fast forward</button>
-			  <!--<button id="end">go to end</button>-->
-			 
-			  <input type="checkbox" id="shuffle" /><label for="shuffle">Start Over</label>
-			</div>
+		      
+			      <!-- taken from http://jqueryui.com/button/#toolbar -->
+			      <div id="toolbar" class="ui-widget-header ui-corner-all">
+					  <!--<button id="beginning">go to beginning</button>-->
+					  <button id="rewind">rewind</button>
+					  <button id="play">play</button>
+					  <!--<button id="stop">stop</button>-->
+					  <button id="forward">fast forward</button>
+					  <!--<button id="end">go to end</button>-->
 
+					  <input type="checkbox" id="shuffle" /><label for="shuffle">Start Over</label>
+					  <div id = "mapcontrols">
+				  		<button id="focus-init">Reset Map</button>
+				  		<button id="focus-current">Focus on Current Country</button>
+				  	</div>
+				</div>
+			</div>
+	    <div id="chart2"><svg></svg></div>
+  	</div> <!-- End wrapper -->
+  	<div id="footer">
+  		<div id="footerbody">
+			<span>Data Source: U.S. Census Bureau | Powered by JVectorMap and NVD3.js</span>
 		</div>
-    <div id="chart2"><svg></svg></div>
-    <div id="footer">
-    	
-    <!--
-		<div id="footercenter">
-			<label>
-				<br>
-				View Distribution of ODA by:
-				<form>
-					<input type="radio" name="chartselection" id="purpose" value="purpose" checked>Purpose
-					<input type="radio" name="chartselection" id="income" value="income">Income
-					<input type="radio" name="chartselection" id="region" value="region">Region
-				</form>
-			</label>
-		</div>
-    -->
-		<div id="footerright">
-			<br>
-				<button id="focus-init">Reset Map</button>
-				<!--<button id="focus-current">Focus on Current Country</button>-->
-		</div>
-		<br>
-		<span>Source: U.S. Census Bureau</span>
     </div>
-  </div> <!-- End wrapper -->
-  
 </div><!-- End pagebackground-->
 
 <script>
 
   //============================================================
-  // Bar Chart Stuff
+  // Bar Chart Stuff (adapted from nvd3.org)
   //------------------------------------------------------------
 
 	function getByUseDatum(attr, flowtype) {
@@ -685,7 +676,7 @@
 	}
 
 	function drawBarChart(container) {
-	  var chart = nv.models.multiBarChart();
+	  barChart = nv.models.multiBarChart(isStacked);
 	  d3.select(container).datum([
 	    {
 	      key: "Capital Goods",
@@ -742,47 +733,46 @@
 	          { x : "Exports", y : getByUseDatum("other", "E") }
 	        ]
 	    }
-	  ]).transition().duration(500).call(chart);
+	  ]).transition().duration(500).call(barChart);
 	};
 
   //============================================================
-  // Line Chart Stuff
+  // Line Chart Stuff (adapted from nvd3.org)
   //------------------------------------------------------------
 
 	function drawLineChart(container) {
 		var year = getcurrentYear(currenttime);
 	  	var month = getcurrentMonth(currenttime);
-	  	var chart;
 		nv.addGraph(function() {  
 		   console.log(currenttime);
-		   chart = nv.models.cumulativeLineChart(currenttime)
+		   lineChart = nv.models.cumulativeLineChart(currenttime)
 		             .x(function(d) { return d[0] })
 		             .y(function(d) { return d[1]/100 })
 		             .color(d3.scale.category10().range())
 		             .clipVoronoi(false);
 
-		   chart.xAxis
+		   lineChart.xAxis
 		      .tickFormat(function(d) {
 		          return d3.time.format('%x')(new Date(d))
 		        });
 
-		  chart.yAxis
+		  lineChart.yAxis
 		      .tickFormat(d3.format(',.1%'));
 
 		  d3.select('#chart2 svg')
 		      // .datum(cumulativeTestData())
 		      .datum(generateLineChartData())
 		    //.transition().duration(500)
-		      .call(chart);
+		      .call(lineChart);
 
 		  //TODO: Figure out a good way to do this automatically
-		  nv.utils.windowResize(chart.update);
+		  nv.utils.windowResize(lineChart.update);
 		  //nv.utils.windowResize(function() { d3.select('#chart1 svg').call(chart) });
 
 
-		  chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+		  lineChart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
 
-		  return chart;
+		  return lineChart;
 		});	
 	}
 
