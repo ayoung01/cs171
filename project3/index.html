@@ -130,8 +130,6 @@
 	var getcurrentMonthname=function(){};
 	var updateflowtypeString =  function (){};
 
-	var drawPieCharts = function(){};
-	// var drawBarChart = function(){};
 	var getCountryName = function(){};
 
 	var togglecountry = function (){}; //Called on region select
@@ -161,32 +159,7 @@
     jQuery(function(){
 	var $ = jQuery;
 
-  //============================================================
-  // Load External JSON
-  //------------------------------------------------------------
 
-	data = JSON.parse(country_data);
-	by_use = JSON.parse(by_use);
-	goods_vs_services = JSON.parse(goods_vs_services);
-	console.log(data);
-	console.log(by_use);
-	console.log(goods_vs_services);
-      
-	currdata = getcurrData(currenttime, currflowtype);
-	geographiccenters=JSON.parse(countrycenters);
-
-	function getcurrData(timeval, flowtypeval){
-		var tmp={};
-		var tarray = data[getcurrentYear(timeval)][getcurrentMonth(timeval)];
-		for(country in tarray) {
-			//try {
-				var flowval=tarray[country][flowtypeval];
-				tmp[country]=flowval;
-			//}
-			//catch(err){}
-		}
-		return tmp;
-	}
 	
   //============================================================
   // Map Variables
@@ -280,9 +253,6 @@
 
 	//get jVectorMap Object  
 	mapObject = $('#map1').vectorMap('get', 'mapObject');
-
-	//get SVG element	
-	var  mapb=d3.select("#aidmap");
   
 	togglecountry=function(e, code, isSelected, selectedarray) {
 		// only do something if we select a different country
@@ -393,7 +363,7 @@
 	}
 
 	getCountryName = function(countrycode) {
-		mapObject.mapData.paths[countrycode].name;
+		return mapObject.mapData.paths[countrycode].name;
 	}
 
   //============================================================
@@ -558,12 +528,10 @@
 	          primary: "ui-icon-play"
 	        }
 	      });*/
-
-
 	    });
 	    jQuery( "#repeat" ).buttonset();
-	  });
-		
+	});
+	
 	
 	});
 	
@@ -590,161 +558,46 @@
 		else {} //jQuery("#slider-range" ).slider('refresh');
 	};
 	
-function playSliderfast(){
+	function playSliderfast(){
 		//console.log("played");
-	var tmpval=timeslider.slider("value")+1;
-	//console.log(tmpval);
-	if(tmpval>251)
-	{
-	isPlay=false;
-	timeslider.slider("value", 251);
-	//console.log(isPlay);
-	jQuery( "#play" ).button("option",{label: "play", icons: {primary: "ui-icon-play"}});
-	} else if(isPlay==true)
+		var tmpval=timeslider.slider("value")+1;
+		//console.log(tmpval);
+		if(tmpval>251)
 		{
-				jQuery( "#play" ).button("option",{label: "pause", icons: {primary: "ui-icon-pause"}});
-			console.log("adj");
-			timeslider.slider("value", tmpval);
-			setTimeout(playSliderfast,5);
-		}
-		else {} //jQuery("#slider-range" ).slider('refresh');
-	};
-	
+		isPlay=false;
+		timeslider.slider("value", 251);
+		//console.log(isPlay);
+		jQuery( "#play" ).button("option",{label: "play", icons: {primary: "ui-icon-play"}});
+		} else if(isPlay==true)
+			{
+					jQuery( "#play" ).button("option",{label: "pause", icons: {primary: "ui-icon-pause"}});
+				console.log("adj");
+				timeslider.slider("value", tmpval);
+				setTimeout(playSliderfast,5);
+			}
+			else {} //jQuery("#slider-range" ).slider('refresh');
+		};
+		
 	function playSliderreverse(){
 		//console.log("played");
-	var tmpval=timeslider.slider("value")-1;
-	//console.log(tmpval);
-	if(tmpval<0)
-	{
-	isPlay=false;
-	timeslider.slider("value", 0);
-	//console.log(isPlay);
-	jQuery( "#play" ).button("option",{label: "play", icons: {primary: "ui-icon-play"}});
-	} else if(isPlay==true)
-		{
-				jQuery( "#play" ).button("option",{label: "pause", icons: {primary: "ui-icon-pause"}});
+		var tmpval=timeslider.slider("value")-1;
+		//console.log(tmpval);
+		if(tmpval<0) {
+			isPlay=false;
+			timeslider.slider("value", 0);
+			//console.log(isPlay);
+			jQuery( "#play" ).button("option",{label: "play", icons: {primary: "ui-icon-play"}});
+		}
+		else if(isPlay==true) {
+			jQuery( "#play" ).button("option",{label: "pause", icons: {primary: "ui-icon-pause"}});
 			console.log("adj");
 			timeslider.slider("value", tmpval);
 			setTimeout(playSliderreverse,40);
 		}
 		else {} //jQuery("#slider-range" ).slider('refresh');
 	};
-	
-	
-//});
-	
-	
-	
-	// Event handler for checking radio buttons
-	jQuery(document).ready(function($) {
-		$("input[name='chartselection']").change(function() {
-			drawPieCharts();
-		});
-	});
 
-  </script>
-</head>
-<!--
-  //============================================================
-  // HTML
-  //============================================================-->
-
-<body>
-<div id="pagebackground">
-	<div id="headerbar">
-		
-		<div id="headercontent">
-			<div>
-			<div class='bootstro' 
-        	data-bootstro-content="Welcome! Let's take a brief tour of the visualization's features."
-        	data-bootstro-width="600px" 
-        	data-bootstro-placement='bottom' data-bootstro-step='0'>
-        </div>
-			<img src ="images/Header.png">
-		</div>
-		</div>
-      	<!--<span id="videodesc"><h3>Project video located <a href="video.html">here.</a></h3></span>-->
-    </div>
-	<div id="wrapper">
-	    <div class = 'bootstro'
-			data-bootstro-content="Scroll and pan through the map to select particular countries. The U.S. has a negative trade balance with orange countries and a positive balance with blue countries."
-        	data-bootstro-width="400px" 
-        	data-bootstro-placement='bottom' data-bootstro-step='1'>
-	    	<div id="map1"></div>
-        </div>
-        
-	    <div id="chartwrapper">
-		    <div class = 'bootstro'
-				data-bootstro-content="View the imports and exports of goods by principal end-use category. Filter by category or switch between stacked and grouped views."
-	        	data-bootstro-width="400px" 
-	        	data-bootstro-placement='left' data-bootstro-step='2'>
-		        <div id="chart">
-		        	<div class="charttitle">U.S. Imports and Exports By Use</div>
-	    			<svg></svg>
-	    		</div>
-	        </div>
-	    </div>
-	    <div id="timeline">
-	    	<div class = 'bootstro'
-				data-bootstro-content="Press play to see the progression of foreign trade flows through the years."
-	        	data-bootstro-width="400px" 
-	        	data-bootstro-placement='top' data-bootstro-step='3'>
-				<p>
-			    <div id="timedisplay"></div>
-				</p>
-					<div id="slider-range"></div>
-			      
-			      	<!-- taken from http://jqueryui.com/button/#toolbar -->
-			      	<div id="toolbar" class="ui-widget-header ui-corner-all">
-					    <!--<button id="beginning">go to beginning</button>-->
-					    <button id="rewind">rewind</button>
-					  	<button id="play">play</button>
-					    <!--<button id="stop">stop</button>-->
-					    <button id="forward">fast forward</button>
-					    <!--<button id="end">go to end</button>-->
-
-					    <button id="shuffle" />Start Over </button>
-					    <div id = "mapcontrols">
-				  			<button id="focus-init" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"role="button"aria-disabled="false"><span class="ui-button-text">Reset Map</span></button>
-				  			<button id="focus-current" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"aria-disabled="false"><span class="ui-button-text">Focus on Current Country</span></button>
-					  	</div>
-					</div>
-				</div>
-			</div>
-	    <div id="chart2">
-		    <div class = 'bootstro'
-				data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
-	        	data-bootstro-width="400px" 
-	        	data-bootstro-placement='top' data-bootstro-step='4'>
-	    		<svg></svg>
-	    	</div>
-	    </div>
-	    <div id='tablecontainer'>
-	    	<script>
-	    		var table ="<table id=\"newspaper-a\" class = \"rankedList\" summary=\"Top Ranked Countries\">";
-	    		table += "<thead><tr><th scope=\"col\">Country</th><th scope=\"col\">Imports</th><th scope=\"col\">Exports</th><th scope=\"col\">Balance</th></tr></thead><tbody><tr>"
-	    		for (var i = 1; i < 31; i++) {
-				  if (i % 4 == 1 && i != 1) {
-				    table += "</tr><tr>";
-				  }
-				  table += "<td>[" + i + "]</td>";
-				}
-
-				table += "</tr></tbody></table>";
-				document.write(table);
-			</script>
-	    </div>
-  	</div> <!-- End wrapper -->
-  	<div id="footer">
-  		<div id="footerbody">
-			<span>Data Source: U.S. Census Bureau | Powered by JVectorMap and NVD3.js</span>
-		</div>
-    </div>
-</div><!-- End pagebackground-->
-
-<script>
-
-  //============================================================
+	  //============================================================
   // Bar Chart Stuff (adapted from nvd3.org)
   //------------------------------------------------------------
 
@@ -849,9 +702,7 @@ function playSliderfast(){
 		  nv.utils.windowResize(lineChart.update);
 		  //nv.utils.windowResize(function() { d3.select('#chart1 svg').call(chart) });
 
-
 		  lineChart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
-
 		  return lineChart;
 		});	
 	}
@@ -898,12 +749,9 @@ function playSliderfast(){
 		]
 	}
 
-	function drawTable(container) {
-
-	}
-
 	// creates an array of all countries with currenttime
 	function generateTableData() {
+		console.log(data);
 		var tableData = [];
 		var year = getcurrentYear(currenttime);
 	  	var month = getcurrentMonth(currenttime);
@@ -923,9 +771,9 @@ function playSliderfast(){
 	}
 
 	function compareByImports(a, b) {
-		if (a["I"] < b["I"])
+		if (a[1]["I"] < b[1]["I"])
 			return -1;
-		if (a["I"] > b["I"])
+		if (a[1]["I"] > b[1]["I"])
 			return 1;
 		return 0;
 	}
@@ -942,12 +790,155 @@ function playSliderfast(){
 		bootstro.start();
 		drawBarChart('#chart svg');
 		drawLineChart('#chart2 svg');
-		
-		
-
-		$('table.rankedList').tableSort();
-		console.log(generateTableData().sort(compareByExports).reverse());
+		$('table.rankedList').tableSort( {
+			sortBy: ['text', 'numeric', 'numeric', 'numeric']
+		});
 	});
+
+  </script>
+</head>
+<!--
+  //============================================================
+  // HTML
+  //============================================================-->
+
+<body>
+<div id="pagebackground">
+	<div id="headerbar">
+		
+		<div id="headercontent">
+			<div>
+			<div class='bootstro' 
+        	data-bootstro-content="Welcome! Let's take a brief tour of the visualization's features."
+        	data-bootstro-width="600px" 
+        	data-bootstro-placement='bottom' data-bootstro-step='0'>
+        </div>
+			<img src ="images/Header.png">
+		</div>
+		</div>
+      	<!--<span id="videodesc"><h3>Project video located <a href="video.html">here.</a></h3></span>-->
+    </div>
+	<div id="wrapper">
+	    <div class = 'bootstro'
+			data-bootstro-content="Scroll and pan through the map to select particular countries. The U.S. has a negative trade balance with orange countries and a positive balance with blue countries."
+        	data-bootstro-width="400px" 
+        	data-bootstro-placement='bottom' data-bootstro-step='1'>
+	    	<div id="map1"></div>
+        </div>
+        
+	    <div id="chartwrapper">
+		    <div class = 'bootstro'
+				data-bootstro-content="View the imports and exports of goods by principal end-use category. Filter by category or switch between stacked and grouped views."
+	        	data-bootstro-width="400px" 
+	        	data-bootstro-placement='left' data-bootstro-step='2'>
+		        <div id="chart">
+		        	<div class="charttitle">U.S. Imports and Exports By Use</div>
+	    			<svg></svg>
+	    		</div>
+	        </div>
+	    </div>
+	    <div id="timeline">
+	    	<div class = 'bootstro'
+				data-bootstro-content="Press play to see the progression of foreign trade flows through the years."
+	        	data-bootstro-width="400px" 
+	        	data-bootstro-placement='top' data-bootstro-step='3'>
+				<p>
+			    <div id="timedisplay"></div>
+				</p>
+					<div id="slider-range"></div>
+			      
+			      	<!-- taken from http://jqueryui.com/button/#toolbar -->
+			      	<div id="toolbar" class="ui-widget-header ui-corner-all">
+					    <!--<button id="beginning">go to beginning</button>-->
+					    <button id="rewind">rewind</button>
+					  	<button id="play">play</button>
+					    <!--<button id="stop">stop</button>-->
+					    <button id="forward">fast forward</button>
+					    <!--<button id="end">go to end</button>-->
+
+					    <button id="shuffle" />Start Over </button>
+					    <div id = "mapcontrols">
+				  			<button id="focus-init" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"role="button"aria-disabled="false"><span class="ui-button-text">Reset Map</span></button>
+				  			<button id="focus-current" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"aria-disabled="false"><span class="ui-button-text">Focus on Current Country</span></button>
+					  	</div>
+					</div>
+				</div>
+			</div>
+	    <div id="chart2">
+		    <div class = 'bootstro'
+				data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
+	        	data-bootstro-width="400px" 
+	        	data-bootstro-placement='top' data-bootstro-step='4'>
+	    		<svg></svg>
+	    	</div>
+	    </div>
+	    <div id='tablecontainer'>
+	    	<script>
+    		  //============================================================
+			  // Load External JSON
+			  //------------------------------------------------------------
+				data = JSON.parse(country_data);
+				by_use = JSON.parse(by_use);
+				goods_vs_services = JSON.parse(goods_vs_services);
+				console.log(data);
+				console.log(by_use);
+				console.log(goods_vs_services);
+			      
+				currdata = getcurrData(currenttime, currflowtype);
+				geographiccenters=JSON.parse(countrycenters);
+
+				function getcurrData(timeval, flowtypeval){
+					var tmp={};
+					var tarray = data[getcurrentYear(timeval)][getcurrentMonth(timeval)];
+					for(country in tarray) {
+						//try {
+							var flowval=tarray[country][flowtypeval];
+							tmp[country]=flowval;
+						//}
+						//catch(err){}
+					}
+					return tmp;
+				}
+
+	    		var listByImports = generateTableData().sort(compareByImports).reverse();
+	    		var listByExports = generateTableData().sort(compareByExports).reverse();
+	    		console.log(listByImports);
+
+	    		var table ="<table id=\"newspaper-a\" class = \"rankedList\" summary=\"Top Ranked Countries\">";
+	    		var row = 0;
+	    		table += "<thead><tr><th scope=\"col\">Country</th><th scope=\"col\">Imports</th><th scope=\"col\">Exports</th><th scope=\"col\">Balance</th></tr></thead><tbody><tr>"
+	    		for (var row = 1; row <= 10; row++) {
+				 	table += "</tr><tr>";
+				 	var nextCountry = listByImports.shift();
+
+			 		// TODO: Need to change country code into name
+				 	var countryCode = nextCountry[0];
+				 	var importval = "$" + nextCountry[1]["I"] + "mil USD";
+				 	var exportval = "$" + nextCountry[1]["E"] + "mil USD";
+				 	var balanceval = "$" + nextCountry[1]["B"] + "mil USD";
+
+				 	table += "<td>" + countryCode + "</td>";
+				 	table += "<td>" + importval + "</td>";
+				 	table += "<td>" + exportval + "</td>";
+				 	table += "<td>" + balanceval + "</td>";
+
+				}
+
+				table += "</tr></tbody></table>";
+				document.write(table);
+			</script>
+	    </div>
+  	</div> <!-- End wrapper -->
+  	<div id="footer">
+  		<div id="footerbody">
+			<span>Data Source: U.S. Census Bureau | Powered by JVectorMap and NVD3.js</span>
+		</div>
+    </div>
+</div><!-- End pagebackground-->
+
+<script>
+
+
 </script>  
 </body>
 </html>
