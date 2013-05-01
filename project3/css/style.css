@@ -79,15 +79,16 @@ body {
 	margin-left: 5px;
 	height:595px;
 	text-align: center;
+	top: -2px;
 }
 
 #chart {
 	width:305px;
-	margin-left:4px;
 	margin-bottom: 4px;
-	padding:12px;
+	margin-top:12px;
+	margin-left: 12px;
+	margin-right: 12px;
 	display:block;
-	float:left;
 }
 
 

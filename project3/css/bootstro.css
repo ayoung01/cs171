@@ -20,11 +20,11 @@
 }
 .bootstro-highlight
 {
-	z-index: 999;
+	z-index: 1000;
 	position: relative;
-	border: 1px solid white;
-	/*background-color: '#fdff62';*/
-    opacity: 0.5;
+	/*border: 2px solid white;*/
+	background-color: white;
+    /*opacity: 0.5;*/
 }
 
 .bootstro-finish-btn-wrapper

@@ -732,7 +732,7 @@ a.text-success:focus {
   text-align: center;
 }
 
-h1,
+/*h1,
 h2,
 h3,
 h4,
@@ -744,7 +744,7 @@ h6 {
   line-height: 20px;
   color: inherit;
   text-rendering: optimizelegibility;
-}
+}*/
 
 h1 small,
 h2 small,

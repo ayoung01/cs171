@@ -746,48 +746,73 @@ function playSliderfast(){
 <body>
 <div id="pagebackground">
 	<div id="headerbar">
-		<h1 class='bootstro' 
-        	data-bootstro-content="Because bootstrap rocks. Life before bootstrap was sooo miserable"
-        	data-bootstro-width="400px" 
-        	data-bootstro-placement='bottom' data-bootstro-step='2'>
+		
 		<div id="headercontent">
+			<div>
+			<div class='bootstro' 
+        	data-bootstro-content="Welcome! Let's take a brief tour of the visualization's features."
+        	data-bootstro-width="600px" 
+        	data-bootstro-placement='bottom' data-bootstro-step='0'>
+        </div>
 			<img src ="images/Header.png">
 		</div>
-		</h1>
+		</div>
       	<!--<span id="videodesc"><h3>Project video located <a href="video.html">here.</a></h3></span>-->
     </div>
 	<div id="wrapper">
-		
-	    <div id="map1"></div>
+	    <div class = 'bootstro'
+			data-bootstro-content="Scroll and pan through the map to select particular countries. The U.S. has a negative trade balance with orange countries and a positive balance with blue countries."
+        	data-bootstro-width="400px" 
+        	data-bootstro-placement='bottom' data-bootstro-step='1'>
+	    	<div id="map1"></div>
+        </div>
+        
 	    <div id="chartwrapper">
-	    	<div id="charttitle">U.S. Imports and Exports By Use</div>
-	        <div id="chart">
-	    		<svg></svg>
+		    <div class = 'bootstro'
+				data-bootstro-content="View the imports and exports of goods by principal end-use category. Filter by category or switch between stacked and grouped views."
+	        	data-bootstro-width="400px" 
+	        	data-bootstro-placement='left' data-bootstro-step='2'>
+		        <div id="chart">
+		        	<div id="charttitle">U.S. Imports and Exports By Use</div>
+	    			<svg></svg>
+	    		</div>
 	        </div>
 	    </div>
 	    <div id="timeline">
-			<p>
-		    <div id="timedisplay"></div>
-			</p>
-				<div id="slider-range"></div>
-		      
-			      <!-- taken from http://jqueryui.com/button/#toolbar -->
-			      <div id="toolbar" class="ui-widget-header ui-corner-all">
-					  <!--<button id="beginning">go to beginning</button>-->
-					  <button id="rewind">rewind</button>
-					  <button id="play">play</button>
-					  <!--<button id="stop">stop</button>-->
-					  <button id="forward">fast forward</button>
-					  <!--<button id="end">go to end</button>-->
+	    	<div class = 'bootstro'
+				data-bootstro-content="Press play to see the progression of foreign trade flows through the years."
+	        	data-bootstro-width="400px" 
+	        	data-bootstro-placement='top' data-bootstro-step='3'>
+				<p>
+			    <div id="timedisplay"></div>
+				</p>
+					<div id="slider-range"></div>
+			      
+			      	<!-- taken from http://jqueryui.com/button/#toolbar -->
+			      	<div id="toolbar" class="ui-widget-header ui-corner-all">
+					    <!--<button id="beginning">go to beginning</button>-->
+					    <button id="rewind">rewind</button>
+					  	<button id="play">play</button>
+					    <!--<button id="stop">stop</button>-->
+					    <button id="forward">fast forward</button>
+					    <!--<button id="end">go to end</button>-->
 
-					  <button id="shuffle" />Start Over </button>
-					  <div id = "mapcontrols">
-				  		<button id="focus-init">Reset Map</button>
-				  		<button id="focus-current">Focus on Current Country</button>
-				  	</div>
+					    <button id="shuffle" />Start Over </button>
+					    <div id = "mapcontrols">
+				  			<button id="focus-init" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"role="button"aria-disabled="false"><span class="ui-button-text">Reset Map</span></button>
+				  			<button id="focus-current" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"aria-disabled="false"><span class="ui-button-text">Focus on Current Country</span></button>
+					  	</div>
+					</div>
 				</div>
 			</div>
-	    <div id="chart2"><svg></svg></div>
+	    <div id="chart2">
+		    <div class = 'bootstro'
+				data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
+	        	data-bootstro-width="400px" 
+	        	data-bootstro-placement='top' data-bootstro-step='4'>
+	    		<svg></svg>
+	    	</div>
+	    </div>
   	</div> <!-- End wrapper -->
   	<div id="footer">
   		<div id="footerbody">
