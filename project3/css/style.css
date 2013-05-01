@@ -168,7 +168,7 @@ h1 {
     /*color: #fff;*/
 }
 
-h2, #timedisplay {
+#charttitle, #timedisplay {
 	margin: auto;
 	font-family: Verdana;
 	font-weight: bold;
