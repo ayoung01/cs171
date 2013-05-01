@@ -95,7 +95,7 @@
 	var mapObject;
 	var timeslider; 
 	var isStacked = true; // Variable to determine if the bar chart should be stacked or not.
-	
+	var isPlay = false; // Variable to determine if the graph is playing or not.
 	var mapb; // The selected SVG element, used in drawLine.
 	var lineChart;
 	var barChart;
@@ -500,11 +500,21 @@
 			orientation: "horizontal",
       range: "min",
       animate: true,
-	      slide: function( event, ui ) {
+				      slide: function( event, ui ) {
 	      	currenttime = ui.value;
 	      	currdata=getcurrData(currenttime,currflowtype);	
-
-	      	jQuery( "#timedisplay" ).html(getDateDisplay);;
+	      	jQuery( "#timedisplay" ).html(getDateDisplay);
+			redraw(currflowtype,1,1);	
+			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
+			clearBarChart();
+			drawBarChart('#chart svg');	
+			clearLineChart();
+			drawLineChart('#chart2 svg');
+		},
+	      change: function( event, ui ) {
+	      	currenttime = ui.value;
+	      	currdata=getcurrData(currenttime,currflowtype);	
+	      	jQuery( "#timedisplay" ).html(getDateDisplay);
 			redraw(currflowtype,1,1);	
 			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
 			clearBarChart();
@@ -528,7 +538,32 @@
 	      icons: {
 	        primary: "ui-icon-seek-prev"
 	      }
+	    }).click(function() {
+	      var options;
+	      if ( isPlay==false ) { //not currently playing
+					isPlay=true;
+					console.log("play mode");
+	        options = {
+	          label: "pause",
+	          icons: {
+	            primary: "ui-icon-pause"
+	          }
+	        }; // its currently playing
+	      } else {/*
+						isPlay=false;		
+						timeslider.slider("value", timeslider.slider("value")-1);
+					//	console.log("pause mode");
+	        options = {
+	          label: "play",
+	          icons: {
+	            primary: "ui-icon-play"
+	          }
+	        };*/	
+	      }
+	      jQuery("#play").button( "option", options );
+				playSliderreverse();
 	    });
+			
 	    jQuery( "#play" ).button({
 	      text: false,
 	      icons: {
@@ -536,24 +571,29 @@
 	      }
 	    })
 	    .click(function() {
-				playSlider();
 	      var options;
-	      if ( jQuery( this ).text() === "play" ) {
+	      if ( isPlay==false ) { //not currently playing
+					isPlay=true;
+					console.log("play mode");
 	        options = {
 	          label: "pause",
 	          icons: {
 	            primary: "ui-icon-pause"
 	          }
-	        };
+	        }; // its currently playing
 	      } else {
+						isPlay=false;		
+						timeslider.slider("value", timeslider.slider("value")-1);
+					//	console.log("pause mode");
 	        options = {
 	          label: "play",
 	          icons: {
 	            primary: "ui-icon-play"
 	          }
-	        };
+	        };	
 	      }
 	      jQuery( this ).button( "option", options );
+				playSlider();
 	    });
 	    jQuery( "#stop" ).button({
 	      text: false,
@@ -574,6 +614,30 @@
 	      icons: {
 	        primary: "ui-icon-seek-next"
 	      }
+	    }).click(function() {
+	      var options;
+	      if ( isPlay==false ) { //not currently playing
+					isPlay=true;
+					console.log("play mode");
+	        options = {
+	          label: "pause",
+	          icons: {
+	            primary: "ui-icon-pause"
+	          }
+	        }; // its currently playing
+	      } else {/*
+						isPlay=false;		
+						timeslider.slider("value", timeslider.slider("value")-1);
+					//	console.log("pause mode");
+	        options = {
+	          label: "play",
+	          icons: {
+	            primary: "ui-icon-play"
+	          }
+	        };*/	
+	      }
+	      jQuery("#play").button( "option", options );
+				playSliderfast();
 	    });
 	    jQuery( "#end" ).button({
 	      text: false,
@@ -581,18 +645,22 @@
 	        primary: "ui-icon-seek-end"
 	      }
 	    });
-	    jQuery( "#shuffle" ).button();
+	    jQuery( "#shuffle" ).button().click(function() {
+	     
+					timeslider.slider("value", 0);
+			 	  /*jQuery( "#play" ).button( "option", {
+	        label: "play",
+	        icons: {
+	          primary: "ui-icon-play"
+	        }
+	      });*/
+
+
+	    });
 	    jQuery( "#repeat" ).buttonset();
 	  });
 		
-		$("#play").click(function() {
-	  if (play==false)
-		{
-			play==true;
-		}
-		else
-		{play==false;		
-		}
+	
 	});
 	
 	 //============================================================
@@ -600,14 +668,66 @@
   //------------------------------------------------------------
 	
 	function playSlider(){
-		console.log("played");
-		jQuery("#slider-range" ).val("30");
-//jQuery("#slider-range" ).slider('refresh');
-
+		//console.log("played");
+	var tmpval=timeslider.slider("value")+1;
+	//console.log(tmpval);
+	if(tmpval>251)
+	{
+	isPlay=false;
+	timeslider.slider("value", 251);
+	//console.log(isPlay);
+	jQuery( "#play" ).button("option",{label: "play", icons: {primary: "ui-icon-play"}});
+	} else if(isPlay==true)
+		{
+			console.log("adj");
+			timeslider.slider("value", tmpval);
+			setTimeout(playSlider,40);
+		}
+		else {} //jQuery("#slider-range" ).slider('refresh');
+	};
+	
+function playSliderfast(){
+		//console.log("played");
+	var tmpval=timeslider.slider("value")+1;
+	//console.log(tmpval);
+	if(tmpval>251)
+	{
+	isPlay=false;
+	timeslider.slider("value", 251);
+	//console.log(isPlay);
+	jQuery( "#play" ).button("option",{label: "play", icons: {primary: "ui-icon-play"}});
+	} else if(isPlay==true)
+		{
+				jQuery( "#play" ).button("option",{label: "pause", icons: {primary: "ui-icon-pause"}});
+			console.log("adj");
+			timeslider.slider("value", tmpval);
+			setTimeout(playSliderfast,5);
+		}
+		else {} //jQuery("#slider-range" ).slider('refresh');
+	};
+	
+	function playSliderreverse(){
+		//console.log("played");
+	var tmpval=timeslider.slider("value")-1;
+	//console.log(tmpval);
+	if(tmpval<0)
+	{
+	isPlay=false;
+	timeslider.slider("value", 0);
+	//console.log(isPlay);
+	jQuery( "#play" ).button("option",{label: "play", icons: {primary: "ui-icon-play"}});
+	} else if(isPlay==true)
+		{
+				jQuery( "#play" ).button("option",{label: "pause", icons: {primary: "ui-icon-pause"}});
+			console.log("adj");
+			timeslider.slider("value", tmpval);
+			setTimeout(playSliderreverse,40);
+		}
+		else {} //jQuery("#slider-range" ).slider('refresh');
 	};
 	
 	
-});
+//});
 	
 	
 	
@@ -658,7 +778,7 @@
 					  <button id="forward">fast forward</button>
 					  <!--<button id="end">go to end</button>-->
 
-					  <input type="checkbox" id="shuffle" /><label for="shuffle">Start Over</label>
+					  <button id="shuffle" />Start Over </button>
 					  <div id = "mapcontrols">
 				  		<button id="focus-init">Reset Map</button>
 				  		<button id="focus-current">Focus on Current Country</button>
