@@ -3,7 +3,6 @@
 <meta charset="utf-8">
 <head>
   <title>Visualizing U.S. Foreign Trade from 1992-2012</title>
-  <link rel="stylesheet" type="text/css" href="css/style.css">
 
   <!-- Import jQuery and jQuery UI -->
   <script src="js/jquery-1.9.1.min.js"></script>
@@ -74,6 +73,7 @@
   <script src="js/assets/data.js"></script>
 
   <script src="js/assets/jquery-jvectormap-world-mill-en.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 <script>
 	var mapwidth = 989;
 	var mapheight = 481;
@@ -643,23 +643,26 @@
 <body>
 <div id="pagebackground">
 	<div id="headerbar">
-		
 		<div id="headercontent">
 			<div>
-			<div class='bootstro' 
-        	data-bootstro-content="Welcome! Let's take a brief tour of the visualization's features."
-        	data-bootstro-width="600px" 
-        	data-bootstro-placement='bottom' data-bootstro-step='0'>
-        </div>
-			<img src ="images/Header.png">
-		</div>
+				<div class='bootstro' 
+	        	data-bootstro-content="Welcome! Let's take a brief tour of the visualization's features."
+	        	data-bootstro-width="600px" 
+	        	data-bootstro-placement='bottom' data-bootstro-step='0'>
+	        	</div>
+				<img src ="images/Header.png">
+				<div class="headerlinks">
+					VIDEO
+				</div>
+			</div>
+
 		</div>
       	<!--<span id="videodesc"><h3>Project video located <a href="video.html">here.</a></h3></span>-->
     </div>
 	<div id="wrapper">
 		<div id='containertop'>
 		    <div class = 'bootstro'
-				data-bootstro-content="Scroll and pan through the map to select particular countries. The U.S. has a negative trade balance with orange countries and a positive balance with blue countries."
+				data-bootstro-content="Scroll and pan through the map to select particular countries. Canada (pink) is selected to begin with. The U.S. has a negative trade balance with orange countries and a positive balance with blue countries."
 	        	data-bootstro-width="400px" 
 	        	data-bootstro-placement='bottom' data-bootstro-step='1'>
 		    	<div id="map1"></div>
@@ -671,7 +674,7 @@
 		        	data-bootstro-width="400px" 
 		        	data-bootstro-placement='left' data-bootstro-step='2'>
 			        <div id="chart">
-			        	<div class="charttitle">U.S. Imports and Exports By Use</div>
+			        	<div class="charttitle">US Imports and Exports By Use</div>
 		    			<svg></svg>
 		    		</div>
 		        </div>
@@ -738,13 +741,12 @@
 				<input type="radio" name="chartselection" id="balance" value="balance">Balance&nbsp
 			</form>
 		</label>
-	-->
-	    <div id='tablecontainer'>
-	    	<div class = 'bootstro'
-				data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
-	        	data-bootstro-width="400px" 
-	        	data-bootstro-placement='top' data-bootstro-step='5'>
-            
+	-->	
+		<div class='bootstro' 
+    	data-bootstro-content="Select the top trading partners with the U.S. for either imports, exports, or net balance. Click on the column headers to sort the columns."
+    	data-bootstro-width="600px" 
+    	data-bootstro-placement='top' data-bootstro-step='5'>
+	    	<div id='tablecontainer'>
 	    	<script>
     		  	var $ = jQuery;
 
@@ -922,10 +924,9 @@
 				}
 				drawTable("B");
 			</script>
-			</div><!-- End bootstro -->
-	    </div>
-	    <!-- End tablecontainer -->
-  	</div> <!-- End wrapper -->
+			</div><!-- End tablecontainer -->
+	    </div><!-- End bootstro -->
+	</div> <!-- End wrapper -->
   	<div id="footer">
   		<div id="footerbody">
 			<span>Data Source: U.S. Census Bureau | Powered by JVectorMap and NVD3.js</span>
