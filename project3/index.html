@@ -684,7 +684,21 @@
 			    <span id="timedisplay"></span><br><span id="valuedisplay"></span>
           </div>
           <div id="legend">
-          Derp
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200px" height="100px" fill="#FFF">
+        		<defs>
+              <linearGradient id="MyGradient">
+                <stop offset="5%" stop-color="#88aaee"></stop>
+                <stop offset="95%" stop-color="#000000"></stop>
+              </linearGradient>
+            </defs>
+             <g id="firstGroup">
+            <rect width="500px" height="35px" x="0" y="0" fill="#fffff" stroke="none" stroke-width="1"></rect>
+            <rect width="250px" height="30px" x="130" y="3" fill="url(#MyGradient)" stroke="none" stroke-width="1"></rect>
+             <text x="0" y="25" style="font-size:18px">Legend:</text>
+             <text x="100" y="25">$0</text>
+            <text x="390" y="25">$20904 mil USD</text>
+            </g>
+          </svg>
           </div>
 				</p>
 					<div id="slider-range"></div>

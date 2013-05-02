@@ -232,6 +232,13 @@ span {
 table {
 	border-spacing: 0;
 }*/
+
+
+svg text {
+	fill:#000;
+	font-family:"Lucida Sans Unicode", "Lucida Grande", Sans-Serif !important;
+	font-size:11.5px;
+}
 #datacontainer
 {
 	margin-left:20px;
@@ -239,7 +246,10 @@ table {
 	}
 	#legend
 {
-	margin-left:20px;
+	width:550px;
+	height:40px;
+	padding:2px;
+	margin-left:80px;
 	display:inline-block;
 }
 .axis path,
