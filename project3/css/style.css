@@ -76,6 +76,12 @@ body {
 	height:595px;
 }
 
+#containerbot {
+	height:440px;
+	width: 920px;
+	float: left;
+}
+
 #chartwrapper{
 	width: 305px;
 	float: left;
@@ -100,7 +106,7 @@ body {
 	float: left;
 	height: 440px;
 	padding-top: 12px;
-	width: 920px;
+	width: 895px;
 }
 
 text {
@@ -166,7 +172,7 @@ label {
 #slider-range{
 	margin-top:0px;
 	margin-left: 8px;
-	width:840px;
+	width:820px;
 }
 
 h1 {
@@ -209,10 +215,7 @@ span {
 }
 
 #tablecontainer{
-	position:relative;
-	margin:20px;
-	top:10px;
-	left:10px;
+	float:left;
 }
 
 #videodesc{
@@ -226,6 +229,7 @@ span {
 
 #toolbar {
 	padding: 4px;
+	z-index: 10000;
 }
 /* support: IE7 */
 *+html #toolbar {

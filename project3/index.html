@@ -174,6 +174,7 @@
 			mapObject.series.regions[0].setValues(currdata);
 			//jQuery( "#timedisplay" ).html(getDateDisplay);
 			jQuery("#valuedisplay" ).html(getValueDisplay);
+			drawTable(typechng);
 		}
 
 		function getcurrData(timeval, flowtypeval){
@@ -727,6 +728,7 @@
 		    </div>
 
 		</div>
+		<!--
 	    <label>
 			<br>
 			Get top ranked countries by:
@@ -736,6 +738,7 @@
 				<input type="radio" name="chartselection" id="balance" value="balance">Balance&nbsp
 			</form>
 		</label>
+	-->
 	    <div id='tablecontainer'>
 	    	<div class = 'bootstro'
 				data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
@@ -855,22 +858,21 @@
 				}
 
 				// @param type (1 : top imports) (2: top exports) (3: top balance)
-				function drawTable() {
+				function drawTable(checked) {
 					var listByType;
 					var header;
-					var checked = $('input[name=chartselection]:radio:checked').val();
 
-					if (checked == "imports") {
+					if (checked == "I") {
 						listByType = generateTableData().sort(compareByImports).reverse();
 						header = "Imports"
 					}
-					else if (checked == "exports") {
+					else if (checked == "E") {
 						listByType = generateTableData().sort(compareByExports).reverse();
 						header = "Exports";
 					}
 					else {
 						listByType = generateTableData().sort(compareByBalance).reverse();
-						header = "Balance";
+						header = "Net Balance";
 					}
 		    		var table ="<table id=\"newspaper-a\" class = \"rankedList\" summary=\"Top Ranked Countries\">";
 		    		var row = 0;
@@ -894,14 +896,14 @@
 					 		}
 					 	}
 					 	var val;
-					 	if (checked == "imports") {
+					 	if (checked == "I") {
 							val = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
 						}
-						else if (checked == "exports") {
+						else if (checked == "E") {
 							val = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
 						}
 						else {
-							eval = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
+							val = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
 						}
 					 	var importval = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
 					 	var exportval = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
@@ -918,7 +920,7 @@
 						sortBy: ['numeric', 'text', 'numeric']
 					});
 				}
-				drawTable();
+				drawTable("B");
 			</script>
 			</div><!-- End bootstro -->
 	    </div>
