@@ -146,6 +146,8 @@ body {
 	margin-left: 12px;
 	margin-right: 12px;
 	display:block;
+/*	position: relative;
+*/	bottom: 20px
 }
 
 #chart2 {
