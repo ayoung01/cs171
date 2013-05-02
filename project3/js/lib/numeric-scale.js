@@ -63,14 +63,34 @@ jvm.NumericScale.prototype = {
 		//value = Math.pow(value, 2);
 		// console.log(value);
 		
+
+			
+			var minlimit = 	30000;  // the negative limit
+			var maxlimit = 34835;
+			var minscale=Math.log(minlimit);
+			var maxscale=Math.log(maxlimit);
+	console.log(minscale);
+	console.log(maxscale);
+					
 		if (value>=0)
-		{scaletemp=[this.scale[0],this.scale[1]];
+		{		
+		if(value<3){
+			value=0;}
+			else{value=Math.log(value);
+			//console.log("logged");
+			}
+			scaletemp=[this.scale[0],this.scale[1]];
 		minV=0;
-		maxV=1665;}
+		maxV=maxscale;}
 		else 
-		{scaletemp=[this.scale[2],this.scale[3]];
+		{
+			value=value*-1; // make it positive to take logarithm.
+			if(value<3){
+			value=0;}
+			else{value=Math.log(value);}
+			scaletemp=[this.scale[2],this.scale[3]];
 		value=value;
-		minV=-29376
+		minV=minscale;
 		maxV=0;}
 		//if the value is greater than zero, use the last two scale values on the negated value
 		//console.log(scaletemp);
