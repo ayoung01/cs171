@@ -2,7 +2,7 @@ html{
 	margin:0;
 	padding:0;
 	height: 100%;
-	zoom:.75;
+	zoom:.85;
 	/*background:#132131;*/
 	/*color: #FFF;*/
 }
@@ -13,6 +13,14 @@ body {
 	height: 100%;
 	overflow-y:scroll;
 	/*font-family: Helvetica, Arial, Sans-Serif;*/
+}
+
+#about {
+	float: left;
+	display: block;
+	width: 70%;
+	padding:20px;
+	font-size: 14px;
 }
 
 .jvectormap-region {
@@ -118,6 +126,7 @@ body {
 	height:440px;
 	width: 920px;
 	float: left;
+	margin-bottom: 20px;
 }
 
 #chartwrapper{
@@ -263,10 +272,16 @@ span {
 }
 
 .pp_content{
-	background-color: transparent !important;
-	height:345px !important;
+/*	background-color: transparent !important;
+*/	height:345px !important;
 	margin-left: auto;
 	margin-right: auto;
+/*	overflow:scroll;
+*/}
+
+.pp_inline {
+	padding: 20px;
+	font-size: 20px;
 }
 
 .pp_overlay {
@@ -318,9 +333,4 @@ svg text {
 
 #rewind{
 	margin-left:50px;
-}
-#mapcontrols
-{
-	margin-right:100px;
-	margin-top:5px;
 }
