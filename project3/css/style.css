@@ -38,7 +38,7 @@ body {
     margin-left:auto;
     margin-right:auto;
     width:1366px;
-    /*height:868px;*/
+    height:868px;
 }
 
 #headerbar{
@@ -72,6 +72,10 @@ body {
 	/*border: 1px solid #CCC;*/
 }
 
+#containertop {
+	height:595px;
+}
+
 #chartwrapper{
 	width: 305px;
 	float: left;
@@ -91,12 +95,12 @@ body {
 	display:block;
 }
 
-
 #chart2 {
 	display:block;
-	clear: both;
-	height: 500px;
+	float: left;
+	height: 440px;
 	padding-top: 12px;
+	width: 920px;
 }
 
 text {
@@ -112,6 +116,8 @@ textarea {
 	clear: none;
 	float: left;
 	padding-left: 46px;
+	padding-bottom:8px;
+	width:100%;
 	/*margin-top: -20px;*/
 }
 
@@ -160,7 +166,7 @@ label {
 #slider-range{
 	margin-top:0px;
 	margin-left: 8px;
-	width:1280px;
+	width:840px;
 }
 
 h1 {
@@ -202,6 +208,13 @@ span {
 	color: #111;
 }
 
+#tablecontainer{
+	position:relative;
+	margin:20px;
+	top:10px;
+	left:10px;
+}
+
 #videodesc{
 	margin-left:15px;
 }
@@ -218,20 +231,6 @@ span {
 *+html #toolbar {
 	display: inline;
 }
-/*
-.rankedList {
-	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-	font-size: 12px;
-	width: 480px;
-	text-align: left;
-	border-collapse: collapse;
-	border: 1px solid #69c;
-	margin: 20px;
-}
-
-table {
-	border-spacing: 0;
-}*/
 
 .axis path,
 .axis line {

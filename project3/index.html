@@ -651,25 +651,27 @@
       	<!--<span id="videodesc"><h3>Project video located <a href="video.html">here.</a></h3></span>-->
     </div>
 	<div id="wrapper">
-	    <div class = 'bootstro'
-			data-bootstro-content="Scroll and pan through the map to select particular countries. The U.S. has a negative trade balance with orange countries and a positive balance with blue countries."
-        	data-bootstro-width="400px" 
-        	data-bootstro-placement='bottom' data-bootstro-step='1'>
-	    	<div id="map1"></div>
-        </div>
-        
-	    <div id="chartwrapper">
+		<div id='containertop'>
 		    <div class = 'bootstro'
-				data-bootstro-content="View the imports and exports of goods by principal end-use category. Filter by category or switch between stacked and grouped views."
+				data-bootstro-content="Scroll and pan through the map to select particular countries. The U.S. has a negative trade balance with orange countries and a positive balance with blue countries."
 	        	data-bootstro-width="400px" 
-	        	data-bootstro-placement='left' data-bootstro-step='2'>
-		        <div id="chart">
-		        	<div class="charttitle">U.S. Imports and Exports By Use</div>
-	    			<svg></svg>
-	    		</div>
+	        	data-bootstro-placement='bottom' data-bootstro-step='1'>
+		    	<div id="map1"></div>
 	        </div>
-	    </div>
-	    <div id="timeline">
+	        
+		    <div id="chartwrapper">
+			    <div class = 'bootstro'
+					data-bootstro-content="View the imports and exports of goods by principal end-use category. Filter by category or switch between stacked and grouped views."
+		        	data-bootstro-width="400px" 
+		        	data-bootstro-placement='left' data-bootstro-step='2'>
+			        <div id="chart">
+			        	<div class="charttitle">U.S. Imports and Exports By Use</div>
+		    			<svg></svg>
+		    		</div>
+		        </div>
+		    </div>
+		</div>
+	   	<div id="timeline">
 	    	<div class = 'bootstro'
 				data-bootstro-content="Press play to see the progression of foreign trade flows through the years."
 	        	data-bootstro-width="400px" 
@@ -677,39 +679,44 @@
 				<p>
 			    <div id="timedisplay"></div><div id="valuedisplay"></div>
 				</p>
-					<div id="slider-range"></div>
+				<div id="slider-range"></div>
 			      
-			      	<!-- taken from http://jqueryui.com/button/#toolbar -->
-			      	<div id="toolbar" class="ui-widget-header ui-corner-all">
-					    <!--<button id="beginning">go to beginning</button>-->
-               <div id="radio">
-    <input type="radio" id="radio1" name="radio" /><label for="radio1">Imports</label>
-    <input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Net Balance</label>
-    <input type="radio" id="radio3" name="radio" /><label for="radio3">Exports</label>
-  </div>
-  
-					    <button id="rewind">rewind</button>
-					  	<button id="play">play</button>
-					    <!--<button id="stop">stop</button>-->
-					    <button id="forward">fast forward</button>
-					    <!--<button id="end">go to end</button>-->
-
-					    <button id="shuffle" />Start Over </button>
-					    <div id = "mapcontrols">
-				  			<button id="focus-init" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"role="button"aria-disabled="false"><span class="ui-button-text">Reset Map</span></button>
-				  			<button id="focus-current" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"aria-disabled="false"><span class="ui-button-text">Focus on Current Country</span></button>
-					  	</div>
+		      	<!-- taken from http://jqueryui.com/button/#toolbar -->
+		      	<div id="toolbar" class="ui-widget-header ui-corner-all">
+			    <!--<button id="beginning">go to beginning</button>-->
+	               	<div id="radio">
+					    <input type="radio" id="radio1" name="radio" /><label for="radio1">Imports</label>
+					    <input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Net Balance</label>
+					    <input type="radio" id="radio3" name="radio" /><label for="radio3">Exports</label>
 					</div>
+	  
+				    <button id="rewind">rewind</button>
+				  	<button id="play">play</button>
+				    <!--<button id="stop">stop</button>-->
+				    <button id="forward">fast forward</button>
+				    <!--<button id="end">go to end</button>-->
+
+				    <button id="shuffle" />Start Over </button>
+				    <!--
+				    <div id = "mapcontrols">
+				  		<button id="focus-init" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"role="button"aria-disabled="false"><span class="ui-button-text">Reset Map</span></button>
+				  		<button id="focus-current" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"aria-disabled="false"><span class="ui-button-text">Focus on Current Country</span></button>
+					</div>
+					-->
 				</div>
 			</div>
-	    <div id="chart2">
-		    <div class = 'bootstro'
-				data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
-	        	data-bootstro-width="400px" 
-	        	data-bootstro-placement='top' data-bootstro-step='4'>
-	    		<svg></svg>
-	    	</div>
-	    </div>
+		</div>
+		<div id = "containerbot">
+		    <div id="chart2">
+			    <div class = 'bootstro'
+					data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
+		        	data-bootstro-width="400px" 
+		        	data-bootstro-placement='top' data-bootstro-step='4'>
+		    		<svg></svg>
+		    	</div>
+		    </div>
+
+		</div>
 	    <label>
 			<br>
 			Get top ranked countries by:
@@ -840,20 +847,24 @@
 				// @param type (1 : top imports) (2: top exports) (3: top balance)
 				function drawTable() {
 					var listByType;
+					var header;
 					var checked = $('input[name=chartselection]:radio:checked').val();
 
 					if (checked == "imports") {
 						listByType = generateTableData().sort(compareByImports).reverse();
+						header = "Imports"
 					}
 					else if (checked == "exports") {
 						listByType = generateTableData().sort(compareByExports).reverse();
+						header = "Exports";
 					}
 					else {
 						listByType = generateTableData().sort(compareByBalance).reverse();
+						header = "Balance";
 					}
 		    		var table ="<table id=\"newspaper-a\" class = \"rankedList\" summary=\"Top Ranked Countries\">";
 		    		var row = 0;
-		    		table += "<thead><tr><th scope=\"col\">Rank</th><th scope=\"col\">Country</th><th scope=\"col\">Imports</th><th scope=\"col\">Exports</th><th scope=\"col\">Balance</th></tr></thead><tbody><tr>"
+		    		table += "<thead><tr><th scope=\"col\">Rank</th><th scope=\"col\">Country</th><th scope=\"col\">" + header+ "</th></tr></thead><tbody><tr>"
 		    		for (var row = 1; row <= 10; row++) {
 					 	table += "</tr><tr>";
 					 	var nextCountry = listByType.shift();
@@ -872,21 +883,29 @@
 					 			var countryCode = nextCountry[0];
 					 		}
 					 	}
+					 	var val;
+					 	if (checked == "imports") {
+							val = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
+						}
+						else if (checked == "exports") {
+							val = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
+						}
+						else {
+							eval = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
+						}
 					 	var importval = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
 					 	var exportval = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
 					 	var balanceval = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
 
 					 	table += "<td>" + row + "</td>";
 					 	table += "<td>" + countryCode + "</td>";
-					 	table += "<td>" + importval + "</td>";
-					 	table += "<td>" + exportval + "</td>";
-					 	table += "<td>" + balanceval + "</td>";
+					 	table += "<td>" + val + "</td>";
 					}
 
 					table += "</tr></tbody></table>";
 					$(tablecontainer).html(table);
 					$('table.rankedList').tableSort( {
-						sortBy: ['numeric', 'text', 'numeric', 'numeric', 'numeric']
+						sortBy: ['numeric', 'text', 'numeric']
 					});
 				}
 				drawTable();
