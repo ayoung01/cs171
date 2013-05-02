@@ -2,6 +2,7 @@ html{
 	margin:0;
 	padding:0;
 	height: 100%;
+	zoom:.75;
 	/*background:#132131;*/
 	/*color: #FFF;*/
 }
@@ -62,7 +63,7 @@ body {
 .headerlinks {
 	color: #AAA;
 	position:relative;
-	left:500px;
+	left:400px;
 	font-size:20px;
 	display:inline;
 	border-left: 1px solid #333;
@@ -74,7 +75,7 @@ body {
 #demo {
 	color: #AAA;
 	position:relative;
-	left:500px;
+	left:400px;
 	font-size:20px;
 	display:inline;
 	border-left: 1px solid #333;
@@ -263,6 +264,14 @@ span {
 
 .pp_content{
 	background-color: transparent !important;
+	height:345px !important;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.pp_overlay {
+	width: 100% !important;
+	text-align: center;
 }
 
 #toolbar {
