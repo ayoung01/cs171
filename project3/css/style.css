@@ -232,7 +232,16 @@ span {
 table {
 	border-spacing: 0;
 }*/
-
+#datacontainer
+{
+	margin-left:20px;
+	display:inline-block;
+	}
+	#legend
+{
+	margin-left:20px;
+	display:inline-block;
+}
 .axis path,
 .axis line {
   fill: none;

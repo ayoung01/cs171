@@ -98,6 +98,7 @@
 	var mapObject;
 	var timeslider; 
 	var isStacked = true; // Variable to determine if the bar chart should be stacked or not.
+	var isAnimate = false; // Variable to determine if the bar chart should be stacked or not.
 	var isPlay = false; // Variable to determine if the graph is playing or not.
 	var tableType = 1; // Determines the table being displayed
 	var mapb; // The selected SVG element, used in drawLine.
@@ -127,6 +128,7 @@
 	var updateColors =  function (){};
 	var getCountryName = function(){};
 	var togglecountry = function (){}; //Called on region select
+	var changeType = function (){};  // Caled to change the flowtype
 
 
 	//Helper methods to parse the time value:
@@ -139,7 +141,7 @@
 		return monthnames[monthnums[getcurrentMonth(currenttime)]]+" "+getcurrentYear(currenttime);
 	}
 	function getValueDisplay() {
-		return "Total " + currflowtypestring + " of $"+currdata["World"]+"mil USD.";
+		return "Total " + currflowtypestring + " of $"+currdata["World"]+" mil USD.";
 	}
 	
 	updateflowtypeString = function () {
@@ -155,7 +157,7 @@
 			mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8']);	
 		else if (currflowtype == "E")
 			mapObject.series.regions[0].setScale(['#fdfa8c','#ff9200']);	
-			else mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8', '#ff9200','#fdfa8c']); // balance
+			else mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8','#fdfa8c','#ff9200']); // balance
 	}
 
     jQuery.noConflict();
@@ -163,7 +165,8 @@
 		var $ = jQuery;
 		currdata = getcurrData(currenttime, currflowtype);
 
-		function changeType(typechng){
+		changeType = function(typechng){
+			console.log(typechng);
 			currflowtype = typechng; // defaults to visualizing trade balance until changed
 			updateColors(); // update map legend colors
 			updateflowtypeString();
@@ -237,11 +240,13 @@
 	jQuery(function() {
 		jQuery("#radio" ).buttonset();
 		jQuery( "#radio1" ).click(function() {
-			changeType("I");});
+			changeType("I");
+			console.log("import");});
 		jQuery( "#radio2" ).click(function() {
 			changeType("B");});
 		jQuery( "#radio3" ).click(function() {
 			changeType("E");});
+			
 		jQuery( "#beginning" ).button({
 		    text: false,
 		    icons: {primary: "ui-icon-seek-start"}
@@ -675,7 +680,12 @@
 	        	data-bootstro-width="400px" 
 	        	data-bootstro-placement='top' data-bootstro-step='3'>
 				<p>
-			    <div id="timedisplay"></div><div id="valuedisplay"></div>
+        <div id="datacontainer">
+			    <span id="timedisplay"></span><br><span id="valuedisplay"></span>
+          </div>
+          <div id="legend">
+          Derp
+          </div>
 				</p>
 					<div id="slider-range"></div>
 			      
@@ -789,7 +799,7 @@
 					},
 			        series: {
 			          regions: [{
-						scale: ['#d6e3ff', '#003eb8', '#ff9200','#fdfa8c'],	
+						scale: ['#d6e3ff', '#003eb8', '#fdfa8c','#ff9200'],	
 			            setNormalizeFunction: 'polynomial',
 			            values: currdata
 			        }]
