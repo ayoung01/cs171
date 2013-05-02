@@ -239,3 +239,19 @@ table {
   stroke: #000;
   shape-rendering: crispEdges;
 }
+
+#radio{
+	margin-top:5px;
+	display:inline-block;
+	margin-left:100px;
+	margin-right:50px;
+}
+
+#rewind{
+	margin-left:50px;
+}
+#mapcontrols
+{
+	margin-right:100px;
+	margin-top:5px;
+}
