@@ -100,7 +100,8 @@
 	var isStacked = true; // Variable to determine if the bar chart should be stacked or not.
 	var isAnimate = false; // Variable to determine if the bar chart should be stacked or not.
 	var isPlay = false; // Variable to determine if the graph is playing or not.
-	var tableType = "B"; // Determines the table being displayed
+	var tableType = "B"; // Determines the table being displayed. Starts out as net balance.
+
 	var mapb; // The selected SVG element, used in drawLine.
 	var lineChart;
 	var barChart;
@@ -194,6 +195,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 			mapObject.series.regions[0].setValues(currdata);
 			//jQuery( "#timedisplay" ).html(getDateDisplay);
 			jQuery("#valuedisplay" ).html(getValueDisplay);
+			tableType = typechng;
 			drawTable(typechng);
 		}
 
@@ -837,7 +839,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 					},
 			        series: {
 			          regions: [{
-						scale: ['#d6e3ff', '#003eb8', '#fdfa8c','#ff9200'],	
+						scale: ['#e7eeff', '#003eb8', '#fffed6','#ff9200'],	
 			            setNormalizeFunction: 'polynomial',
 			            values: currdata
 			        }]
