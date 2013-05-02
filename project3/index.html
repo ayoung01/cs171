@@ -90,21 +90,16 @@
 	var currenttime = 0; // current time value, from 0 [Jan 1992] to 25 [Dec 2012]
 	var currdata; //the encoded data to be used in the map shading and tooltips.
 	
-	/*
-	var lastsign; // stores the color code of the last line (0 being donor, 1 being receipient)
-	var lastwidth; //stores the width of the last line highlihgted
-	var lastcountryhighlihgt; // stores the country code of the last line*/
   	var data;
   	var colordata;
 	var donationdata;
 	var geographiccenters;
-	var drawLine; // Takes in two countries and draws a line between them.
-	var drawFlow; // Takes in two countries and draws a line between them.
 	var drawCountryFlows; //Takes in a country and draws all flows to/from the country
 	var mapObject;
 	var timeslider; 
 	var isStacked = true; // Variable to determine if the bar chart should be stacked or not.
 	var isPlay = false; // Variable to determine if the graph is playing or not.
+	var tableType = 1; // Determines the table being displayed
 	var mapb; // The selected SVG element, used in drawLine.
 	var lineChart;
 	var barChart;
@@ -156,386 +151,178 @@
 	}
 	
     jQuery.noConflict();
-    jQuery(function(){
-	var $ = jQuery;
-
-
-	
-  //============================================================
-  // Map Variables
-  //------------------------------------------------------------
-
-    $('#map1').vectorMap({
-        map: 'world_mill_en',
-		regionsSelectable:'true',
-		regionsSelectableOne:'true',
-		regionStyle: {
-			// changes the color of selected countries
-			selected: {
-				fill: "#ff8bec"
-			}
-		},
-		backgroundColor: '#fff'/*'#132131' '#003D1F'*/,
-		onViewportChange: function(e, s){},
-		onRegionSelected: function(e, c, s, sa){togglecountry(e,c,s,sa);},
-		focusOn: {
-          x: 0.5,
-          y: 0.5,
-          scale: 1
-        },
-		// onRegionOver: function(event, code){
-			// if(donationdata[currentcountry]!=undefined){
-			// 	if(donationdata[currentcountry][code]!=undefined)
-			// 	{
-			// 		highlightcolor=3;
-			// 		if(donationdata[currentcountry][code]>0){lastsign=1;}else{lastsign=0;highlightcolor=4;}
-			// 	if(donationdata[currentcountry][code]!=0)
-			// 	{drawFlow(currentcountry, code, getWidth(donationdata[currentcountry][code])+1, highlightcolor);}
-			// 	}
-			// }
-			// else if(recipientdata[currentcountry]!=undefined){
-			// 	if(recipientdata[currentcountry][code]!=undefined)
-			// 	{
-			// 		highlightcolor=4;
-			// 		if(recipientdata[currentcountry][code]>0){lastsign=0;}else{lastsign=1;highlightcolor=3;}
-			// 		if(recipientdata[currentcountry][code]!=0)
-			// 		{drawFlow(currentcountry, code, getWidth(recipientdata[currentcountry][code])+1, highlightcolor);}
-			// 	}
-			// }
-			
-		// },
-		onRegionOut:function(event, code){
-		},
-		onRegionLabelShow: function(event, label, code){
-			// if there is no selection or if the country mouseovered is the 'select' country
-			/*
-			if(currentcountry==undefined || currentcountry==code){ 
-				if(netodadata.net_oda[code]!=undefined)
-				{
-					label.html(''+label.html()+'<br>'+
-  					'Net ODA (to/from all countries):'+' $'+netodadata.net_oda[code]+' mil USD');
-				}
-			}			
-			if(donationdata[currentcountry]!=undefined){
-				if(donationdata[currentcountry][code]!=undefined)
-				{
-    				label.html(''+label.html()+'<br>'+
-      					'Net ODA provided by '+mapObject.mapData.paths[currentcountry].name+': $'+donationdata[currentcountry][code]+' mil USD');
-				}
-			}
-			if(recipientdata[currentcountry]!=undefined){
-				if(recipientdata[currentcountry][code]!=undefined)
-				{
-					label.html(''+label.html()+'<br>'+
-      					'Net ODA received from '+	label.html() + ': $'+recipientdata[currentcountry][code]+' mil USD');
-				}
-			}
-			*/	
-			if (code == "US"){}
-			else if (currdata[code]!= undefined)
-			{						
-				label.html(''+label.html()+'<br>'+
-      			'Net '+currflowtypestring +' with '+	label.html() + ': $'+currdata[code]+' mil USD');
-			}
-			else {
-			label.html(''+label.html()+'<br>'+
-      			'No data on '+currflowtypestring +' available.');				
-			}
-		},
-        series: {
-          regions: [{
-			scale: ['#d6e3ff', '#003eb8', '#ff9200','#fdfa8c'],	
-            setNormalizeFunction: 'polynomial',
-            values: currdata
-        }]
-        }
-	});
-
-	//get jVectorMap Object  
-	mapObject = $('#map1').vectorMap('get', 'mapObject');
-  
-	togglecountry=function(e, code, isSelected, selectedarray) {
-		// only do something if we select a different country
-		if (currentcountry != code) {
-			currentcountry=code;
-			console.log(currentcountry);
-			clearLineChart();
-			drawLineChart('chart2 svg');
-		}
-	}
-	
-  //============================================================
-  // Drawing Flow Lines
-  //------------------------------------------------------------
-
-	drawFlow = function(country2, width, colorcode,animation){
-		lat1 = geographiccenters["US"].Lat;
-		lng1 = geographiccenters["US"].Lng;
-		lat2 = geographiccenters[country2].Lat;
-		lng2 = geographiccenters[country2].Lng;
-
-		//Test if jvectormaps actually has this country.
-		if(mapObject.mapData.paths[country2].name!=undefined) {
-			drawLine(lat1,lng1,lat2,lng2, width,colorcode,animation);
-		}
-	}
-	
-	drawCountryFlows=function(flowtype, animation) {
-		var country;
-		var flowarray;
-		var factor; //negative factor to multiply for recipient array
-		if (donationdata[countrytag]==undefined) {
-			flowarray=recipientdata[countrytag];
-			factor=-1;
-		}
-		else {
-			flowarray = donationdata[countrytag];
-			factor=1;
-		}
-		/*
-	var temp = data[getcurrentYear(currenttime)][getcurrentMonth(currenttime)];
-	console.log(temp);
-
-
-		for(country in flowarray) {
-			try {
-				var flowval=flowarray[country]*factor;
-				if (flowval>0) {
-					drawFlow(countrytag, country, getWidth(flowval),1,animation); //draw donor lines
-				}
-				else {
-					drawFlow(countrytag, country, getWidth(flowval),0,animation); // draw recipient lines
-				}
-			}
-			catch(err){}
-		}*/
-	}
-	
-	function getWidth(flowval){
-		var flow= Math.abs(flowval);
-		if(flow<=5)
-		return .3;
-		else 
-		return logscale(flow);
-	}
-		/*function updateScale(){
-			if(currflowtype = "I")
-			{scale.domain([0, 40500]);}
-			else if (currflowtype = "E")
-			{scale.domain([0, 26500]);}
-			else if (currflowtype = "B")
-			{scale.domain([0, 30000]);}
-		}*/
-		
-	function clearLines() {
-		elemarray=document.getElementsByClassName("connection")
-		if(elemarray!=[])
-		{
-			while (elemarray.length>0)
-			{
-				elemarray[0].remove();
-			}
-		}
-	}
-	/*function redrawshading(){
-		$('#map1').vectorMap('set', 'values', currentdata);
-	}*/
-
-    $('#focus-current').click(function(){
-    	if (currentcountry != undefined) {
-        	$('#map1').vectorMap('set', 'focus', currentcountry);
-        }
-    });
-    $('#focus-init').click(function(){
-        $('#map1').vectorMap('set', 'focus', 1, 0, 0);
-		mapObject.clearSelected('regions');
-		currentcountry=undefined;
-    });
-
-	function clearBarChart() {
-		// saves the current state of the bar chart for continuity
-		isStacked = barChart.state().stacked;
-		$('#chart svg').empty();
-	}
-
-	function clearLineChart() {
-		$('#chart1 svg').empty();	
-	}
-
-	getCountryName = function(countrycode) {
-		return mapObject.mapData.paths[countrycode].name;
-	}
-
   //============================================================
   // Slider Stuff
   //------------------------------------------------------------
-	timeslider = jQuery( "#slider-range" ).slider({
-	     value:0,
+  	jQuery(function() {
+  		function sliderResponse() {
+  			clearBarChart();
+  			clearLineChart();
+  			clearTable();
+
+			drawBarChart('#chart svg');	
+			drawTable();
+			drawLineChart('#chart2 svg');
+  		}
+
+		timeslider = jQuery( "#slider-range" ).slider({
+		    value:0,
 			min: 0,
-      max: 251,
+	      	max: 251,
 			orientation: "horizontal",
-      range: "min",
-      animate: true,
-				      slide: function( event, ui ) {
-	      	currenttime = ui.value;
-	      	currdata=getcurrData(currenttime,currflowtype);	
-	      	jQuery( "#timedisplay" ).html(getDateDisplay);
-			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
-			clearBarChart();
-			drawBarChart('#chart svg');	
-			clearLineChart();
-			drawLineChart('#chart2 svg');
-		},
-	      change: function( event, ui ) {
-	      	currenttime = ui.value;
-	      	currdata=getcurrData(currenttime,currflowtype);	
-	      	jQuery( "#timedisplay" ).html(getDateDisplay);
-			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
-			clearBarChart();
-			drawBarChart('#chart svg');	
-			clearLineChart();
-			drawLineChart('#chart2 svg');
-		}
-	});
-	jQuery( "#timedisplay" ).html("January 1992"); // set the display intitially	
-			
-	//toolbar javascript:
-	jQuery(function() {
-	    jQuery( "#beginning" ).button({
-	      text: false,
-	      icons: {
-	        primary: "ui-icon-seek-start"
-	      }
-	    });
-	    jQuery( "#rewind" ).button({
-	      text: false,
-	      icons: {
-	        primary: "ui-icon-seek-prev"
-	      }
-	    }).click(function() {
-	      var options;
-	      if ( isPlay==false ) { //not currently playing
-					isPlay=true;
-					console.log("play mode");
-	        options = {
-	          label: "pause",
-	          icons: {
-	            primary: "ui-icon-pause"
-	          }
-	        }; // its currently playing
-	      } else {/*
-						isPlay=false;		
-						timeslider.slider("value", timeslider.slider("value")-1);
-					//	console.log("pause mode");
-	        options = {
-	          label: "play",
-	          icons: {
-	            primary: "ui-icon-play"
-	          }
-	        };*/	
-	      }
-	      jQuery("#play").button( "option", options );
-				playSliderreverse();
-	    });
-			
-	    jQuery( "#play" ).button({
-	      text: false,
-	      icons: {
-	        primary: "ui-icon-play"
-	      }
-	    })
-	    .click(function() {
-	      var options;
-	      if ( isPlay==false ) { //not currently playing
-					isPlay=true;
-					console.log("play mode");
-	        options = {
-	          label: "pause",
-	          icons: {
-	            primary: "ui-icon-pause"
-	          }
-	        }; // its currently playing
-	      } else {
-						isPlay=false;		
-						timeslider.slider("value", timeslider.slider("value")-1);
-					//	console.log("pause mode");
-	        options = {
-	          label: "play",
-	          icons: {
-	            primary: "ui-icon-play"
-	          }
-	        };	
-	      }
-	      jQuery( this ).button( "option", options );
-				playSlider();
-	    });
-	    jQuery( "#stop" ).button({
-	      text: false,
-	      icons: {
-	        primary: "ui-icon-stop"
-	      }
-	    })
-	    .click(function() {
-	      jQuery( "#play" ).button( "option", {
-	        label: "play",
-	        icons: {
-	          primary: "ui-icon-play"
-	        }
-	      });
-	    });
-	    jQuery( "#forward" ).button({
-	      text: false,
-	      icons: {
-	        primary: "ui-icon-seek-next"
-	      }
-	    }).click(function() {
-	      var options;
-	      if ( isPlay==false ) { //not currently playing
-					isPlay=true;
-					console.log("play mode");
-	        options = {
-	          label: "pause",
-	          icons: {
-	            primary: "ui-icon-pause"
-	          }
-	        }; // its currently playing
-	      } else {/*
-						isPlay=false;		
-						timeslider.slider("value", timeslider.slider("value")-1);
-					//	console.log("pause mode");
-	        options = {
-	          label: "play",
-	          icons: {
-	            primary: "ui-icon-play"
-	          }
-	        };*/	
-	      }
-	      jQuery("#play").button( "option", options );
-				playSliderfast();
-	    });
-	    jQuery( "#end" ).button({
-	      text: false,
-	      icons: {
-	        primary: "ui-icon-seek-end"
-	      }
-	    });
-	    jQuery( "#shuffle" ).button().click(function() {
-	     
-					timeslider.slider("value", 0);
-			 	  /*jQuery( "#play" ).button( "option", {
-	        label: "play",
-	        icons: {
-	          primary: "ui-icon-play"
-	        }
-	      });*/
-	    });
-	    jQuery( "#repeat" ).buttonset();
-	});
-	
-	
-	});
-	
-	 //============================================================
+	      	range: "min",
+	      	animate: true,
+			slide: function( event, ui ) {
+		      	currenttime = ui.value;
+		      	currdata=getcurrData(currenttime,currflowtype);	
+		      	jQuery( "#timedisplay" ).html(getDateDisplay);
+				mapObject.series.regions[0].setValues(currdata);//redrawshading();
+				sliderResponse();	
+			},
+		    change: function( event, ui ) {
+		      	currenttime = ui.value;
+		      	currdata=getcurrData(currenttime,currflowtype);	
+		      	jQuery( "#timedisplay" ).html(getDateDisplay);
+				mapObject.series.regions[0].setValues(currdata);//redrawshading();	
+				sliderResponse();
+			}
+		});
+		jQuery( "#timedisplay" ).html("January 1992"); // set the display intitially	
+				
+		//toolbar javascript:
+		jQuery(function() {
+		    jQuery( "#beginning" ).button({
+		      text: false,
+		      icons: {
+		        primary: "ui-icon-seek-start"
+		      }
+		    });
+		    jQuery( "#rewind" ).button({
+		      text: false,
+		      icons: {
+		        primary: "ui-icon-seek-prev"
+		      }
+		    }).click(function() {
+		      var options;
+		      if ( isPlay==false ) { //not currently playing
+						isPlay=true;
+						console.log("play mode");
+		        options = {
+		          label: "pause",
+		          icons: {
+		            primary: "ui-icon-pause"
+		          }
+		        }; // its currently playing
+		      } else {/*
+							isPlay=false;		
+							timeslider.slider("value", timeslider.slider("value")-1);
+						//	console.log("pause mode");
+		        options = {
+		          label: "play",
+		          icons: {
+		            primary: "ui-icon-play"
+		          }
+		        };*/	
+		      }
+		      jQuery("#play").button( "option", options );
+					playSliderreverse();
+		    });
+				
+		    jQuery( "#play" ).button({
+		      text: false,
+		      icons: {
+		        primary: "ui-icon-play"
+		      }
+		    })
+		    .click(function() {
+		      var options;
+		      if ( isPlay==false ) { //not currently playing
+						isPlay=true;
+						console.log("play mode");
+		        options = {
+		          label: "pause",
+		          icons: {
+		            primary: "ui-icon-pause"
+		          }
+		        }; // its currently playing
+		      } else {
+							isPlay=false;		
+							timeslider.slider("value", timeslider.slider("value")-1);
+						//	console.log("pause mode");
+		        options = {
+		          label: "play",
+		          icons: {
+		            primary: "ui-icon-play"
+		          }
+		        };	
+		      }
+		      jQuery( this ).button( "option", options );
+					playSlider();
+		    });
+		    jQuery( "#stop" ).button({
+		      text: false,
+		      icons: {
+		        primary: "ui-icon-stop"
+		      }
+		    })
+		    .click(function() {
+		      jQuery( "#play" ).button( "option", {
+		        label: "play",
+		        icons: {
+		          primary: "ui-icon-play"
+		        }
+		      });
+		    });
+		    jQuery( "#forward" ).button({
+		      text: false,
+		      icons: {
+		        primary: "ui-icon-seek-next"
+		      }
+		    }).click(function() {
+		      var options;
+		      if ( isPlay==false ) { //not currently playing
+						isPlay=true;
+						console.log("play mode");
+		        options = {
+		          label: "pause",
+		          icons: {
+		            primary: "ui-icon-pause"
+		          }
+		        }; // its currently playing
+		      } else {/*
+							isPlay=false;		
+							timeslider.slider("value", timeslider.slider("value")-1);
+						//	console.log("pause mode");
+		        options = {
+		          label: "play",
+		          icons: {
+		            primary: "ui-icon-play"
+		          }
+		        };*/	
+		      }
+		      jQuery("#play").button( "option", options );
+					playSliderfast();
+		    });
+		    jQuery( "#end" ).button({
+		      text: false,
+		      icons: {
+		        primary: "ui-icon-seek-end"
+		      }
+		    });
+		    jQuery( "#shuffle" ).button().click(function() {
+		     
+						timeslider.slider("value", 0);
+				 	  /*jQuery( "#play" ).button( "option", {
+		        label: "play",
+		        icons: {
+		          primary: "ui-icon-play"
+		        }
+		      });*/
+		    });
+		    jQuery( "#repeat" ).buttonset();
+		});
+	  });
+  //============================================================
   // Player Stuff
   //------------------------------------------------------------
 	
@@ -597,7 +384,7 @@
 		else {} //jQuery("#slider-range" ).slider('refresh');
 	};
 
-	  //============================================================
+  //============================================================
   // Bar Chart Stuff (adapted from nvd3.org)
   //------------------------------------------------------------
 
@@ -677,7 +464,6 @@
 		var year = getcurrentYear(currenttime);
 	  	var month = getcurrentMonth(currenttime);
 		nv.addGraph(function() {  
-		   console.log(currenttime);
 		   lineChart = nv.models.cumulativeLineChart(currenttime)
 		             .x(function(d) { return d[0] })
 		             .y(function(d) { return d[1]/100 })
@@ -745,13 +531,11 @@
 			key: "Imports",
 			values: importData
 		}
-		
 		]
 	}
 
 	// creates an array of all countries with currenttime
 	function generateTableData() {
-		console.log(data);
 		var tableData = [];
 		var year = getcurrentYear(currenttime);
 	  	var month = getcurrentMonth(currenttime);
@@ -786,17 +570,26 @@
 		return 0;
 	}
 
+	function compareByBalance(a, b) {
+		if (a[1]["B"] < b[1]["B"])
+			return -1;
+		if (a[1]["B"] > b[1]["B"])
+			return 1;
+		return 0;
+	}
+
 	jQuery(document).ready(function($) {
 		bootstro.start();
 		drawBarChart('#chart svg');
 		drawLineChart('#chart2 svg');
-		$('table.rankedList').tableSort( {
-			sortBy: ['text', 'numeric', 'numeric', 'numeric']
+		$("input[name='chartselection']").change(function() {
+			drawTable();
 		});
 	});
 
   </script>
 </head>
+
 <!--
   //============================================================
   // HTML
@@ -872,11 +665,27 @@
 	    		<svg></svg>
 	    	</div>
 	    </div>
+	    <label>
+			<br>
+			Get top ranked countries by:
+			<form>
+				<input type="radio" name="chartselection" id="imports" value="imports" checked>Imports&nbsp
+				<input type="radio" name="chartselection" id="exports" value="exports">Exports&nbsp
+				<input type="radio" name="chartselection" id="balance" value="balance">Balance&nbsp
+			</form>
+		</label>
 	    <div id='tablecontainer'>
+	    	<div class = 'bootstro'
+				data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
+	        	data-bootstro-width="400px" 
+	        	data-bootstro-placement='top' data-bootstro-step='5'>
 	    	<script>
-    		  //============================================================
-			  // Load External JSON
-			  //------------------------------------------------------------
+    		  	var $ = jQuery;
+
+  //============================================================
+  // Load External JSON
+  //------------------------------------------------------------
+
 				data = JSON.parse(country_data);
 				by_use = JSON.parse(by_use);
 				goods_vs_services = JSON.parse(goods_vs_services);
@@ -891,43 +700,151 @@
 					var tmp={};
 					var tarray = data[getcurrentYear(timeval)][getcurrentMonth(timeval)];
 					for(country in tarray) {
-						//try {
-							var flowval=tarray[country][flowtypeval];
-							tmp[country]=flowval;
-						//}
-						//catch(err){}
+						var flowval=tarray[country][flowtypeval];
+						tmp[country]=flowval;
 					}
 					return tmp;
 				}
 
-	    		var listByImports = generateTableData().sort(compareByImports).reverse();
-	    		var listByExports = generateTableData().sort(compareByExports).reverse();
-	    		console.log(listByImports);
+  //============================================================
+  // Map Variables
+  //------------------------------------------------------------
 
-	    		var table ="<table id=\"newspaper-a\" class = \"rankedList\" summary=\"Top Ranked Countries\">";
-	    		var row = 0;
-	    		table += "<thead><tr><th scope=\"col\">Country</th><th scope=\"col\">Imports</th><th scope=\"col\">Exports</th><th scope=\"col\">Balance</th></tr></thead><tbody><tr>"
-	    		for (var row = 1; row <= 10; row++) {
-				 	table += "</tr><tr>";
-				 	var nextCountry = listByImports.shift();
+  				// initialize map
+			    $('#map1').vectorMap({
+			        map: 'world_mill_en',
+					regionsSelectable:'true',
+					regionsSelectableOne:'true',
+					regionStyle: {
+						// changes the color of selected countries
+						selected: {
+							fill: "#ff8bec"
+						}
+					},
+					backgroundColor: '#fff'/*'#132131' '#003D1F'*/,
+					onViewportChange: function(e, s){},
+					onRegionSelected: function(e, c, s, sa){togglecountry(e,c,s,sa);},
+					focusOn: {
+			          x: 0.5,
+			          y: 0.5,
+			          scale: 1
+			        },
+					onRegionLabelShow: function(event, label, code){
+						if (code == "US"){}
+						else if (currdata[code]!= undefined)
+						{						
+							label.html(''+label.html()+'<br>'+
+			      			'Net '+currflowtypestring +' with '+	label.html() + ': $'+currdata[code]+' mil USD');
+						}
+						else {
+						label.html(''+label.html()+'<br>'+
+			      			'No data on '+currflowtypestring +' available.');				
+						}
+					},
+			        series: {
+			          regions: [{
+						scale: ['#d6e3ff', '#003eb8', '#ff9200','#fdfa8c'],	
+			            setNormalizeFunction: 'polynomial',
+			            values: currdata
+			        }]
+			        }
+				});
 
-			 		// TODO: Need to change country code into name
-				 	var countryCode = nextCountry[0];
-				 	var importval = "$" + nextCountry[1]["I"] + "mil USD";
-				 	var exportval = "$" + nextCountry[1]["E"] + "mil USD";
-				 	var balanceval = "$" + nextCountry[1]["B"] + "mil USD";
-
-				 	table += "<td>" + countryCode + "</td>";
-				 	table += "<td>" + importval + "</td>";
-				 	table += "<td>" + exportval + "</td>";
-				 	table += "<td>" + balanceval + "</td>";
-
+				//get jVectorMap Object  
+				mapObject = $('#map1').vectorMap('get', 'mapObject');
+			  
+				togglecountry=function(e, code, isSelected, selectedarray) {
+					// only do something if we select a different country
+					if (currentcountry != code) {
+						currentcountry=code;
+						clearLineChart();
+						drawLineChart('chart2 svg');
+					}
 				}
 
-				table += "</tr></tbody></table>";
-				document.write(table);
+			    $('#focus-current').click(function(){
+			    	if (currentcountry != undefined) {
+			        	$('#map1').vectorMap('set', 'focus', currentcountry);
+			        }
+			    });
+			    $('#focus-init').click(function(){
+			        $('#map1').vectorMap('set', 'focus', 1, 0, 0);
+					mapObject.clearSelected('regions');
+					currentcountry=undefined;
+			    });
+
+				function clearBarChart() {
+					// saves the current state of the bar chart for continuity
+					isStacked = barChart.state().stacked;
+					$('#chart svg').empty();
+				}
+
+				function clearLineChart() {
+					$('#chart1 svg').empty();	
+				}
+
+				function clearTable() {
+					$('tablecontainer').empty();
+				}
+
+				getCountryName = function(countrycode) {
+					return mapObject.mapData.paths[countrycode].name;
+				}
+
+				// @param type (1 : top imports) (2: top exports) (3: top balance)
+				function drawTable() {
+					var listByType;
+					var checked = $('input[name=chartselection]:radio:checked').val();
+
+					if (checked == "imports") {
+						listByType = generateTableData().sort(compareByImports).reverse();
+					}
+					else if (checked == "exports") {
+						listByType = generateTableData().sort(compareByExports).reverse();
+					}
+					else {
+						listByType = generateTableData().sort(compareByBalance).reverse();
+					}
+		    		var table ="<table id=\"newspaper-a\" class = \"rankedList\" summary=\"Top Ranked Countries\">";
+		    		var row = 0;
+		    		table += "<thead><tr><th scope=\"col\">Rank</th><th scope=\"col\">Country</th><th scope=\"col\">Imports</th><th scope=\"col\">Exports</th><th scope=\"col\">Balance</th></tr></thead><tbody><tr>"
+		    		for (var row = 1; row <= 10; row++) {
+					 	table += "</tr><tr>";
+					 	var nextCountry = listByType.shift();
+
+				 		try {
+					 		var countryCode = getCountryName(nextCountry[0]);
+					 	}
+					 	catch(err) {
+					 		if (nextCountry[0] == "SG") {
+					 			var countryCode = "Singapore"
+					 		}
+					 		else {
+					 			var countryCode = nextCountry[0];
+					 		}
+					 	}
+					 	var importval = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
+					 	var exportval = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
+					 	var balanceval = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
+
+					 	table += "<td>" + row + "</td>";
+					 	table += "<td>" + countryCode + "</td>";
+					 	table += "<td>" + importval + "</td>";
+					 	table += "<td>" + exportval + "</td>";
+					 	table += "<td>" + balanceval + "</td>";
+					}
+
+					table += "</tr></tbody></table>";
+					$(tablecontainer).html(table);
+					$('table.rankedList').tableSort( {
+						sortBy: ['numeric', 'text', 'numeric', 'numeric', 'numeric']
+					});
+				}
+				drawTable();
 			</script>
+			</div><!-- End bootstro -->
 	    </div>
+	    <!-- End tablecontainer -->
   	</div> <!-- End wrapper -->
   	<div id="footer">
   		<div id="footerbody">
@@ -935,10 +852,5 @@
 		</div>
     </div>
 </div><!-- End pagebackground-->
-
-<script>
-
-
-</script>  
 </body>
 </html>
