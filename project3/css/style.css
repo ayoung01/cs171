@@ -38,7 +38,7 @@ body {
     margin-left:auto;
     margin-right:auto;
     width:1366px;
-    /*height:868px;*/
+    height:868px;
 }
 
 #headerbar{
@@ -72,6 +72,16 @@ body {
 	/*border: 1px solid #CCC;*/
 }
 
+#containertop {
+	height:595px;
+}
+
+#containerbot {
+	height:440px;
+	width: 920px;
+	float: left;
+}
+
 #chartwrapper{
 	width: 305px;
 	float: left;
@@ -91,12 +101,12 @@ body {
 	display:block;
 }
 
-
 #chart2 {
 	display:block;
-	clear: both;
-	height: 500px;
+	float: left;
+	height: 440px;
 	padding-top: 12px;
+	width: 895px;
 }
 
 text {
@@ -112,6 +122,8 @@ textarea {
 	clear: none;
 	float: left;
 	padding-left: 46px;
+	padding-bottom:8px;
+	width:100%;
 	/*margin-top: -20px;*/
 }
 
@@ -160,7 +172,7 @@ label {
 #slider-range{
 	margin-top:0px;
 	margin-left: 8px;
-	width:1280px;
+	width:820px;
 }
 
 h1 {
@@ -202,6 +214,10 @@ span {
 	color: #111;
 }
 
+#tablecontainer{
+	float:left;
+}
+
 #videodesc{
 	margin-left:15px;
 }
@@ -213,11 +229,15 @@ span {
 
 #toolbar {
 	padding: 4px;
+	z-index: 10000;
 }
 /* support: IE7 */
 *+html #toolbar {
 	display: inline;
 }
+<<<<<<< HEAD
+
+=======
 /*
 .rankedList {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -252,6 +272,7 @@ svg text {
 	margin-left:80px;
 	display:inline-block;
 }
+>>>>>>> 21403f113f339669727b0a61007f5ec3b06a50d2
 .axis path,
 .axis line {
   fill: none;
