@@ -2879,7 +2879,7 @@ nv.models.discreteBarChart = function() {
       g.select('.nv-x.nv-axis')
           .attr('transform', 'translate(0,' + (y.range()[0] + ((discretebar.showValues() && y.domain()[0] < 0) ? 16 : 0)) + ')');
       //d3.transition(g.select('.nv-x.nv-axis'))
-      g.select('.nv-x.nv-axis').transition().duration(250)
+      g.select('.nv-x.nv-axis').transition().duration(0)
           .call(xAxis);
 
 
@@ -6483,7 +6483,7 @@ nv.models.multiBarChart = function(isStacked) {
     ;
   yAxis
     .orient('left')
-    .tickFormat(d3.format(',.1f'))
+    .tickFormat(d3.format('r'))
     ;
 
   //============================================================
@@ -6516,7 +6516,7 @@ nv.models.multiBarChart = function(isStacked) {
           availableHeight = (height || parseInt(container.style('height')) || 400)
                              - margin.top - margin.bottom;
 
-      chart.update = function() { selection.transition().duration(50).call(chart) };
+      chart.update = function() { selection.transition().call(chart) };
       chart.container = this;
 
       //set state.disabled
@@ -6646,7 +6646,7 @@ nv.models.multiBarChart = function(isStacked) {
       var barsWrap = g.select('.nv-barsWrap')
           .datum(data.filter(function(d) { return !d.disabled }))
 
-      d3.transition(barsWrap).duration(450).call(multibar);
+      d3.transition(barsWrap).call(multibar);
 
       //------------------------------------------------------------
 
@@ -6662,7 +6662,7 @@ nv.models.multiBarChart = function(isStacked) {
       g.select('.nv-x.nv-axis')
           .attr('transform', 'translate(0,' + y.range()[0] + ')');
       d3.transition(g.select('.nv-x.nv-axis'))
-          .duration(250).call(xAxis);
+          .call(xAxis);
 
       var xTicks = g.select('.nv-x.nv-axis > g').selectAll('g');
 
@@ -6693,7 +6693,7 @@ nv.models.multiBarChart = function(isStacked) {
         .tickSize( -availableWidth, 0);
 
       d3.transition(g.select('.nv-y.nv-axis'))
-          .duration(250).call(yAxis);
+          .call(yAxis);
 
       //------------------------------------------------------------
 
@@ -12106,7 +12106,7 @@ nv.models.stackedAreaChart = function() {
           .attr('transform', 'translate(0,' + availableHeight + ')');
       //d3.transition(g.select('.nv-x.nv-axis'))
       g.select('.nv-x.nv-axis')
-        .transition().duration(250)
+        .transition().duration(0)
           .call(xAxis);
 
       yAxis
@@ -12117,7 +12117,7 @@ nv.models.stackedAreaChart = function() {
 
       //d3.transition(g.select('.nv-y.nv-axis'))
       g.select('.nv-y.nv-axis')
-        .transition().duration(250)
+        .transition().duration(0)
           .call(yAxis);
 
       //------------------------------------------------------------

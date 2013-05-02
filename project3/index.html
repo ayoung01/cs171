@@ -69,6 +69,10 @@
   <link rel="stylesheet" href="css/tsort.css" type="text/css"/>
   <link rel="stylesheet" href="css/table.css" type="text/css"/>
 
+  <!-- Import PrettyPhoto lightbox-->
+  <link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
+  <script src="js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
+
   <!-- import JSON data -->
   <script src="js/assets/data.js"></script>
 
@@ -145,10 +149,10 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 					
 	// returns currenttime formatted as 'January 1992'
 	function getDateDisplay() {
-		return monthnames[monthnums[getcurrentMonth(currenttime)]]+" "+getcurrentYear(currenttime) + ": " + getCountryName(currentcountry);
+		return monthnames[monthnums[getcurrentMonth(currenttime)]]+" "+getcurrentYear(currenttime) + "- Selected Country: " + getCountryName(currentcountry);
 	}
 	function getValueDisplay() {
-		return "World " + currflowtypestring + " of $"+currdata["World"]+" mil USD.";
+		return "Total world " + currflowtypestring + " of $"+currdata["World"]+" mil USD.";
 	}
 	
 	updateflowtypeString = function () {
@@ -251,8 +255,8 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 				sliderResponse();
 			}
 		});
-		jQuery( "#timedisplay" ).html("January 1992: Canada"); // set the display intitially	
-		jQuery( "#valuedisplay" ).html("Total " + currflowtypestring + " of $"+currdata["World"]+"mil USD.");
+		jQuery( "#timedisplay" ).html("January 1992 - Selected Country: Canada"); // set the display intitially	
+		jQuery( "#valuedisplay" ).html("Total world " + currflowtypestring + " of $"+currdata["World"]+"mil USD.");
 	});
 
 	//============================================================
@@ -656,6 +660,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 			console.log("YAY I'm clicked");
 		    bootstro.start();    
 		});
+		$("a[rel^='prettyPhoto']").prettyPhoto();
 	});
 
   </script>
@@ -677,7 +682,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 	        	data-bootstro-placement='bottom' data-bootstro-step='0'>
 	        	</div>
 				<img src ="images/Header.png">
-				<a href="#video"style="text-decoration:none"><div class="headerlinks">VIDEO</div></a>
+				<a href="http://www.youtube.com/watch?v=kh29_SERH0Y?rel=0" style="text-decoration:none" rel="prettyPhoto" title="demo video"><div class="headerlinks">VIDEO</div></a>
 				<a href="#demo"style="text-decoration:none"><div id="demo">DEMO</div></a>
 				<a href="#processbook" style="text-decoration:none"><div class="headerlinks processbook">PROCESS BOOK</div></a>
 			</div>

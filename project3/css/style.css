@@ -143,7 +143,7 @@ body {
 	float: left;
 	height: 440px;
 	padding-top: 12px;
-	width: 895px;
+	width: 915px;
 }
 
 text {
@@ -257,13 +257,12 @@ span {
 	height:408px;
 }
 
-#videodesc{
-	margin-left:15px;
+.pp_details {
+	display:none;
 }
 
-#video {
-	margin:15px auto;
-	text-align:center;
+.pp_content{
+	background-color: transparent !important;
 }
 
 #toolbar {
