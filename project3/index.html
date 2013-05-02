@@ -100,7 +100,7 @@
 	var isStacked = true; // Variable to determine if the bar chart should be stacked or not.
 	var isAnimate = false; // Variable to determine if the bar chart should be stacked or not.
 	var isPlay = false; // Variable to determine if the graph is playing or not.
-	var tableType = 1; // Determines the table being displayed
+	var tableType = "B"; // Determines the table being displayed
 	var mapb; // The selected SVG element, used in drawLine.
 	var lineChart;
 	var barChart;
@@ -185,6 +185,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 
 		changeType = function(typechng){
 			console.log(typechng);
+			tableType = typechng;
 			currflowtype = typechng; // defaults to visualizing trade balance until changed
 			updateColors(); // update map legend colors
 			updateLegend();
@@ -220,7 +221,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
   			clearTable();
 
 			drawBarChart('#chart svg');	
-			drawTable();
+			drawTable(tableType);
 			drawLineChart('#chart2 svg');
   		}
 
@@ -647,7 +648,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 		drawBarChart('#chart svg');
 		drawLineChart('#chart2 svg');
 		$("input[name='chartselection']").change(function() {
-			drawTable();
+			drawTable(tableType);
 		});
 		$("#demo").click(function(){
 			console.log("YAY I'm clicked");
@@ -676,7 +677,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 				<img src ="images/Header.png">
 				<a href="#video"style="text-decoration:none"><div class="headerlinks">VIDEO</div></a>
 				<a href="#demo"style="text-decoration:none"><div id="demo">DEMO</div></a>
-				<a href="#processbook" style="text-decoration:none"><div class="headerlinks processbook">PROCESSBOOK</div></a>
+				<a href="#processbook" style="text-decoration:none"><div class="headerlinks processbook">PROCESS BOOK</div></a>
 			</div>
 
 		</div>
@@ -948,14 +949,16 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 						sortBy: ['numeric', 'text', 'numeric']
 					});
 				}
-				drawTable("B");
+				drawTable(tableType);
 			</script>
 			</div><!-- End tablecontainer -->
 	    </div><!-- End bootstro -->
 	</div> <!-- End wrapper -->
   	<div id="footer">
   		<div id="footerbody">
-			<span>Data Source: U.S. Census Bureau | Powered by JVectorMap and NVD3.js</span>
+			<span>Data Source: U.S. Census Bureau | Charts inspired by NVD3.js | Map inspired by jVectorMap</span><br>
+			<span style="color:#444">Novus Partners (2012) <a href="nvd3.org">NVD3.js</a>. Accessed Apr 29, 2013.</span><br>
+			<span style="color:#444">Lebedev, Kirill (2012) <a href="http://jvectormap.com/">jVectorMap</a>. Accessed Apr 1, 2013.</span >
 		</div>
     </div>
 </div><!-- End pagebackground-->

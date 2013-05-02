@@ -62,7 +62,7 @@ body {
 .headerlinks {
 	color: #AAA;
 	position:relative;
-	left:600px;
+	left:500px;
 	font-size:20px;
 	display:inline;
 	border-left: 1px solid #333;
@@ -74,7 +74,7 @@ body {
 #demo {
 	color: #AAA;
 	position:relative;
-	left:600px;
+	left:500px;
 	font-size:20px;
 	display:inline;
 	border-left: 1px solid #333;
@@ -248,7 +248,7 @@ h3 {
 span {
 /*	font-size: 0.6em;*/
 	/*font-style: italic;*/
-	color: #111;
+	color: #aaa;
 }
 
 #tablecontainer{
