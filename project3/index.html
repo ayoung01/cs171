@@ -123,8 +123,8 @@
 	var getcurrentYear=function(){};
 	var getcurrentMonth=function(){};
 	var getcurrentMonthname=function(){};
-	var updateflowtypeString =  function (){};
-
+	var updateflowtypeString =  function (){}
+	var updateColors =  function (){};
 	var getCountryName = function(){};
 
 	var togglecountry = function (){}; //Called on region select
@@ -139,18 +139,61 @@
 	function getDateDisplay() {
 		return monthnames[monthnums[getcurrentMonth(currenttime)]]+" "+getcurrentYear(currenttime);
 	}
-
-	updateflowtypeString = function () {
-		var flowtypestring;
-		if (currflowtype == "I")
-			flowtypestring = "imports";
-		else if (currflowtype == "E")
-			flowtypestring = "exports";
-		else flowtypestring = "trade balance";
-		return flowtypestring;						
+	function getValueDisplay() {
+		return "Total " + currflowtypestring + " of $"+currdata["World"]+"mil USD.";
 	}
 	
+	updateflowtypeString = function () {
+		if (currflowtype == "I")
+			currflowtypestring = "imports";
+		else if (currflowtype == "E")
+			currflowtypestring = "exports";
+		else currflowtypestring = "trade balance";
+	}
+	
+		updateColors = function () {
+		if (currflowtype == "I")
+			mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8']);	
+		else if (currflowtype == "E")
+			mapObject.series.regions[0].setScale(['#fdfa8c','#ff9200']);	
+			else mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8', '#ff9200','#fdfa8c']); // balance
+	}
+	
+	
+
+
     jQuery.noConflict();
+<<<<<<< HEAD
+=======
+    jQuery(function(){
+	var $ = jQuery;
+
+	currdata = getcurrData(currenttime, currflowtype);
+
+function changeType(typechng){
+		currflowtype = typechng; // defaults to visualizing trade balance until changed
+		updateColors(); // update map legend colors
+		updateflowtypeString();
+		currdata=getcurrData(currenttime,currflowtype);	//the encoded data to be used in the map shading and tooltips.
+		mapObject.series.regions[0].setValues(currdata);
+		//jQuery( "#timedisplay" ).html(getDateDisplay);
+		jQuery("#valuedisplay" ).html(getValueDisplay);
+	}
+
+	function getcurrData(timeval, flowtypeval){
+		var tmp={};
+		var tarray = data[getcurrentYear(timeval)][getcurrentMonth(timeval)];
+		for(country in tarray) {
+			//try {
+				var flowval=tarray[country][flowtypeval];
+				tmp[country]=flowval;
+			//}
+			//catch(err){}
+		}
+		return tmp;
+	}
+	
+>>>>>>> 8dd5d55ef1e886748ed3077a25826475a35e07c9
   //============================================================
   // Slider Stuff
   //------------------------------------------------------------
@@ -170,6 +213,7 @@
 			min: 0,
 	      	max: 251,
 			orientation: "horizontal",
+<<<<<<< HEAD
 	      	range: "min",
 	      	animate: true,
 			slide: function( event, ui ) {
@@ -323,6 +367,184 @@
 		});
 	  });
   //============================================================
+=======
+      range: "min",
+      animate: true,
+				      slide: function( event, ui ) {
+	      	currenttime = ui.value;
+	      	currdata=getcurrData(currenttime,currflowtype);	
+	      	jQuery( "#timedisplay" ).html(getDateDisplay);
+					jQuery( "#valuedisplay" ).html(getValueDisplay);
+			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
+			clearBarChart();
+			drawBarChart('#chart svg');	
+			clearLineChart();
+			drawLineChart('#chart2 svg');
+		},
+	      change: function( event, ui ) {
+	      	currenttime = ui.value;
+	      	currdata=getcurrData(currenttime,currflowtype);	
+	      	jQuery( "#timedisplay" ).html(getDateDisplay);
+					jQuery( "#valuedisplay" ).html(getValueDisplay);
+			mapObject.series.regions[0].setValues(currdata);//redrawshading();	
+			clearBarChart();
+			drawBarChart('#chart svg');	
+			clearLineChart();
+			drawLineChart('#chart2 svg');
+		}
+	});
+	jQuery( "#timedisplay" ).html("January 1992"); // set the display intitially	
+	jQuery( "#valuedisplay" ).html("Total " + currflowtypestring + " of $"+currdata["World"]+"mil USD.");
+	//============================================================
+  // Toolbar Stuff
+  //------------------------------------------------------------
+	
+	
+	jQuery(function() {
+		jQuery( "#radio" ).buttonset();
+jQuery( "#radio1" ).click(function() {
+	changeType("I");});
+	jQuery( "#radio2" ).click(function() {
+	changeType("B");});
+	jQuery( "#radio3" ).click(function() {
+	changeType("E");});
+		
+	    jQuery( "#beginning" ).button({
+	      text: false,
+	      icons: {
+	        primary: "ui-icon-seek-start"
+	      }
+	    });
+	    jQuery( "#rewind" ).button({
+	      text: false,
+	      icons: {
+	        primary: "ui-icon-seek-prev"
+	      }
+	    }).click(function() {
+	      var options;
+	      if ( isPlay==false ) { //not currently playing
+					isPlay=true;
+					console.log("play mode");
+	        options = {
+	          label: "pause",
+	          icons: {
+	            primary: "ui-icon-pause"
+	          }
+	        }; // its currently playing
+	      } else {/*
+						isPlay=false;		
+						timeslider.slider("value", timeslider.slider("value")-1);
+					//	console.log("pause mode");
+	        options = {
+	          label: "play",
+	          icons: {
+	            primary: "ui-icon-play"
+	          }
+	        };*/	
+	      }
+	      jQuery("#play").button( "option", options );
+				playSliderreverse();
+	    });
+			
+	    jQuery( "#play" ).button({
+	      text: false,
+	      icons: {
+	        primary: "ui-icon-play"
+	      }
+	    })
+	    .click(function() {
+	      var options;
+	      if ( isPlay==false ) { //not currently playing
+					isPlay=true;
+					console.log("play mode");
+	        options = {
+	          label: "pause",
+	          icons: {
+	            primary: "ui-icon-pause"
+	          }
+	        }; // its currently playing
+	      } else {
+						isPlay=false;		
+						timeslider.slider("value", timeslider.slider("value")-1);
+					//	console.log("pause mode");
+	        options = {
+	          label: "play",
+	          icons: {
+	            primary: "ui-icon-play"
+	          }
+	        };	
+	      }
+	      jQuery( this ).button( "option", options );
+				playSlider();
+	    });
+	    jQuery( "#stop" ).button({
+	      text: false,
+	      icons: {
+	        primary: "ui-icon-stop"
+	      }
+	    })
+	    .click(function() {
+	      jQuery( "#play" ).button( "option", {
+	        label: "play",
+	        icons: {
+	          primary: "ui-icon-play"
+	        }
+	      });
+	    });
+	    jQuery( "#forward" ).button({
+	      text: false,
+	      icons: {
+	        primary: "ui-icon-seek-next"
+	      }
+	    }).click(function() {
+	      var options;
+	      if ( isPlay==false ) { //not currently playing
+					isPlay=true;
+					console.log("play mode");
+	        options = {
+	          label: "pause",
+	          icons: {
+	            primary: "ui-icon-pause"
+	          }
+	        }; // its currently playing
+	      } else {/*
+						isPlay=false;		
+						timeslider.slider("value", timeslider.slider("value")-1);
+					//	console.log("pause mode");
+	        options = {
+	          label: "play",
+	          icons: {
+	            primary: "ui-icon-play"
+	          }
+	        };*/	
+	      }
+	      jQuery("#play").button( "option", options );
+				playSliderfast();
+	    });
+	    jQuery( "#end" ).button({
+	      text: false,
+	      icons: {
+	        primary: "ui-icon-seek-end"
+	      }
+	    });
+	    jQuery( "#shuffle" ).button().click(function() {
+	     
+					timeslider.slider("value", 0);
+			 	  /*jQuery( "#play" ).button( "option", {
+	        label: "play",
+	        icons: {
+	          primary: "ui-icon-play"
+	        }
+	      });*/
+	    });
+	    jQuery( "#repeat" ).buttonset();
+	});
+	
+	
+	});
+	
+	 //============================================================
+>>>>>>> 8dd5d55ef1e886748ed3077a25826475a35e07c9
   // Player Stuff
   //------------------------------------------------------------
 	
@@ -636,13 +858,19 @@
 	        	data-bootstro-width="400px" 
 	        	data-bootstro-placement='top' data-bootstro-step='3'>
 				<p>
-			    <div id="timedisplay"></div>
+			    <div id="timedisplay"></div><div id="valuedisplay"></div>
 				</p>
 					<div id="slider-range"></div>
 			      
 			      	<!-- taken from http://jqueryui.com/button/#toolbar -->
 			      	<div id="toolbar" class="ui-widget-header ui-corner-all">
 					    <!--<button id="beginning">go to beginning</button>-->
+               <div id="radio">
+    <input type="radio" id="radio1" name="radio" /><label for="radio1">Imports</label>
+    <input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Net Balance</label>
+    <input type="radio" id="radio3" name="radio" /><label for="radio3">Exports</label>
+  </div>
+  
 					    <button id="rewind">rewind</button>
 					  	<button id="play">play</button>
 					    <!--<button id="stop">stop</button>-->
@@ -818,6 +1046,9 @@
 					 	catch(err) {
 					 		if (nextCountry[0] == "SG") {
 					 			var countryCode = "Singapore"
+					 		}
+					 		else if (nextCountry[0] == "HK") {
+					 			var countryCode = "Hong Kong"
 					 		}
 					 		else {
 					 			var countryCode = nextCountry[0];
