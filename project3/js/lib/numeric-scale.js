@@ -67,9 +67,9 @@ jvm.NumericScale.prototype = {
 			
 			var minlimit = 	30000;  // the negative limit
 			var maxlimit = 34835;
-			var minscale=Math.log(minlimit);
+			var negscale=Math.log(minlimit);
 			var maxscale=Math.log(maxlimit);
-	console.log(minscale);
+	console.log(negscale);
 	console.log(maxscale);
 					
 		if (value>=0)
@@ -90,8 +90,8 @@ jvm.NumericScale.prototype = {
 			else{value=Math.log(value);}
 			scaletemp=[this.scale[2],this.scale[3]];
 		value=value;
-		minV=minscale;
-		maxV=0;}
+		minV=0;
+		maxV=negscale;}
 		//if the value is greater than zero, use the last two scale values on the negated value
 		//console.log(scaletemp);
 		//console.log(value);
