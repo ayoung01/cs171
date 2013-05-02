@@ -144,10 +144,10 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 					
 	// returns currenttime formatted as 'January 1992'
 	function getDateDisplay() {
-		return monthnames[monthnums[getcurrentMonth(currenttime)]]+" "+getcurrentYear(currenttime);
+		return monthnames[monthnums[getcurrentMonth(currenttime)]]+" "+getcurrentYear(currenttime) + ": " + getCountryName(currentcountry);
 	}
 	function getValueDisplay() {
-		return "Total " + currflowtypestring + " of $"+currdata["World"]+" mil USD.";
+		return "World " + currflowtypestring + " of $"+currdata["World"]+" mil USD.";
 	}
 	
 	updateflowtypeString = function () {
@@ -248,7 +248,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 				sliderResponse();
 			}
 		});
-		jQuery( "#timedisplay" ).html("January 1992"); // set the display intitially	
+		jQuery( "#timedisplay" ).html("January 1992: Canada"); // set the display intitially	
 		jQuery( "#valuedisplay" ).html("Total " + currflowtypestring + " of $"+currdata["World"]+"mil USD.");
 	});
 
@@ -649,6 +649,10 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 		$("input[name='chartselection']").change(function() {
 			drawTable();
 		});
+		$("#demo").click(function(){
+			console.log("YAY I'm clicked");
+		    bootstro.start();    
+		});
 	});
 
   </script>
@@ -670,9 +674,9 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 	        	data-bootstro-placement='bottom' data-bootstro-step='0'>
 	        	</div>
 				<img src ="images/Header.png">
-				<div class="headerlinks">
-					VIDEO
-				</div>
+				<a href="#video"style="text-decoration:none"><div class="headerlinks">VIDEO</div></a>
+				<a href="#demo"style="text-decoration:none"><div id="demo">DEMO</div></a>
+				<a href="#processbook" style="text-decoration:none"><div class="headerlinks processbook">PROCESSBOOK</div></a>
 			</div>
 
 		</div>
@@ -689,65 +693,67 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 	        
 		    <div id="chartwrapper">
 			    <div class = 'bootstro'
-					data-bootstro-content="View the imports and exports of goods by principal end-use category. Filter by category or switch between stacked and grouped views."
+					data-bootstro-content="View the imports and exports of goods by principal end-use category. Click on the legend to filter by category or switch between stacked and grouped views."
 		        	data-bootstro-width="400px" 
 		        	data-bootstro-placement='left' data-bootstro-step='2'>
 			        <div id="chart">
-			        	<div class="charttitle">US Imports and Exports By Use</div>
+			        	<div class="charttitle">U.S. Imports and Exports by Principal End-Use</div>
 		    			<svg></svg>
 		    		</div>
 		        </div>
 		    </div>
 		</div>
 	   	<div id="timeline">
-	    	<div class = 'bootstro'
-				data-bootstro-content="Press play to see the progression of foreign trade flows through the years."
+			<p>
+        	<div id="datacontainer">
+			    <span id="timedisplay"></span><br><span id="valuedisplay"></span>
+          		</div>
+          		<div id="legend"></div></p>
+				<div class = 'bootstro'
+				data-bootstro-content="Drag the slider to change the current month."
 	        	data-bootstro-width="400px" 
 	        	data-bootstro-placement='top' data-bootstro-step='3'>
-				<p>
-        <div id="datacontainer">
-			    <span id="timedisplay"></span><br><span id="valuedisplay"></span>
-          </div>
-          <div id="legend">
-          </div>
-				</p>
-				<div id="slider-range"></div>
-			      
+					<div id="slider-range"></div>
+			    </div>
 		      	<!-- taken from http://jqueryui.com/button/#toolbar -->
-		      	<div id="toolbar" class="ui-widget-header ui-corner-all">
-			    <!--<button id="beginning">go to beginning</button>-->
-	               	<div id="radio">
-					    <input type="radio" id="radio1" name="radio" /><label for="radio1">Imports</label>
-					    <input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Net Balance</label>
-					    <input type="radio" id="radio3" name="radio" /><label for="radio3">Exports</label>
-					</div>
-	  
-				    <button id="rewind">rewind</button>
-				  	<button id="play">play</button>
-				    <!--<button id="stop">stop</button>-->
-				    <button id="forward">fast forward</button>
-				    <!--<button id="end">go to end</button>-->
-
-				    <button id="shuffle" />Start Over </button>
-				    <!--
-				    <div id = "mapcontrols">
-				  		<button id="focus-init" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"role="button"aria-disabled="false"><span class="ui-button-text">Reset Map</span></button>
-				  		<button id="focus-current" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"aria-disabled="false"><span class="ui-button-text">Focus on Current Country</span></button>
-					</div>
-					-->
-				</div>
-			</div>
-		</div>
-		<div id = "containerbot">
-		    <div id="chart2">
-			    <div class = 'bootstro'
-					data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
+		      	<div class = 'bootstro'
+					data-bootstro-content="Press play to see how patterns of foreign trade progress through the years."
 		        	data-bootstro-width="400px" 
 		        	data-bootstro-placement='top' data-bootstro-step='4'>
-		    		<svg></svg>
-		    	</div>
-		    </div>
+		      		<div id="toolbar" class="ui-widget-header ui-corner-all">
+			      	
+				    <!--<button id="beginning">go to beginning</button>-->
+		               	<div id="radio">
+						    <input type="radio" id="radio1" name="radio" /><label for="radio1">Imports</label>
+						    <input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Net Balance</label>
+						    <input type="radio" id="radio3" name="radio" /><label for="radio3">Exports</label>
+						</div>
+		  
+					    <button id="rewind">rewind</button>
+					  	<button id="play">play</button>
+					    <!--<button id="stop">stop</button>-->
+					    <button id="forward">fast forward</button>
+					    <!--<button id="end">go to end</button>-->
 
+					    <button id="shuffle" />Start Over </button>
+					    <!--
+					    <div id = "mapcontrols">
+					  		<button id="focus-init" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"role="button"aria-disabled="false"><span class="ui-button-text">Reset Map</span></button>
+					  		<button id="focus-current" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"aria-disabled="false"><span class="ui-button-text">Focus on Current Country</span></button>
+						</div>
+						-->
+					</div>
+				</div>
+			</div>
+			<div id = "containerbot">
+			    <div id="chart2">
+				    <div class = 'bootstro'
+						data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
+			        	data-bootstro-width="400px" 
+			        	data-bootstro-placement='top' data-bootstro-step='5'>
+			    		<svg></svg>
+			    	</div>
+			    </div>
 		</div>
 		<!--
 	    <label>
@@ -763,7 +769,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 		<div class='bootstro' 
     	data-bootstro-content="Select the top trading partners with the U.S. for either imports, exports, or net balance. Click on the column headers to sort the columns."
     	data-bootstro-width="600px" 
-    	data-bootstro-placement='top' data-bootstro-step='5'>
+    	data-bootstro-placement='top' data-bootstro-step='6'>
 	    	<div id='tablecontainer'>
 	    	<script>
     		  	var $ = jQuery;
@@ -807,6 +813,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 							fill: "#ff8bec"
 						}
 					},
+					selectedRegions: 'CA',
 					backgroundColor: '#fff'/*'#132131' '#003D1F'*/,
 					onViewportChange: function(e, s){},
 					onRegionSelected: function(e, c, s, sa){togglecountry(e,c,s,sa);},
@@ -845,6 +852,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 						currentcountry=code;
 						clearLineChart();
 						drawLineChart('chart2 svg');
+						jQuery( "#timedisplay" ).html(getDateDisplay);
 					}
 				}
 

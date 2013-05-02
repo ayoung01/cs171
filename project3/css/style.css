@@ -62,14 +62,39 @@ body {
 .headerlinks {
 	color: #AAA;
 	position:relative;
-	left:630px;
+	left:600px;
 	font-size:20px;
 	display:inline;
 	border-left: 1px solid #333;
-	border-right: 1px solid #333;
+	/*border-right: 1px solid #333;*/
 	padding:25px;
 	top: 2px;
 }
+
+#demo {
+	color: #AAA;
+	position:relative;
+	left:600px;
+	font-size:20px;
+	display:inline;
+	border-left: 1px solid #333;
+	/*border-right: 1px solid #333;*/
+	padding:25px;
+	top: 2px;
+}
+
+.processbook {
+	border-right: 1px solid #333;
+}
+
+.headerlinks:hover {
+	opacity: 0.6;
+}
+
+#demo:hover {
+	opacity: 0.6;
+}
+
 #mapcontainer{
 	background:#FFF;
 	width:1280px;
@@ -179,7 +204,7 @@ label {
 	background: rgb(44, 44, 44);
 	text-align:center;
 	padding:2px;
-	}
+}
 
 #slider-range{
 	margin-top:0px;
