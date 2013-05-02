@@ -66,7 +66,7 @@ jvm.NumericScale.prototype = {
 
 			
 			var minlimit = 	30000;  // the negative limit
-			var maxlimit = 34835;
+			var maxlimit = 35000;
 			var negscale=Math.log(minlimit);
 			var maxscale=Math.log(maxlimit);
 	console.log(negscale);

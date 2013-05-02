@@ -126,6 +126,7 @@
 	var getcurrentMonthname=function(){};
 	var updateflowtypeString =  function (){}
 	var updateColors =  function (){};
+	var updateLegend=  function (){};
 	var getCountryName = function(){};
 	var togglecountry = function (){}; //Called on region select
 	var changeType = function (){};  // Caled to change the flowtype
@@ -136,6 +137,11 @@
 	getcurrentMonthname =function(timeVal) {return monthnames[timeVal%12];}
 	getcurrentMonth =function(timeVal) {return months[timeVal%12];}
 
+var legendtext_exports = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200px" height="100px" fill="#FFF"> <defs> <linearGradient id="MyGradient"> <stop offset="5%" stop-color="#d6e3ff"></stop> <stop offset="95%" stop-color="#003eb8"></stop> </linearGradient> </defs> <g id="firstGroup"> <rect width="500px" height="35px" x="0" y="0" fill="#fffff" stroke="none" stroke-width="1"></rect> <rect width="250px" height="20px" x="130" y="13" fill="url(#MyGradient)" stroke="none" stroke-width="1"></rect> <!--<text x="0" y="25" style="font-size:18px">Legend:</text>--> <text x="100" y="28">$0</text> <text x="390" y="28">$35000 mil USD</text> </g> </svg>';
+
+var legendtext_imports = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200px" height="100px" fill="#FFF"> <defs> <linearGradient id="MyGradient"> <stop offset="5%" stop-color="#fdfa8c"></stop> <stop offset="95%" stop-color="#ff9200"></stop> </linearGradient> </defs> <g id="firstGroup"> <rect width="500px" height="35px" x="0" y="0" fill="#fffff" stroke="none" stroke-width="1"></rect> <rect width="250px" height="20px" x="130" y="13" fill="url(#MyGradient)" stroke="none" stroke-width="1"></rect> <!--<text x="0" y="25" style="font-size:18px">Legend:</text>--> <text x="100" y="28">$0</text> <text x="390" y="28">$30000 mil USD</text> </g> </svg>';
+var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200px" height="100px" fill="#FFF"> <defs> <linearGradient id="MyGradient"> <stop offset="5%" stop-color="#ff9200"></stop> <stop offset="95%" stop-color="#fdfa8c"></stop> </linearGradient><linearGradient id="MyGradient2"> <stop offset="5%" stop-color="#d6e3ff"></stop> <stop offset="95%" stop-color="#003eb8"></stop> </linearGradient> </defs> <g id="firstGroup"> <rect width="500px" height="35px" x="0" y="0" fill="#fffff" stroke="none" stroke-width="1"></rect> <rect width="110px" height="20px" x="130" y="13" fill="url(#MyGradient)" stroke="none" stroke-width="1"></rect><rect width="110px" height="20px" x="275" y="13" fill="url(#MyGradient2)" stroke="none" stroke-width="1"></rect> <!--<text x="0" y="25" style="font-size:18px">Legend:</text>--> <text x="15" y="28">-$30000 mil USD</text> <text x="395" y="28">$35000 mil USD</text> <text x="247" y="28">$0</text> </g> </svg>';
+					
 	// returns currenttime formatted as 'January 1992'
 	function getDateDisplay() {
 		return monthnames[monthnums[getcurrentMonth(currenttime)]]+" "+getcurrentYear(currenttime);
@@ -153,15 +159,27 @@
 	}
 	
 	updateColors = function () {
-		if (currflowtype == "I")
+		if (currflowtype == "E")
 			mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8']);	
-		else if (currflowtype == "E")
+		else if (currflowtype == "I")
 			mapObject.series.regions[0].setScale(['#fdfa8c','#ff9200']);	
 			else mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8','#fdfa8c','#ff9200']); // balance
 	}
 
+	updateLegend = function () {
+		if (currflowtype == "E")
+			jQuery("#legend").html(legendtext_exports);
+		else if (currflowtype == "I")
+			jQuery("#legend").html(legendtext_imports);
+			else jQuery("#legend").html(legendtext); // balance
+	}
+
+			
+			
+			
     jQuery.noConflict();
     jQuery(function(){
+			jQuery("#legend").html(legendtext);
 		var $ = jQuery;
 		currdata = getcurrData(currenttime, currflowtype);
 
@@ -169,6 +187,7 @@
 			console.log(typechng);
 			currflowtype = typechng; // defaults to visualizing trade balance until changed
 			updateColors(); // update map legend colors
+			updateLegend();
 			updateflowtypeString();
 			currdata=getcurrData(currenttime,currflowtype);	//the encoded data to be used in the map shading and tooltips.
 			mapObject.series.regions[0].setValues(currdata);
@@ -687,21 +706,6 @@
 			    <span id="timedisplay"></span><br><span id="valuedisplay"></span>
           </div>
           <div id="legend">
-					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200px" height="100px" fill="#FFF">
-        		<defs>
-              <linearGradient id="MyGradient">
-                <stop offset="5%" stop-color="#88aaee"></stop>
-                <stop offset="95%" stop-color="#000000"></stop>
-              </linearGradient>
-            </defs>
-             <g id="firstGroup">
-            <rect width="500px" height="35px" x="0" y="0" fill="#fffff" stroke="none" stroke-width="1"></rect>
-            <rect width="250px" height="30px" x="130" y="3" fill="url(#MyGradient)" stroke="none" stroke-width="1"></rect>
-             <text x="0" y="25" style="font-size:18px">Legend:</text>
-             <text x="100" y="25">$0</text>
-            <text x="390" y="25">$20904 mil USD</text>
-            </g>
-          </svg>
           </div>
 				</p>
 				<div id="slider-range"></div>
