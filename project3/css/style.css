@@ -237,6 +237,16 @@ h1 {
 	display:inline;
 }
 
+#chart2header {
+	margin: auto;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-weight: bold;
+	font-size: 16px;
+	top: 10px;
+	left: 270px;
+	position:relative;
+}
+
 .charttitle {
 	margin: auto;
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;

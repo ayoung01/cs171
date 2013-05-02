@@ -654,10 +654,10 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 			drawTable(tableType);
 		});
 		$("#demo").click(function(){
-			console.log("YAY I'm clicked");
 		    bootstro.start();    
 		});
 		$("a[rel^='prettyPhoto']").prettyPhoto();
+		jQuery("#chart2header").html("Trade with " + getCountryName(currentcountry) + " - % Change Over Time");
 	});
 
   </script>
@@ -725,7 +725,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 					data-bootstro-content="Press play to see how patterns of foreign trade progress through the years. Select either 'Imports', 'Exports', or 'Net Balance'"
 		        	data-bootstro-width="400px" 
 		        	data-bootstro-placement='top' data-bootstro-step='4'>
-		      		<div id="toolbar" class="ui-widget-header ui-corner-all">f
+		      		<div id="toolbar" class="ui-widget-header ui-corner-all">
 			      	
 				    <!--<button id="beginning">go to beginning</button>-->
 		               	<div id="radio">
@@ -752,6 +752,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 			</div>
 			<div id = "containerbot">
 			    <div id="chart2">
+			    	<div id="chart2header"></div>
 				    <div class = 'bootstro'
 						data-bootstro-content="The line chart shows the relative magnitude of the U.S.'s imports from and exports to the selected country over time."
 			        	data-bootstro-width="400px" 
@@ -858,6 +859,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 						clearLineChart();
 						drawLineChart('chart2 svg');
 						jQuery( "#timedisplay" ).html(getDateDisplay);
+						jQuery("#chart2header").html("Trade with " + getCountryName(currentcountry) + " - % Change Over Time")
 					}
 				}
 
@@ -958,7 +960,7 @@ var legendtext = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://ww
 			</div><!-- End tablecontainer -->
 	    </div><!-- End bootstro -->
 	    <div id="about" style ="display:none">
-			<p style="font-weight:bold">As the world trends toward increasing globalization, so do the international trade flows to and from the United States.</p><p>We created this interactive visualization to allow the exploration of the rich history of international trade between 1992-2012. We can explore the line chart to see how trade dipped during the Great Recession of 2008 and subsequently recovered. We can also follow rise of China as it overtook Japan, Mexico, and Canada to become the U.S.'s major import partner in the table rankings.</p>
+			<p style="font-weight:bold">As the world trends toward increasing globalization, so do the international trade flows to and from the United States.</p><p>We created this interactive visualization to allow the exploration of the rich history of international trade between 1992-2012.</p><p>We can explore the line chart to see how trade dipped during the Great Recession of 2008 and subsequently recovered. Next, we can see the expanding trade deficit of the U.S. and the fluctuating balance of trade with other countries. Finally, we can follow the rise of China as it overtakes Japan, Mexico, and Canada to become the U.S.'s major import partner in the table rankings.</p>
 		</div>
 	</div> <!-- End wrapper -->
   	<div id="footer">
