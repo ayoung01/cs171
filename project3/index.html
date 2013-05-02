@@ -146,6 +146,7 @@
 	updateflowtypeString = function () {
 		if (currflowtype == "I")
 			currflowtypestring = "imports";
+<<<<<<< HEAD
 		else if (currflowtype == "E")
 			currflowtypestring = "exports";
 		else currflowtypestring = "trade balance";
@@ -161,6 +162,21 @@
 =======
 	}
 	
+=======
+		else if (currflowtype == "E")
+			currflowtypestring = "exports";
+		else currflowtypestring = "trade balance";
+	}
+	
+		updateColors = function () {
+		if (currflowtype == "I")
+			mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8']);	
+		else if (currflowtype == "E")
+			mapObject.series.regions[0].setScale(['#fdfa8c','#ff9200']);	
+			else mapObject.series.regions[0].setScale(['#d6e3ff', '#003eb8', '#ff9200','#fdfa8c']); // balance
+	}
+	
+>>>>>>> 8dd5d55ef1e886748ed3077a25826475a35e07c9
 	
 
 
