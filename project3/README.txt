@@ -1,4 +1,4 @@
-CS171 Project 2 - 5/2/13
+﻿CS171 Project 2 - 5/2/13
 Kevin Sun and Albert Young
 -------------------------------------
 Visualizing U.S. Foreign Trade Data
@@ -45,13 +45,15 @@ None.  Our code is primarily all located in index.html. However, we also did mod
 List of Major Files and Directories
 ------------------------------------
 Name                                            Content
-ksun_ayoung_project_2_processbook.pdf           The project's processbook.  Findings are also included inside.  You should read this.
+ksun_ayoung_project_3_processbook.pdf           The project's processbook.  Findings are also included inside.  You should read this.
 index.html                                      Our visualization. You should open and view this.
 README                                          (this)
 /css                                            Contains style.css, used to style index.html.
-/js                                             Contains the jVectorMap library.
+/js                                             Contains the jVectorMap/jQuery/etc libraries (see below)
 /data                                           Data downloaded and retrieved in excel/csv format, not directly visualized.
 /python                                         Contains Python script used to convert data files to json objects embedded in index.html
 
+
+List of Libraries Used
 
 Please let us know if you have any questions/comments/concerns at ksun01@college.harvard.edu and ayoung@college.harvard.edu.
